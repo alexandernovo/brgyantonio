@@ -1,0 +1,49 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('certifications', function (Blueprint $table) {
+            $table->id("certification_id");
+
+            // Requester Information (Matches the 3 input boxes)
+            $table->string('first_name');
+            $table->string('middle_name')->nullable();
+            $table->string('last_name');
+
+            // Address Fields (Matches the dropdown and readonly fields)
+            $table->string('barangay');
+            $table->string('municipality')->default('Barbaza');
+            $table->string('province')->default('Antique');
+
+            // Personal Details (Changed enum to string as requested)
+            $table->string('sex');
+            $table->date('date_of_birth');
+            $table->string('place_of_birth');
+            $table->string('nationality')->default('Filipino');
+
+            // Certification Metadata
+            $table->string('certification_type');
+            $table->string('image_path')->nullable();
+            $table->date('date_issued');
+
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('certifications');
+    }
+};

@@ -1,0 +1,112 @@
+@php
+    $notRoutesHeader = ['home', 'projectteam', 'logins'];
+@endphp
+<header class="app-header position-sticky top-0 w-100 navbar-color-1">
+    <nav class="navbar navbar-expand-lg navbar-light py-1">
+        <ul class="navbar-nav">
+            <li class="nav-item d-block d-xl-none">
+                <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+                    <i class="ti ti-menu-2 text-white"></i>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <div class="brand-logo d-flex align-items-center justify-content-between ps-0">
+                    <a href="#" class="text-nowrap logo-img d-flex align-items-center gap-2">
+                        <img src="{{ asset('assets/images/logo.png') }}" class="bg-white rounded-circle" width=""
+                            alt="" style="width:40px; height:40px" />
+                        <span style="font-size: 26px; letter-spacing: 4px; font-weight: 600;"
+                            class="text-white title-sidebar">
+                            BARANGAY SAN ANTONIO
+                        </span>
+                    </a>
+                </div>
+                <div class="dropdown-menu dropdown-menu-start dropdown-menu-animate-up" style="min-width: 350px;"
+                    aria-labelledby="dropnotif">
+                    <div class="d-flex align-items-center justify-content-between py-3 px-7">
+                        <h5 class="mb-0 fs-5 fw-semibold">Notifications</h5>
+                        <span class="badge text-bg-primary rounded-4 px-3 py-1 lh-sm d-none" style="font-size: 13px"
+                            id="notification_count"></span>
+                    </div>
+                    <div class="pb-3 overflow-y-auto mt-2" id="notificationDiv" style="height: 400px;">
+
+                    </div>
+                    <div class="px-4 pb-3 border-top" style="height: 35px;">
+
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+            @if (!in_array(Route::currentRouteName(), $notRoutes))
+                <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                    <div class="d-flex gap align-items-center">
+                        <div class="d-flex flex-column justify-content-center align-items-end border-end pe-2">
+                            <p class="mb-0 fw-semibold text-white" style="font-size: 13px; line-height: 17px">
+                                Admin
+                            </p>
+                        </div>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link nav-icon-hover px-2" href="javascript:void(0)" id="drop2"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle text-white"
+                                    style="font-size: calc(30px - 2px); fill: white"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
+                                aria-labelledby="drop2">
+                                <div class="message-body">
+                                    <a href="" class="d-flex align-items-center gap-2 dropdown-item">
+                                        <i class="ti ti-user fs-6"></i>
+                                        <p class="mb-0 fs-3">My Profile</p>
+                                    </a>
+                                    <a class="btn btn-outline-primary mx-3 mt-2 d-block logout-btn">Logout</a>
+                                </div>
+                            </div>
+                        </li>
+                    </div>
+                </ul>
+            @else
+                <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                    <div class="d-flex gap align-items-center">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link nav-icon-hover px-2 cursor-pointer me-4 d-flex align-items-center {{ Route::currentRouteName() == 'home' ? 'badge-header-btn-active' : 'badge-header-btn' }}"
+                                href="{{ route('projectteam') }}">
+                                <i class="bi bi-house-fill me-1"
+                                    style="font-size: calc(24px - 2px); fill: white"></i>
+                                <p class="mb-0 fw-semibold ms-1 ps-1"
+                                    style="font-size: 18px; line-height: 17px;">
+                                    Home
+                                </p>
+                            </a>
+                        </li>
+                    </div>
+                    <div class="d-flex gap align-items-center">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link nav-icon-hover px-2 cursor-pointer {{ Route::currentRouteName() == 'developer' ? 'badge-header-btn-active' : 'badge-header-btn' }}"
+                                data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop">
+
+                                <img src="{{ asset('assets/icons/projectteam.png') }}" alt=""
+                                    style="width: 22px; height: 22px">
+                                <p class="mb-0 fw-semibold ms-1 ps-1"
+                                    style="font-size: 18px; line-height: 17px;">
+                                    Developer
+                                </p>
+                            </a>
+                        </li>
+                    </div>
+                    {{-- <div class="d-flex gap align-items-center">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link nav-icon-hover px-2 cursor-pointer"
+                                data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop">
+                                <i class="bi bi-person-circle text-white"
+                                    style="font-size: calc(28px - 2px); fill: white"></i>
+                                <p class="mb-0 fw-semibold text-white ms-1" style="font-size: 15px; line-height: 17px">
+                                    Admin
+                                </p>
+                            </a>
+                        </li>
+                    </div> --}}
+                </ul>
+            @endif
+        </div>
+    </nav>
+</header>
