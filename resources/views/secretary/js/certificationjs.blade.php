@@ -21,6 +21,17 @@
             route = "{{ route('certificate_clearance') }}";
         }
 
+        if (cert_type == 'Certificate of Trees') {
+            route = "{{ route('certificate_trees') }}";
+        }
+
+        if (cert_type == 'Certificate of First Time Job Seeker') {
+            route = "{{ route('certificate_jobseeker') }}";
+        }
+
+        if (cert_type == 'Certificate of Good Moral Character') {
+            route = "{{ route('certificate_goodmoral') }}";
+        }
 
         window.location = route;
     })

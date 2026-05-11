@@ -26,5 +26,11 @@ class Certification extends Model
         'certification_type',
         'image_path',
         'date_issued',
+        'name_of_tree',
+        'or_number',
+        'no_of_tree',
+        'civil_status',
+        'age',
+        'purok',
     ];
 }

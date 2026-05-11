@@ -2,7 +2,7 @@
 
 @section('content')
     @include('secretary.css.certificationcss')
-    @include('secretary.modals.clearanceModal')
+    @include('secretary.modals.treesModal')
 
     <div class="page-container p-4">
         <div class="top-header mb-3">
@@ -25,15 +25,15 @@
                         </button>
                         <div class="d-flex gap-2 align-items-center">
                             <i class="bi bi-archive-fill text-white" style="font-size: 32px"></i>
-                            <p class="mb-0 text-white" style="font-size: 25px">BARANGAY CLEARANCE</p>
+                            <p class="mb-0 text-white" style="font-size: 25px">TREE CERTIFICATION</p>
                         </div>
                     </div>
                     <div class="d-flex gap-3">
-                        <button class="btn-edit-table px-4" id="editCertificationClearance">
+                        <button class="btn-edit-table px-4" id="editCertificationTrees">
                             <i class="bi bi-pen-fill"></i>
                             Edit Certification
                         </button>
-                        <button class="btn-add-table px-4" id="addCertificationClearance">
+                        <button class="btn-add-table px-4" id="addCertificationTrees">
                             <i class="bi bi-plus-circle"></i>
                             Add Certification
                         </button>
@@ -41,13 +41,17 @@
                 </div>
 
                 <div class="p-3">
-                    <table id="certificationTableClearance" class="table data_table table-bordered table-hover w-100 mb-0">
+                    <table id="certificationTableTrees" class="table data_table table-bordered table-hover w-100 mb-0">
                         <thead>
                             <tr>
                                 <th>NO.</th>
                                 <th>REQUESTER</th>
+                                <th>CIVIL STATUS</th>
+                                <th>OR NUMBER</th>
+                                <th>NAME OF TREE</th>
+                                <th>NUMBER OF TREE</th>
+                                <th>ADDRESS</th>
                                 <th>DATE OF ISSUED</th>
-                                <th>DATE CREATED</th>
                                 <th>ACTION</th>
                             </tr>
                         </thead>
@@ -60,5 +64,5 @@
 
 @section('js')
     @include('secretary.js.certificationjs')
-    @include('secretary.js.clearanceCertification')
+    @include('secretary.js.treesCertification')
 @endsection

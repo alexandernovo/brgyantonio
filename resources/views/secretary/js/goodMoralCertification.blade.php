@@ -1,14 +1,14 @@
 <script>
     // Global variables for certification filtering
-    let dateFromClearance = '';
-    let dateToClearance = '';
-    let selectedLetterClearance = '';
-    let certificationTableClearance = null;
+    let dateFromMoral = '';
+    let dateToMoral = '';
+    let selectedLetterMoral = '';
+    let certificationTableMoral = null;
     let selectedCertificationRow = null;
     let selectedCertificationId = null;
-    let certificationClearanceData = [];
+    let certificationMoralData = [];
 
-    certificationClearanceOptions = {
+    certificationMoralOptions = {
         processing: true,
         serverSide: false, // Client-side processing as requested
         ajax: {
@@ -17,13 +17,13 @@
             dataType: 'json',
             data: function(d) {
                 d._token = '{{ csrf_token() }}';
-                d.dateFrom = dateFromClearance;
-                d.dateTo = dateToClearance;
-                d.type = "clearance";
-                d.letter = selectedLetterClearance;
+                d.dateFrom = dateFromMoral;
+                d.dateTo = dateToMoral;
+                d.type = "goodmoral";
+                d.letter = selectedLetterMoral;
             },
             dataSrc: function(json) {
-                certificationClearanceData = json.data;
+                certificationMoralData = json.data;
                 return json.data;
             }
         },
@@ -42,16 +42,29 @@
                 }
             },
             {
-                title: 'DATE OF ISSUED',
+                title: 'OR NUMBER',
                 className: 'text-nowrap p-2 text-center align-middle',
-                // Uses the specific date_issued column from migration
-                render: (data, type, row) => row.date_issued ? formatDateTime(row.date_issued) : ''
+                data: 'or_number' // Matches migration
             },
             {
-                title: 'DATE CREATED',
+                title: 'CIVIL STATUS',
                 className: 'text-nowrap p-2 text-center align-middle',
-                // Uses the specific date_issued column from migration
-                render: (data, type, row) => row.created_at ? formatDateTime(row.created_at) : ''
+                data: 'civil_status' // Matches migration
+            },
+            {
+                title: 'SEX',
+                className: 'text-nowrap p-2 text-center align-middle',
+                data: 'sex' // Matches migration
+            },
+            {
+                title: 'PUROK',
+                className: 'text-nowrap p-2 text-center align-middle',
+                data: 'purok' // Matches migration
+            },
+            {
+                title: 'DATE ISSUED',
+                className: 'text-nowrap p-2 text-center align-middle',
+                render: (data, type, row) => row.date_issued ? formatDateTime(row.date_issued) : ''
             },
             {
                 title: 'ACTION',
@@ -59,7 +72,7 @@
                 render: function(data, type, row) {
                     return `
                 <div class="d-flex gap-1 justify-content-center">
-                    <a href="{{ route('viewClearanceCertification') }}?certification_id=${row.certification_id}" class="btn btn-dark btn-sm printButton px-2" style="background-color: #1A212B !important"><i style="font-size: 15px" class="bi bi-printer-fill"></i></a>
+                    <a href="{{ route('viewGoodMoralCertification') }}?certification_id=${row.certification_id}" class="btn btn-dark btn-sm printButton px-2" style="background-color: #1A212B !important"><i style="font-size: 15px" class="bi bi-printer-fill"></i></a>
                     <button class="btn btn-warning btn-sm editButton px-2" style="background-color: #B35100 !important" data-certification_id="${row.certification_id}"><i style="font-size: 15px" class="bi bi-pencil-fill"></i></button>
                     <button class="btn btn-danger btn-sm deleteButton px-2" style="background-color: #A10101 !important" data-certification_id="${row.certification_id}"><i style="font-size: 15px" class="bi bi-trash3-fill"></i></button>
                 </div>`;
@@ -84,26 +97,26 @@
                 </div>
             </div>`;
 
-            $("#certificationTableClearance_wrapper .dt-length")
+            $("#certificationTableMoral_wrapper .dt-length")
                 .addClass('d-flex align-items-center gap-2')
                 .first()
                 .append(filterHtml);
         }
     };
 
-    function renderCertificationTableBrgy() {
-        if (certificationTableClearance) {
-            certificationTableClearance.destroy();
+    function renderCertificationTableMoral() {
+        if (certificationTableMoral) {
+            certificationTableMoral.destroy();
         }
 
-        certificationTableClearance = new DataTable('#certificationTableClearance', certificationClearanceOptions)
+        certificationTableMoral = new DataTable('#certificationTableMoral', certificationMoralOptions)
     }
 
     $(document).ready(function() {
-        renderCertificationTableBrgy();
+        renderCertificationTableMoral();
     })
 
-    $(document).on("click", "#addCertificationClearance", function() {
+    $(document).on("click", "#addCertificationMoral", function() {
         $("#certificationForm")[0].reset();
 
         $("#certificationForm")
@@ -112,7 +125,7 @@
             .not('[name="certification_type"]')
             .val('');
 
-        $("#clearanceModal").modal("show");
+        $("#goodmoralModal").modal("show");
     })
 
     $(document).ready(function() {
@@ -131,7 +144,7 @@
 
     $(document).on('click', 'table.dataTable tbody tr', function() {
 
-        const rowData = certificationTableClearance.row(this).data();
+        const rowData = certificationTableMoral.row(this).data();
 
         // unselect
         if ($(this).hasClass('selected-row')) {
@@ -152,7 +165,7 @@
         selectedCertificationId = rowData.certification_id;
     });
 
-    $(document).on('click', '#editCertificationClearance', function() {
+    $(document).on('click', '#editCertificationMoral', function() {
 
         if (!selectedCertificationRow) {
 
@@ -187,7 +200,7 @@
                     showCancelButton: false,
                 })
 
-                $('#clearanceModal').modal('hide');
+                $('#goodmoralModal').modal('hide');
                 $('#certificationForm')[0].reset();
                 $('#image_filename_display').val('No file chosen');
                 reloadBrgyCertification();
@@ -201,17 +214,17 @@
     });
 
     function reloadBrgyCertification() {
-        if (certificationTableClearance) {
-            certificationTableClearance.ajax.reload(null, false);
+        if (certificationTableMoral) {
+            certificationTableMoral.ajax.reload(null, false);
         } else {
-            renderCertificationTableBrgy();
+            renderCertificationTableMoral();
         }
     }
 
     $(document).on("click", ".editButton", function(e) {
         e.stopPropagation();
         let certification_id = $(this).attr("data-certification_id");
-        let find_data = certificationClearanceData.find(x => x.certification_id == certification_id);
+        let find_data = certificationMoralData.find(x => x.certification_id == certification_id);
         if (find_data) {
             $("#certificationForm")[0].reset();
 
@@ -223,11 +236,11 @@
 
             populateCertificationForm('certificationForm', find_data);
 
-            $("#clearanceModal").modal("show");
+            $("#goodmoralModal").modal("show");
         }
     })
 
-    certificationClearanceOptions.drawCallback = function() {
+    certificationMoralOptions.drawCallback = function() {
 
         if (!selectedCertificationId) return;
 

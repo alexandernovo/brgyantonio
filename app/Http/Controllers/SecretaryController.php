@@ -29,6 +29,20 @@ class SecretaryController extends Controller
         return view('secretary.views.certificate_clearance');
     }
 
+    public function certificate_trees(Request $request)
+    {
+        return view('secretary.views.certificate_trees');
+    }
+
+    public function certificate_jobseeker(Request $request)
+    {
+        return view('secretary.views.certificate_jobseeker');
+    }
+
+    public function certificate_goodmoral(Request $request)
+    {
+        return view('secretary.views.certificate_goodmoral');
+    }
 
     public function storeCertification(Request $request)
     {
@@ -71,5 +85,30 @@ class SecretaryController extends Controller
         $certification_id = $request->query('certification_id');
         $certification = Certification::where('certification_id', $certification_id)->first();
         return view('secretary.print.brgycertification', ['certification' => $certification]);
+    }
+
+    public function viewClearanceCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        return view('secretary.print.clearancecertification', ['certification' => $certification]);
+    }
+    public function viewTreesCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        return view('secretary.print.treescertification', ['certification' => $certification]);
+    }
+    public function viewJobSeekerCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        return view('secretary.print.jobseekercertification', ['certification' => $certification]);
+    }
+    public function viewGoodMoralCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        return view('secretary.print.goodmoralcertification', ['certification' => $certification]);
     }
 }

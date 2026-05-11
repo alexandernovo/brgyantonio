@@ -1,14 +1,14 @@
 <script>
     // Global variables for certification filtering
-    let dateFromClearance = '';
-    let dateToClearance = '';
-    let selectedLetterClearance = '';
-    let certificationTableClearance = null;
+    let dateFromSeeker = '';
+    let dateToSeeker = '';
+    let selectedLetterSeeker = '';
+    let certificationTableSeeker = null;
     let selectedCertificationRow = null;
     let selectedCertificationId = null;
-    let certificationClearanceData = [];
+    let certificationSeekerData = [];
 
-    certificationClearanceOptions = {
+    certificationTreesOptions = {
         processing: true,
         serverSide: false, // Client-side processing as requested
         ajax: {
@@ -17,13 +17,13 @@
             dataType: 'json',
             data: function(d) {
                 d._token = '{{ csrf_token() }}';
-                d.dateFrom = dateFromClearance;
-                d.dateTo = dateToClearance;
-                d.type = "clearance";
-                d.letter = selectedLetterClearance;
+                d.dateFrom = dateFromSeeker;
+                d.dateTo = dateToSeeker;
+                d.type = "jobseeker";
+                d.letter = selectedLetterSeeker;
             },
             dataSrc: function(json) {
-                certificationClearanceData = json.data;
+                certificationSeekerData = json.data;
                 return json.data;
             }
         },
@@ -42,16 +42,24 @@
                 }
             },
             {
-                title: 'DATE OF ISSUED',
+                title: 'CIVIL STATUS',
                 className: 'text-nowrap p-2 text-center align-middle',
-                // Uses the specific date_issued column from migration
-                render: (data, type, row) => row.date_issued ? formatDateTime(row.date_issued) : ''
+                data: 'civil_status' // Matches migration
             },
             {
-                title: 'DATE CREATED',
+                title: 'AGE',
                 className: 'text-nowrap p-2 text-center align-middle',
-                // Uses the specific date_issued column from migration
-                render: (data, type, row) => row.created_at ? formatDateTime(row.created_at) : ''
+                data: 'age' // Matches migration
+            },
+            {
+                title: 'PUROK',
+                className: 'text-nowrap p-2 text-center align-middle',
+                data: 'purok' // Matches migration
+            },
+            {
+                title: 'DATE ISSUED',
+                className: 'text-nowrap p-2 text-center align-middle',
+                render: (data, type, row) => row.date_issued ? formatDateTime(row.date_issued) : ''
             },
             {
                 title: 'ACTION',
@@ -59,7 +67,7 @@
                 render: function(data, type, row) {
                     return `
                 <div class="d-flex gap-1 justify-content-center">
-                    <a href="{{ route('viewClearanceCertification') }}?certification_id=${row.certification_id}" class="btn btn-dark btn-sm printButton px-2" style="background-color: #1A212B !important"><i style="font-size: 15px" class="bi bi-printer-fill"></i></a>
+                    <a href="{{ route('viewJobSeekerCertification') }}?certification_id=${row.certification_id}" class="btn btn-dark btn-sm printButton px-2" style="background-color: #1A212B !important"><i style="font-size: 15px" class="bi bi-printer-fill"></i></a>
                     <button class="btn btn-warning btn-sm editButton px-2" style="background-color: #B35100 !important" data-certification_id="${row.certification_id}"><i style="font-size: 15px" class="bi bi-pencil-fill"></i></button>
                     <button class="btn btn-danger btn-sm deleteButton px-2" style="background-color: #A10101 !important" data-certification_id="${row.certification_id}"><i style="font-size: 15px" class="bi bi-trash3-fill"></i></button>
                 </div>`;
@@ -84,26 +92,26 @@
                 </div>
             </div>`;
 
-            $("#certificationTableClearance_wrapper .dt-length")
+            $("#certificationTableSeeker_wrapper .dt-length")
                 .addClass('d-flex align-items-center gap-2')
                 .first()
                 .append(filterHtml);
         }
     };
 
-    function renderCertificationTableBrgy() {
-        if (certificationTableClearance) {
-            certificationTableClearance.destroy();
+    function renderCertificationTableSeeker() {
+        if (certificationTableSeeker) {
+            certificationTableSeeker.destroy();
         }
 
-        certificationTableClearance = new DataTable('#certificationTableClearance', certificationClearanceOptions)
+        certificationTableSeeker = new DataTable('#certificationTableSeeker', certificationTreesOptions)
     }
 
     $(document).ready(function() {
-        renderCertificationTableBrgy();
+        renderCertificationTableSeeker();
     })
 
-    $(document).on("click", "#addCertificationClearance", function() {
+    $(document).on("click", "#addCertificationSeeker", function() {
         $("#certificationForm")[0].reset();
 
         $("#certificationForm")
@@ -112,7 +120,7 @@
             .not('[name="certification_type"]')
             .val('');
 
-        $("#clearanceModal").modal("show");
+        $("#jobseekerModal").modal("show");
     })
 
     $(document).ready(function() {
@@ -131,7 +139,7 @@
 
     $(document).on('click', 'table.dataTable tbody tr', function() {
 
-        const rowData = certificationTableClearance.row(this).data();
+        const rowData = certificationTableSeeker.row(this).data();
 
         // unselect
         if ($(this).hasClass('selected-row')) {
@@ -152,7 +160,7 @@
         selectedCertificationId = rowData.certification_id;
     });
 
-    $(document).on('click', '#editCertificationClearance', function() {
+    $(document).on('click', '#editCertificationSeeker', function() {
 
         if (!selectedCertificationRow) {
 
@@ -187,7 +195,7 @@
                     showCancelButton: false,
                 })
 
-                $('#clearanceModal').modal('hide');
+                $('#jobseekerModal').modal('hide');
                 $('#certificationForm')[0].reset();
                 $('#image_filename_display').val('No file chosen');
                 reloadBrgyCertification();
@@ -201,17 +209,17 @@
     });
 
     function reloadBrgyCertification() {
-        if (certificationTableClearance) {
-            certificationTableClearance.ajax.reload(null, false);
+        if (certificationTableSeeker) {
+            certificationTableSeeker.ajax.reload(null, false);
         } else {
-            renderCertificationTableBrgy();
+            renderCertificationTableSeeker();
         }
     }
 
     $(document).on("click", ".editButton", function(e) {
         e.stopPropagation();
         let certification_id = $(this).attr("data-certification_id");
-        let find_data = certificationClearanceData.find(x => x.certification_id == certification_id);
+        let find_data = certificationSeekerData.find(x => x.certification_id == certification_id);
         if (find_data) {
             $("#certificationForm")[0].reset();
 
@@ -223,11 +231,11 @@
 
             populateCertificationForm('certificationForm', find_data);
 
-            $("#clearanceModal").modal("show");
+            $("#jobseekerModal").modal("show");
         }
     })
 
-    certificationClearanceOptions.drawCallback = function() {
+    certificationTreesOptions.drawCallback = function() {
 
         if (!selectedCertificationId) return;
 

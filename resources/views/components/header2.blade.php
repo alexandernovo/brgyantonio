@@ -6,7 +6,7 @@
                     <i class="ti ti-menu-2 text-white"></i>
                 </a>
             </li>
-            
+
             <li class="nav-item dropdown">
                 <div class="dropdown-menu dropdown-menu-start dropdown-menu-animate-up" style="min-width: 350px;"
                     aria-labelledby="dropnotif">
@@ -34,9 +34,10 @@
                             </p>
                         </div>
                         <li class="nav-item dropdown">
-                            <a class="nav-link nav-icon-hover px-2" style="line-height: unset !important" href="javascript:void(0)" id="drop2"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                @if (auth()->user()->profile)
+                            <a class="nav-link nav-icon-hover px-2" style="line-height: unset !important"
+                                href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                @if (auth()->check() && auth()->user()->profile)
                                     <div class="rounded-circle" style="width: 35px; height: 35px; overflow: hidden">
                                         <img src="{{ asset(auth()->user()->profile) }}"
                                             class="w-100 h-100 object-fit-cover" alt="">
@@ -49,8 +50,7 @@
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
                                 aria-labelledby="drop2">
                                 <div class="message-body">
-                                    <a href=""
-                                        class="d-flex align-items-center gap-2 dropdown-item">
+                                    <a href="" class="d-flex align-items-center gap-2 dropdown-item">
                                         <i class="ti ti-user fs-6"></i>
                                         <p class="mb-0 fs-3">My Profile</p>
                                     </a>

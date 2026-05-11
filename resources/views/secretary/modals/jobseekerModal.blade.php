@@ -1,4 +1,4 @@
-<div class="modal fade" data-bs-backdrop="static" id="clearanceModal" tabindex="-1" aria-labelledby="clearanceModalLabel"
+<div class="modal fade" data-bs-backdrop="static" id="jobseekerModal" tabindex="-1" aria-labelledby="jobseekerModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 700px">
         <div class="modal-content border-0" style="border-radius: 15px; overflow: hidden;">
@@ -8,7 +8,8 @@
                         aria-label="Close" style="top: 15px; right: 15px;"></button>
                     <img src="{{ asset('assets/images/logo.png') }}" alt="Logo"
                         style="width: 120px; height: auto; margin-bottom: 10px;">
-                    <h3 class="text-white fw-semibold mb-0" style="letter-spacing: 1px;">BARANGAY CLEARANCE FORM
+                    <h3 class="text-white fw-semibold mb-0" style="letter-spacing: 1px;">FIRST TIME JOB CERTIFICATION
+                        FORM
                     </h3>
                 </div>
 
@@ -17,7 +18,7 @@
 
                     <form id="certificationForm" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="certification_type" value="clearance" id="certification_type">
+                        <input type="hidden" name="certification_type" value="jobseeker" id="certification_type">
                         <input type="hidden" name="certification_id" value="0" id="certification_id">
 
                         <div class="d-flex align-items-center mb-3">
@@ -34,8 +35,36 @@
                             </div>
                         </div>
 
+                        <div class="d-flex align-items-center mb-3">
+                            <label class="fw-semibold" style="width: 140px; flex-shrink: 0;">Civil Status:</label>
+                            <div class="input-group" style="width: 750px;">
+                                <select name="civil_status" id="civil_status" class="form-select rounded"
+                                    style="border: 2px solid #1b3f2f; border-radius: 0 6px 6px 0;" required>
+                                    <option value="Single">Single</option>
+                                    <option value="Married">Married</option>
+                                    <option value="Widowed">Widowed</option>
+                                    <option value="Separated">Separated</option>
+                                    <option value="Divorced">Divorced</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-3">
+                            <label class="fw-semibold" style="width: 140px; flex-shrink: 0;">Purok:</label>
+                            <div class="input-group" style="width: 750px;">
+                                <input type="text" name="purok" id="purok" class="form-control"
+                                    placeholder="Purok" style="border: 2px solid #1b3f2f; border-radius: 6px;" required>
+                            </div>
+                            <label class="fw-semibold text-end px-3 text-nowrap" style="width: 130px;">Age:</label>
+                            <div class="input-group flex-grow-1">
+                                <input type="number" name="age" id="age" class="form-control"
+                                    style="border: 2px solid #1b3f2f; border-radius: 0 6px 6px 0;" required>
+                            </div>
+                        </div>
+
                         <div class="d-flex align-items-center flex-grow-1 mb-3">
-                            <label class="fw-semibold text-nowrap" style="width: 140px; flex-shrink: 0;">Date of Issuance:</label>
+                            <label class="fw-semibold text-nowrap" style="width: 140px; flex-shrink: 0;">Date of
+                                Issued:</label>
                             <div class="input-group" style="width: 750px;">
                                 <span class="input-group-text text-white"
                                     style="background-color: #1A412F; border: 2px solid #1b3f2f; border-right: none;"><i
