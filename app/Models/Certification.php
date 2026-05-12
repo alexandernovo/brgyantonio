@@ -32,5 +32,12 @@ class Certification extends Model
         'civil_status',
         'age',
         'purok',
+        'familyincome',
+        'namelivestock',
+        'nolivestock',
+        'ageclasses',
+        'color',
+        'sexlivestock',
+        'livestockowner',
     ];
 }

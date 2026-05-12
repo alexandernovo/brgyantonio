@@ -53,7 +53,7 @@
                             <div class="d-flex align-items-center">
                                 <label class="fw-semibold text-nowrap" style="width: 140px;">Civil Status:</label>
 
-                                <div class="input-group" style="width: 250px;">
+                                <div class="input-group" style="width: 232px;">
                                     <select name="civil_status" id="civil_status" class="form-select rounded"
                                         style="border: 2px solid #1b3f2f;" required>
                                         <option value="Single">Single</option>

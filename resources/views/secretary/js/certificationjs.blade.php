@@ -33,6 +33,14 @@
             route = "{{ route('certificate_goodmoral') }}";
         }
 
+        if (cert_type == 'Certificate of Indigency') {
+            route = "{{ route('certificate_indigency') }}";
+        }
+
+        if (cert_type == 'Certificate of Livestock') {
+            route = "{{ route('certificate_livestock') }}";
+        }
+
         window.location = route;
     })
 

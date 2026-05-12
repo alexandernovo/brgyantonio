@@ -44,6 +44,16 @@ class SecretaryController extends Controller
         return view('secretary.views.certificate_goodmoral');
     }
 
+    public function certificate_indigency(Request $request)
+    {
+        return view('secretary.views.certificate_indigency');
+    }
+
+    public function certificate_livestock(Request $request)
+    {
+        return view('secretary.views.certificate_livestock');
+    }
+
     public function storeCertification(Request $request)
     {
         $data = $request->all();
@@ -110,5 +120,17 @@ class SecretaryController extends Controller
         $certification_id = $request->query('certification_id');
         $certification = Certification::where('certification_id', $certification_id)->first();
         return view('secretary.print.goodmoralcertification', ['certification' => $certification]);
+    }
+    public function viewIndigencyCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        return view('secretary.print.indigencycertification', ['certification' => $certification]);
+    }
+    public function viewLiveStockCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        return view('secretary.print.livestockcertification', ['certification' => $certification]);
     }
 }

@@ -37,8 +37,17 @@ return new class extends Migration
             $table->string('civil_status')->nullable();
 
             // Certification Metadata
+            $table->string('namelivestock')->nullable();
+            $table->integer('nolivestock')->nullable();
+            $table->string('ageclasses')->nullable();
+            $table->string('color')->nullable();
+            $table->string('livestockowner')->nullable();
+            $table->string('sexlivestock')->nullable();
+
             $table->string('certification_type')->nullable();
+
             $table->string('image_path')->nullable();
+            $table->decimal('familyincome', 12, 2)->nullable();
             $table->date('date_issued')->nullable();
 
             $table->timestamps();
