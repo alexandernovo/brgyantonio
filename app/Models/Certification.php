@@ -40,5 +40,7 @@ class Certification extends Model
         'sexlivestock',
         'livestockowner',
         'monthlysalary',
+        'businesslocation',
+        'businesstradename',
     ];
 }

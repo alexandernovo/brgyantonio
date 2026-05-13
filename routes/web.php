@@ -24,6 +24,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
     Route::get('/certificate_indigency', [SecretaryController::class, 'certificate_indigency'])->name('certificate_indigency');
     Route::get('/certificate_livestock', [SecretaryController::class, 'certificate_livestock'])->name('certificate_livestock');
     Route::get('/certificate_motorcycle', [SecretaryController::class, 'certificate_motorcycle'])->name('certificate_motorcycle');
+    Route::get('/certificate_piggery', [SecretaryController::class, 'certificate_piggery'])->name('certificate_piggery');
     Route::get('/certificate_trees', [SecretaryController::class, 'certificate_trees'])->name('certificate_trees');
     Route::post('/storeCertification', [SecretaryController::class, 'storeCertification'])->name('storeCertification');
     Route::post('/certifications/data', [SecretaryController::class, 'get_certification'])->name('get_certification');

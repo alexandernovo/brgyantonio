@@ -1,12 +1,12 @@
 <script>
     // Global variables for certification filtering
-    let dateFromMotor = '';
-    let dateToMotor = '';
-    let selectedMotor = '';
-    let certificationTableMotor = null;
+    let dateFromPiggery = '';
+    let dateToPiggery = '';
+    let selectedPiggery = '';
+    let certificationTablePiggery = null;
     let selectedCertificationRow = null;
     let selectedCertificationId = null;
-    let certificationMotorData = [];
+    let certificationPiggeryData = [];
 
     certificationMoralOptions = {
         processing: true,
@@ -17,13 +17,13 @@
             dataType: 'json',
             data: function(d) {
                 d._token = '{{ csrf_token() }}';
-                d.dateFrom = dateFromMotor;
-                d.dateTo = dateToMotor;
-                d.type = "motorcycle";
-                d.letter = selectedMotor;
+                d.dateFrom = dateFromPiggery;
+                d.dateTo = dateToPiggery;
+                d.type = "piggery";
+                d.letter = selectedPiggery;
             },
             dataSrc: function(json) {
-                certificationMotorData = json.data;
+                certificationPiggeryData = json.data;
                 return json.data;
             }
         },
@@ -33,7 +33,7 @@
                 render: (data, type, row, meta) => meta.row + meta.settings._iDisplayStart + 1
             },
             {
-                title: 'REQUESTER',
+                title: 'PROPRIETOR',
                 className: 'text-nowrap p-2 text-center align-middle',
                 // Combines names from migration fields
                 render: (data, type, row) => {
@@ -42,19 +42,25 @@
                 }
             },
             {
-                title: 'SEX',
+                title: 'OR NUMBER',
                 className: 'text-nowrap p-2 text-center align-middle',
-                data: 'sex' // Matches migration
+                data: 'or_number' // Matches migration
             },
             {
-                title: 'CITIZENSHIP',
+                title: 'ADDRESS',
                 className: 'text-nowrap p-2 text-center align-middle',
-                data: 'nationality' // Matches migration
+                // Combines barangay, municipality, and province
+                render: (data, type, row) => `${row.barangay}, ${row.municipality}, ${row.province}`
             },
             {
-                title: 'MONTHLY SALARY',
+                title: 'BUSINESS / TRADE NAME',
                 className: 'text-nowrap p-2 text-center align-middle',
-                data: 'monthlysalary' // Matches migration
+                data: 'businesstradename' // Matches migration
+            },
+            {
+                title: 'LOCATION',
+                className: 'text-nowrap p-2 text-center align-middle',
+                data: 'businesslocation' // Matches migration
             },
             {
                 title: 'DATE ISSUED',
@@ -92,26 +98,26 @@
                 </div>
             </div>`;
 
-            $("#certificationTableMotor_wrapper .dt-length")
+            $("#certificationTablePiggery_wrapper .dt-length")
                 .addClass('d-flex align-items-center gap-2')
                 .first()
                 .append(filterHtml);
         }
     };
 
-    function renderCertificationTableMotor() {
-        if (certificationTableMotor) {
-            certificationTableMotor.destroy();
+    function renderCertificationTablePiggery() {
+        if (certificationTablePiggery) {
+            certificationTablePiggery.destroy();
         }
 
-        certificationTableMotor = new DataTable('#certificationTableMotor', certificationMoralOptions)
+        certificationTablePiggery = new DataTable('#certificationTablePiggery', certificationMoralOptions)
     }
 
     $(document).ready(function() {
-        renderCertificationTableMotor();
+        renderCertificationTablePiggery();
     })
 
-    $(document).on("click", "#addCertificationMotor", function() {
+    $(document).on("click", "#addCertificationPiggery", function() {
         $("#certificationForm")[0].reset();
 
         $("#certificationForm")
@@ -120,7 +126,7 @@
             .not('[name="certification_type"]')
             .val('');
 
-        $("#motorcycleModal").modal("show");
+        $("#piggeryModal").modal("show");
     })
 
     $(document).ready(function() {
@@ -139,7 +145,7 @@
 
     $(document).on('click', 'table.dataTable tbody tr', function() {
 
-        const rowData = certificationTableMotor.row(this).data();
+        const rowData = certificationTablePiggery.row(this).data();
 
         // unselect
         if ($(this).hasClass('selected-row')) {
@@ -160,7 +166,7 @@
         selectedCertificationId = rowData.certification_id;
     });
 
-    $(document).on('click', '#editCertificationMotor', function() {
+    $(document).on('click', '#editCertificationPiggery', function() {
 
         if (!selectedCertificationRow) {
 
@@ -195,7 +201,7 @@
                     showCancelButton: false,
                 })
 
-                $('#motorcycleModal').modal('hide');
+                $('#piggeryModal').modal('hide');
                 $('#certificationForm')[0].reset();
                 $('#image_filename_display').val('No file chosen');
                 reloadBrgyCertification();
@@ -209,17 +215,17 @@
     });
 
     function reloadBrgyCertification() {
-        if (certificationTableMotor) {
-            certificationTableMotor.ajax.reload(null, false);
+        if (certificationTablePiggery) {
+            certificationTablePiggery.ajax.reload(null, false);
         } else {
-            renderCertificationTableMotor();
+            renderCertificationTablePiggery();
         }
     }
 
     $(document).on("click", ".editButton", function(e) {
         e.stopPropagation();
         let certification_id = $(this).attr("data-certification_id");
-        let find_data = certificationMotorData.find(x => x.certification_id == certification_id);
+        let find_data = certificationPiggeryData.find(x => x.certification_id == certification_id);
         if (find_data) {
             $("#certificationForm")[0].reset();
 
@@ -231,7 +237,7 @@
 
             populateCertificationForm('certificationForm', find_data);
 
-            $("#motorcycleModal").modal("show");
+            $("#piggeryModal").modal("show");
         }
     })
 

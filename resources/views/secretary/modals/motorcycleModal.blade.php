@@ -18,7 +18,7 @@
 
                     <form id="certificationForm" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="certification_type" value="indigency" id="certification_type">
+                        <input type="hidden" name="certification_type" value="piggery" id="certification_type">
                         <input type="hidden" name="certification_id" value="0" id="certification_id">
 
                         <div class="d-flex align-items-center mb-3">

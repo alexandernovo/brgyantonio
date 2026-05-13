@@ -57,7 +57,10 @@ class SecretaryController extends Controller
     {
         return view('secretary.views.certificate_motorcycle');
     }
-
+    public function certificate_piggery(Request $request)
+    {
+        return view('secretary.views.certificate_piggery');
+    }
     public function storeCertification(Request $request)
     {
         $data = $request->all();
