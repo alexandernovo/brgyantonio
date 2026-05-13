@@ -41,6 +41,11 @@
             route = "{{ route('certificate_livestock') }}";
         }
 
+        if (cert_type == 'Certificate of Motorcycle') {
+            route = "{{ route('certificate_motorcycle') }}";
+        }
+
+
         window.location = route;
     })
 

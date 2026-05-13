@@ -45,6 +45,7 @@ return new class extends Migration
             $table->string('sexlivestock')->nullable();
 
             $table->string('certification_type')->nullable();
+            $table->decimal('monthlysalary', 12, 2)->nullable();
 
             $table->string('image_path')->nullable();
             $table->decimal('familyincome', 12, 2)->nullable();

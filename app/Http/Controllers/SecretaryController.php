@@ -53,6 +53,10 @@ class SecretaryController extends Controller
     {
         return view('secretary.views.certificate_livestock');
     }
+    public function certificate_motorcycle(Request $request)
+    {
+        return view('secretary.views.certificate_motorcycle');
+    }
 
     public function storeCertification(Request $request)
     {
@@ -132,5 +136,11 @@ class SecretaryController extends Controller
         $certification_id = $request->query('certification_id');
         $certification = Certification::where('certification_id', $certification_id)->first();
         return view('secretary.print.livestockcertification', ['certification' => $certification]);
+    }
+    public function viewMotorCycleCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        return view('secretary.print.motorcyclecertification', ['certification' => $certification]);
     }
 }

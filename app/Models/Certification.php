@@ -39,5 +39,6 @@ class Certification extends Model
         'color',
         'sexlivestock',
         'livestockowner',
+        'monthlysalary',
     ];
 }
