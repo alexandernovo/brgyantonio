@@ -49,6 +49,11 @@
             route = "{{ route('certificate_piggery') }}";
         }
 
+        if (cert_type == 'Certificate of Quarry') {
+            route = "{{ route('certificate_quary') }}";
+        }
+
+
         window.location = route;
     })
 

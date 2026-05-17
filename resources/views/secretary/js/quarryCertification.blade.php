@@ -1,12 +1,12 @@
 <script>
     // Global variables for certification filtering
-    let dateFromPiggery = '';
-    let dateToPiggery = '';
-    let selectedPiggery = '';
-    let certificationTablePiggery = null;
+    let dateFromQuarry = '';
+    let dateToQuarry = '';
+    let selectedQuarry = '';
+    let certificationTableQuarry = null;
     let selectedCertificationRow = null;
     let selectedCertificationId = null;
-    let certificationPiggeryData = [];
+    let certificationQuarryData = [];
 
     certificationMoralOptions = {
         processing: true,
@@ -17,13 +17,13 @@
             dataType: 'json',
             data: function(d) {
                 d._token = '{{ csrf_token() }}';
-                d.dateFrom = dateFromPiggery;
-                d.dateTo = dateToPiggery;
-                d.type = "piggery";
-                d.letter = selectedPiggery;
+                d.dateFrom = dateFromQuarry;
+                d.dateTo = dateToQuarry;
+                d.type = "quarry";
+                d.letter = selectedQuarry;
             },
             dataSrc: function(json) {
-                certificationPiggeryData = json.data;
+                certificationQuarryData = json.data;
                 return json.data;
             }
         },
@@ -33,7 +33,7 @@
                 render: (data, type, row, meta) => meta.row + meta.settings._iDisplayStart + 1
             },
             {
-                title: 'PROPRIETOR',
+                title: 'REQUESTER',
                 className: 'text-nowrap p-2 text-center align-middle',
                 // Combines names from migration fields
                 render: (data, type, row) => {
@@ -42,30 +42,14 @@
                 }
             },
             {
-                title: 'OR NUMBER',
-                className: 'text-nowrap p-2 text-center align-middle',
-                data: 'or_number' // Matches migration
-            },
-            {
-                title: 'ADDRESS',
-                className: 'text-nowrap p-2 text-center align-middle',
-                // Combines barangay, municipality, and province
-                render: (data, type, row) => `${row.barangay}, ${row.municipality}, ${row.province}`
-            },
-            {
-                title: 'BUSINESS / TRADE NAME',
-                className: 'text-nowrap p-2 text-center align-middle',
-                data: 'businesstradename' // Matches migration
-            },
-            {
-                title: 'LOCATION',
-                className: 'text-nowrap p-2 text-center align-middle',
-                data: 'businesslocation' // Matches migration
-            },
-            {
                 title: 'DATE ISSUED',
                 className: 'text-nowrap p-2 text-center align-middle',
                 render: (data, type, row) => row.date_issued ? formatDateTime(row.date_issued) : ''
+            },
+            {
+                title: 'DATE CREATED',
+                className: 'text-nowrap p-2 text-center align-middle',
+                render: (data, type, row) => row.created_at ? formatDateTime(row.created_at) : ''
             },
             {
                 title: 'ACTION',
@@ -73,7 +57,7 @@
                 render: function(data, type, row) {
                     return `
                 <div class="d-flex gap-1 justify-content-center">
-                    <a href="{{ route('viewPiggeryCertification') }}?certification_id=${row.certification_id}" class="btn btn-dark btn-sm printButton px-2" style="background-color: #1A212B !important"><i style="font-size: 15px" class="bi bi-printer-fill"></i></a>
+                    <a href="{{ route('viewQuarryCertification') }}?certification_id=${row.certification_id}" class="btn btn-dark btn-sm printButton px-2" style="background-color: #1A212B !important"><i style="font-size: 15px" class="bi bi-printer-fill"></i></a>
                     <button class="btn btn-warning btn-sm editButton px-2" style="background-color: #B35100 !important" data-certification_id="${row.certification_id}"><i style="font-size: 15px" class="bi bi-pencil-fill"></i></button>
                     <button class="btn btn-danger btn-sm deleteButton px-2" style="background-color: #A10101 !important" data-certification_id="${row.certification_id}"><i style="font-size: 15px" class="bi bi-trash3-fill"></i></button>
                 </div>`;
@@ -98,26 +82,26 @@
                 </div>
             </div>`;
 
-            $("#certificationTablePiggery_wrapper .dt-length")
+            $("#certificationTableQuarry_wrapper .dt-length")
                 .addClass('d-flex align-items-center gap-2')
                 .first()
                 .append(filterHtml);
         }
     };
 
-    function renderCertificationTablePiggery() {
-        if (certificationTablePiggery) {
-            certificationTablePiggery.destroy();
+    function renderCertificationTableQuarry() {
+        if (certificationTableQuarry) {
+            certificationTableQuarry.destroy();
         }
 
-        certificationTablePiggery = new DataTable('#certificationTablePiggery', certificationMoralOptions)
+        certificationTableQuarry = new DataTable('#certificationTableQuarry', certificationMoralOptions)
     }
 
     $(document).ready(function() {
-        renderCertificationTablePiggery();
+        renderCertificationTableQuarry();
     })
 
-    $(document).on("click", "#addCertificationPiggery", function() {
+    $(document).on("click", "#addCertificationQuarry", function() {
         $("#certificationForm")[0].reset();
 
         $("#certificationForm")
@@ -126,7 +110,7 @@
             .not('[name="certification_type"]')
             .val('');
 
-        $("#piggeryModal").modal("show");
+        $("#quarryModal").modal("show");
     })
 
     $(document).ready(function() {
@@ -145,7 +129,7 @@
 
     $(document).on('click', 'table.dataTable tbody tr', function() {
 
-        const rowData = certificationTablePiggery.row(this).data();
+        const rowData = certificationTableQuarry.row(this).data();
 
         // unselect
         if ($(this).hasClass('selected-row')) {
@@ -166,7 +150,7 @@
         selectedCertificationId = rowData.certification_id;
     });
 
-    $(document).on('click', '#editCertificationPiggery', function() {
+    $(document).on('click', '#editCertificationQuarry', function() {
 
         if (!selectedCertificationRow) {
 
@@ -201,7 +185,7 @@
                     showCancelButton: false,
                 })
 
-                $('#piggeryModal').modal('hide');
+                $('#quarryModal').modal('hide');
                 $('#certificationForm')[0].reset();
                 $('#image_filename_display').val('No file chosen');
                 reloadBrgyCertification();
@@ -215,17 +199,17 @@
     });
 
     function reloadBrgyCertification() {
-        if (certificationTablePiggery) {
-            certificationTablePiggery.ajax.reload(null, false);
+        if (certificationTableQuarry) {
+            certificationTableQuarry.ajax.reload(null, false);
         } else {
-            renderCertificationTablePiggery();
+            renderCertificationTableQuarry();
         }
     }
 
     $(document).on("click", ".editButton", function(e) {
         e.stopPropagation();
         let certification_id = $(this).attr("data-certification_id");
-        let find_data = certificationPiggeryData.find(x => x.certification_id == certification_id);
+        let find_data = certificationQuarryData.find(x => x.certification_id == certification_id);
         if (find_data) {
             $("#certificationForm")[0].reset();
 
@@ -237,7 +221,7 @@
 
             populateCertificationForm('certificationForm', find_data);
 
-            $("#piggeryModal").modal("show");
+            $("#quarryModal").modal("show");
         }
     })
 
