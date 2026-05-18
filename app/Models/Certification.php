@@ -42,5 +42,11 @@ class Certification extends Model
         'monthlysalary',
         'businesslocation',
         'businesstradename',
+
+        'octnumber',
+        'lotnumber',
+        'lotarea',
+        'lotlocation',
+        'taxdeclarationnumber',
     ];
 }

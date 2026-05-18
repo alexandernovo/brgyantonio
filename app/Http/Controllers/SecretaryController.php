@@ -65,6 +65,10 @@ class SecretaryController extends Controller
     {
         return view('secretary.views.certificate_quary');
     }
+    public function certificate_lot(Request $request)
+    {
+        return view('secretary.views.certificate_lot');
+    }
     public function storeCertification(Request $request)
     {
         $data = $request->all();
@@ -161,5 +165,11 @@ class SecretaryController extends Controller
         $certification_id = $request->query('certification_id');
         $certification = Certification::where('certification_id', $certification_id)->first();
         return view('secretary.print.quarrycertification', ['certification' => $certification]);
+    }
+    public function viewLotCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        return view('secretary.print.lotcertification', ['certification' => $certification]);
     }
 }

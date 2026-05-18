@@ -49,6 +49,13 @@ return new class extends Migration
             $table->string('businesslocation')->nullable();
             $table->decimal('monthlysalary', 12, 2)->nullable();
 
+            $table->string('octnumber')->nullable();
+            $table->string('lotnumber')->nullable();
+            $table->string('lotarea')->nullable();
+            $table->string('lotlocation')->nullable();
+            $table->string('taxdeclarationnumber')->nullable();
+
+
             $table->string('image_path')->nullable();
             $table->decimal('familyincome', 12, 2)->nullable();
             $table->date('date_issued')->nullable();
