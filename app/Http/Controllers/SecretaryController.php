@@ -16,6 +16,11 @@ class SecretaryController extends Controller
         return view('secretary.views.secretary_dashboard');
     }
 
+    public function report_brgy(Request $request)
+    {
+        return view('secretary.reports.report_brgy');
+    }
+
     public function certification_select(Request $request)
     {
         return view('secretary.views.certification_select');

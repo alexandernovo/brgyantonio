@@ -13,22 +13,38 @@
                 </svg>
             </div>
             <div>
-                <h3 class="mb-0">CERTIFICATION</h3>
-                <p>Dashboard | Certification</p>
+                <h3 class="mb-0">REPORT</h3>
+                <p>Dashboard | Report</p>
             </div>
         </div>
 
-        <div class="cert-card p-2">
+        <div class="report-card p-2">
             <div class="card-header-green rounded">
                 <span class="close-icon"><i class="fas fa-times-circle"></i></span>
                 <img src="{{ asset('assets/images/logo.png') }}" class="logo-img" alt="Logo">
-                <h2>CERTIFICATION</h2>
+                <h2>BARANGAY RECORDS REPORT</h2>
             </div>
-
             <div class="card-content">
-                <label class="form-label">Certification Type:</label>
+                <label class="form-label mb-0">Report Type:</label>
 
-                <div class="input-group-custom">
+                <div class="input-group-custom mb-1">
+                    <div class="input-group-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white"
+                            stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                        </svg>
+                    </div>
+                    <select class="select-field" id="report_type">
+                        <option selected disabled>Please Select</option>
+                        <option>Barangay ID</option>
+                        <option>Barangay Certification</option>
+                    </select>
+                </div>
+
+                <label class="form-label mb-0">Certification Report Type:</label>
+
+                <div class="input-group-custom mb-1">
                     <div class="input-group-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white"
                             stroke-width="2">
@@ -37,7 +53,7 @@
                         </svg>
                     </div>
                     <select class="select-field" id="cert_type">
-                        <option selected disabled>Please Select</option>
+                        <option selected disabled value="">Please Select</option>
                         <option>Certificate of Barangay</option>
                         <option>Certificate of Barangay Clearance</option>
                         <option>Certificate of Trees</option>
@@ -52,7 +68,16 @@
                     </select>
                 </div>
 
-                <button type="button" class="btn-submit">View Certification</button>
+                <label class="form-label mb-2">Select Month:</label>
+
+                <div class="input-group-custom mb-3">
+                    <div class="input-group-icon">
+                       <i class="bi bi-calendar-fill text-white" style="font-size: 17px"></i>
+                    </div>
+                    <input type="month" class="select-field" id="month">
+                </div>
+
+                <button type="button" class="btn-report">View Report</button>
             </div>
         </div>
     </div>

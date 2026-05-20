@@ -50,6 +50,17 @@
         /* Clips the green header to the border radius */
     }
 
+    .report-card {
+        background: white;
+        width: 100%;
+        max-width: 540px;
+        margin: 0 auto;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        /* Clips the green header to the border radius */
+    }
+
     /* Green Header Section */
     .card-header-green {
         background-color: #1b3f2f;
@@ -124,7 +135,8 @@
     }
 
     /* Button */
-    .btn-submit {
+    .btn-submit,
+    .btn-report {
         width: 100%;
         background-color: #1b3f2f;
         color: white;
@@ -135,6 +147,12 @@
         font-weight: 500;
         cursor: pointer;
     }
+
+    .disabled-input {
+        pointer-events: none;
+        opacity: 0.8;
+    }
+
 
     .btn-reload-table {
         background-color: #2A3646;

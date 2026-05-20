@@ -57,6 +57,7 @@ Route::post('/getRBI1', [SecretaryController::class, 'getRBI1'])->name('getRBI1'
 Route::post('/deleteRBI', [SecretaryController::class, 'deleteRBI'])->name('deleteRBI');
 //reports
 Route::get('/report_select', [SecretaryController::class, 'report_select'])->name('report_select');
+Route::get('/report_brgy', [SecretaryController::class, 'report_brgy'])->name('report_brgy');
 
 
 
