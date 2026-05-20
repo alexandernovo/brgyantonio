@@ -80,19 +80,49 @@
 
     function populateCertificationForm(formId, data) {
         const form = $(`#${formId}`);
+
         $.each(data, function(key, value) {
             let field = form.find(`[name="${key}"]`);
             if (field.length) {
-                if (field.attr('type') === 'file') {
-                    return true;
+                const fieldType = field.attr('type');
+
+                if (fieldType === 'file') {
+                    return true; // Skip file inputs
                 }
 
-                if (field.attr('type') === 'radio') {
+                if (fieldType === 'radio') {
                     field.filter(`[value="${value}"]`).prop('checked', true);
-                } else if (field.attr('type') === 'checkbox') {
+                } else if (fieldType === 'checkbox') {
                     field.prop('checked', value == 1);
-                } else {
+                } else if ((fieldType === 'date' || fieldType === 'datetime-local') && value) {
+                    // Parse the value into a Date object
+                    const dateObj = new Date(value);
 
+                    // Check if the date is valid before attempting to format
+                    if (!isNaN(dateObj.getTime())) {
+
+                        // Pad numbers with a leading zero if they are single digits
+                        const pad = (num) => String(num).padStart(2, '0');
+
+                        const year = dateObj.getFullYear();
+                        const month = pad(dateObj.getMonth() + 1);
+                        const day = pad(dateObj.getDate());
+
+                        if (fieldType === 'date') {
+                            // Format: YYYY-MM-DD
+                            field.val(`${year}-${month}-${day}`).trigger('change');
+                        } else if (fieldType === 'datetime-local') {
+                            // Format: YYYY-MM-DDTHH:mm
+                            const hours = pad(dateObj.getHours());
+                            const minutes = pad(dateObj.getMinutes());
+                            field.val(`${year}-${month}-${day}T${hours}:${minutes}`).trigger('change');
+                        }
+                    } else {
+                        // Fallback to original value if date parsing fails
+                        field.val(value).trigger('change');
+                    }
+                } else {
+                    // Handle text, hidden, textarea, select, etc.
                     field.val(value).trigger('change');
                 }
             }

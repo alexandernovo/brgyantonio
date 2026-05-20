@@ -27,7 +27,8 @@
                 {{-- DASHBOARD --}}
                 <li class="sidebar-item px-2 mb-3">
 
-                    <a href="{{ route('secretary_dashboard') }}" class="sidebar-link dashboard-link {{ Route::currentRouteName() == "secretary_dashboard" ? "active" : "" }}">
+                    <a href="{{ route('secretary_dashboard') }}"
+                        class="sidebar-link dashboard-link {{ Route::currentRouteName() == 'secretary_dashboard' ? 'active' : '' }}">
 
                         <i class="bi bi-grid-fill"></i>
 
@@ -66,9 +67,10 @@
                 {{-- BARANGAY ID --}}
                 <li class="sidebar-item">
 
-                    <a href="a" class="sidebar-link">
+                    <a href="{{ route('brgy_id') }}" class="sidebar-link">
 
-                        <img src="{{ asset('assets/images/icons/barangay-id.png') }}" class="sidebar-image-icon"
+                        <img src="{{ asset('assets/images/icons/barangay-id.png') }}"
+                            class="sidebar-image-icon {{ Route::currentRouteName() == 'brgy_id' ? 'active' : '' }}"
                             alt="">
 
                         <span>
@@ -82,9 +84,10 @@
                 {{-- BARANGAY RBI --}}
                 <li class="sidebar-item">
 
-                    <a href="a" class="sidebar-link">
+                    <a href="{{ route('rbi') }}" class="sidebar-link">
 
-                        <img src="{{ asset('assets/images/icons/rbi.png') }}" class="sidebar-image-icon" alt="">
+                        <img src="{{ asset('assets/images/icons/rbi.png') }}" class="sidebar-image-icon"
+                            alt="">
 
                         <span>
                             Barangay RBI
@@ -99,7 +102,8 @@
 
                     <a href="a" class="sidebar-link">
 
-                        <img src="{{ asset('assets/images/icons/otp.png') }}" class="sidebar-image-icon" alt="">
+                        <img src="{{ asset('assets/images/icons/otp.png') }}" class="sidebar-image-icon"
+                            alt="">
 
                         <span>
                             Barangay OTP Quarry
@@ -113,7 +117,7 @@
 
                 {{-- REPORT --}}
                 <li class="sidebar-item">
-                    <a href="a" class="sidebar-link">
+                    <a href="{{ route('report_select') }}" class="sidebar-link">
                         <i class="bi bi-file-earmark-text-fill"></i>
                         <span>
                             Report

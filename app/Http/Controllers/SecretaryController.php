@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BrgyID;
 use App\Models\Certification;
+use App\Models\Resident;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Contracts\Session\Session;
@@ -19,6 +21,10 @@ class SecretaryController extends Controller
         return view('secretary.views.certification_select');
     }
 
+    public function report_select(Request $request)
+    {
+        return view('secretary.views.report_select');
+    }
     public function certificate_brgy(Request $request)
     {
         return view('secretary.views.certificate_brgy');
@@ -69,6 +75,14 @@ class SecretaryController extends Controller
     {
         return view('secretary.views.certificate_lot');
     }
+    public function brgy_id(Request $request)
+    {
+        return view('secretary.views.brgy_id');
+    }
+    public function rbi(Request $request)
+    {
+        return view('secretary.views.rbi');
+    }
     public function storeCertification(Request $request)
     {
         $data = $request->all();
@@ -89,6 +103,34 @@ class SecretaryController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Certification saved successfully!']);
     }
 
+    public function storeBrgyID(Request $request)
+    {
+        $data = $request->all();
+        unset($data['_token']);
+
+        if ($data['brgy_id'] != 0 || $data['brgy_id'] != "") {
+            BrgyID::where("brgy_id", $data['brgy_id'])->update($data);
+        } else {
+            BrgyID::create($data);
+        }
+
+        return response()->json(['status' => 'success', 'message' => 'Barangay ID saved successfully!']);
+    }
+
+    public function storeRBI(Request $request)
+    {
+        $data = $request->all();
+        unset($data['_token']);
+
+        if ($data['resident_id'] != 0 || $data['resident_id'] != "") {
+            Resident::where("resident_id", $data['resident_id'])->update($data);
+        } else {
+            Resident::create($data);
+        }
+
+        return response()->json(['status' => 'success', 'message' => 'Barangay ID saved successfully!']);
+    }
+
     public function get_certification(Request $request)
     {
         $type = $request->type;
@@ -97,6 +139,21 @@ class SecretaryController extends Controller
         return response()->json(['data' => $data]);
     }
 
+    public function get_brgy_id(Request $request)
+    {
+        $type = $request->type;
+        $data = BrgyID::all();
+
+        return response()->json(['data' => $data]);
+    }
+
+    public function getRBI1(Request $request)
+    {
+        $type = $request->type;
+        $data = Resident::where('resident_type', $type)->get();
+
+        return response()->json(['data' => $data]);
+    }
 
     public function deleteCertification(Request $request)
     {
@@ -104,7 +161,18 @@ class SecretaryController extends Controller
 
         return response()->json(['status' => 'success', 'message' => 'Certification deleted successfully!']);
     }
+    public function deleteBrgyId(Request $request)
+    {
+        $data = BrgyID::where('brgy_id', $request->brgy_id)->delete();
 
+        return response()->json(['status' => 'success', 'message' => 'Barangay ID deleted successfully!']);
+    }
+    public function deleteRBI(Request $request)
+    {
+        $data = Resident::where('resident_id', $request->resident_id)->delete();
+
+        return response()->json(['status' => 'success', 'message' => 'Barangay RBI deleted successfully!']);
+    }
     public function viewBrgyCertification(Request $request)
     {
         $certification_id = $request->query('certification_id');
