@@ -100,7 +100,7 @@
                 {{-- OTP --}}
                 <li class="sidebar-item">
 
-                    <a href="a" class="sidebar-link">
+                    <a href="{{ route('quarry') }}" class="sidebar-link">
 
                         <img src="{{ asset('assets/images/icons/otp.png') }}" class="sidebar-image-icon"
                             alt="">

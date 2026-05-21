@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BrgyID;
 use App\Models\Certification;
+use App\Models\Quarry;
 use App\Models\Resident;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -88,6 +89,10 @@ class SecretaryController extends Controller
     {
         return view('secretary.views.rbi');
     }
+    public function quarry(Request $request)
+    {
+        return view('secretary.views.quarry');
+    }
     public function storeCertification(Request $request)
     {
         $data = $request->all();
@@ -122,6 +127,20 @@ class SecretaryController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Barangay ID saved successfully!']);
     }
 
+    public function storeQuarry(Request $request)
+    {
+        $data = $request->all();
+        unset($data['_token']);
+
+        if ($data['quarry_id'] != 0 || $data['quarry_id'] != "") {
+            Quarry::where("quarry_id", $data['quarry_id'])->update($data);
+        } else {
+            Quarry::create($data);
+        }
+
+        return response()->json(['status' => 'success', 'message' => 'OTP Quarry saved successfully!']);
+    }
+
     public function storeRBI(Request $request)
     {
         $data = $request->all();
@@ -152,6 +171,13 @@ class SecretaryController extends Controller
         return response()->json(['data' => $data]);
     }
 
+    public function get_quary(Request $request)
+    {
+        $data = Quarry::all();
+
+        return response()->json(['data' => $data]);
+    }
+
     public function getRBI1(Request $request)
     {
         $type = $request->type;
@@ -165,6 +191,12 @@ class SecretaryController extends Controller
         $data = Certification::where('certification_id', $request->certification_id)->delete();
 
         return response()->json(['status' => 'success', 'message' => 'Certification deleted successfully!']);
+    }
+    public function deleteQuarry(Request $request)
+    {
+        $data = Quarry::where('quarry_id', $request->quarry_id)->delete();
+
+        return response()->json(['status' => 'success', 'message' => 'Quarry deleted successfully!']);
     }
     public function deleteBrgyId(Request $request)
     {

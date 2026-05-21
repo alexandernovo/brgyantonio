@@ -59,6 +59,11 @@ Route::post('/deleteRBI', [SecretaryController::class, 'deleteRBI'])->name('dele
 Route::get('/report_select', [SecretaryController::class, 'report_select'])->name('report_select');
 Route::get('/report_brgy', [SecretaryController::class, 'report_brgy'])->name('report_brgy');
 
+//quarry
+Route::get('/quarry', [SecretaryController::class, 'quarry'])->name('quarry');
+Route::post('/storeQuarry', [SecretaryController::class, 'storeQuarry'])->name('storeQuarry');
+Route::post('/get_quary', [SecretaryController::class, 'get_quary'])->name('get_quary');
+Route::post('/deleteQuarry', [SecretaryController::class, 'deleteQuarry'])->name('deleteQuarry');
 
 
 // });
