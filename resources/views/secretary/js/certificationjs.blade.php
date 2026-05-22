@@ -122,39 +122,39 @@
             }
 
             if (cert_type == 'Certificate of Trees') {
-                route = "{{ route('certificate_trees') }}";
+                route = "{{ route('report_trees') }}";
             }
 
             if (cert_type == 'Certificate of First Time Job Seeker') {
-                route = "{{ route('certificate_jobseeker') }}";
+                route = "{{ route('report_jobseeker') }}";
             }
 
             if (cert_type == 'Certificate of Good Moral Character') {
-                route = "{{ route('certificate_goodmoral') }}";
+                route = "{{ route('report_goodmoral') }}";
             }
 
             if (cert_type == 'Certificate of Indigency') {
-                route = "{{ route('certificate_indigency') }}";
+                route = "{{ route('report_indigency') }}";
             }
 
             if (cert_type == 'Certificate of Livestock') {
-                route = "{{ route('certificate_livestock') }}";
+                route = "{{ route('report_livestock') }}";
             }
 
             if (cert_type == 'Certificate of Motorcycle') {
-                route = "{{ route('certificate_motorcycle') }}";
+                route = "{{ route('report_motorcycle') }}";
             }
 
             if (cert_type == 'Certificate of Piggery') {
-                route = "{{ route('certificate_piggery') }}";
+                route = "{{ route('report_piggery') }}";
             }
 
             if (cert_type == 'Certificate of Quarry') {
-                route = "{{ route('certificate_quary') }}";
+                route = "{{ route('report_quarry') }}";
             }
 
             if (cert_type == 'Certificate of Lot') {
-                route = "{{ route('certificate_lot') }}";
+                route = "{{ route('report_lot') }}";
             }
         }
 

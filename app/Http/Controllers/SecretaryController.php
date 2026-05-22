@@ -17,11 +17,6 @@ class SecretaryController extends Controller
         return view('secretary.views.secretary_dashboard');
     }
 
-    public function report_brgy(Request $request)
-    {
-        return view('secretary.reports.report_brgy');
-    }
-
     public function certification_select(Request $request)
     {
         return view('secretary.views.certification_select');
@@ -276,5 +271,193 @@ class SecretaryController extends Controller
         $certification_id = $request->query('certification_id');
         $certification = Certification::where('certification_id', $certification_id)->first();
         return view('secretary.print.lotcertification', ['certification' => $certification]);
+    }
+    public function report_brgy(Request $request)
+    {
+        $monthYear = $request->query('month');
+
+        $data = Certification::where('certification_type', 'brgy')
+
+            ->when($monthYear, function ($query) use ($monthYear) {
+
+                $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
+
+                $query->whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month);
+            })
+
+            ->get();
+
+        return view('secretary.reports.report_brgy', compact('data'));
+    }
+
+    public function report_trees(Request $request)
+    {
+        $monthYear = $request->query('month');
+
+        $data = Certification::where('certification_type', 'trees')
+
+            ->when($monthYear, function ($query) use ($monthYear) {
+
+                $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
+
+                $query->whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month);
+            })
+
+            ->get();
+
+        return view('secretary.reports.report_trees', compact('data'));
+    }
+
+    public function report_jobseeker(Request $request)
+    {
+        $monthYear = $request->query('month');
+
+        $data = Certification::where('certification_type', 'jobseeker')
+
+            ->when($monthYear, function ($query) use ($monthYear) {
+
+                $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
+
+                $query->whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month);
+            })
+
+            ->get();
+
+        return view('secretary.reports.report_jobseeker', compact('data'));
+    }
+
+    public function report_goodmoral(Request $request)
+    {
+        $monthYear = $request->query('month');
+
+        $data = Certification::where('certification_type', 'goodmoral')
+
+            ->when($monthYear, function ($query) use ($monthYear) {
+
+                $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
+
+                $query->whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month);
+            })
+
+            ->get();
+
+        return view('secretary.reports.report_goodmoral', compact('data'));
+    }
+    public function report_indigency(Request $request)
+    {
+        $monthYear = $request->query('month');
+
+        $data = Certification::where('certification_type', 'indigency')
+
+            ->when($monthYear, function ($query) use ($monthYear) {
+
+                $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
+
+                $query->whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month);
+            })
+
+            ->get();
+
+        return view('secretary.reports.report_indigency', compact('data'));
+    }
+
+    public function report_livestock(Request $request)
+    {
+        $monthYear = $request->query('month');
+
+        $data = Certification::where('certification_type', 'livestock')
+
+            ->when($monthYear, function ($query) use ($monthYear) {
+
+                $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
+
+                $query->whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month);
+            })
+
+            ->get();
+
+        return view('secretary.reports.report_livestock', compact('data'));
+    }
+
+    public function report_lot(Request $request)
+    {
+        $monthYear = $request->query('month');
+
+        $data = Certification::where('certification_type', 'lot')
+
+            ->when($monthYear, function ($query) use ($monthYear) {
+
+                $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
+
+                $query->whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month);
+            })
+
+            ->get();
+
+        return view('secretary.reports.report_lot', compact('data'));
+    }
+
+    public function report_motorcycle(Request $request)
+    {
+        $monthYear = $request->query('month');
+
+        $data = Certification::where('certification_type', 'motorcycle')
+
+            ->when($monthYear, function ($query) use ($monthYear) {
+
+                $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
+
+                $query->whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month);
+            })
+
+            ->get();
+
+        return view('secretary.reports.report_motorcycle', compact('data'));
+    }
+
+    public function report_piggery(Request $request)
+    {
+        $monthYear = $request->query('month');
+
+        $data = Certification::where('certification_type', 'piggery')
+
+            ->when($monthYear, function ($query) use ($monthYear) {
+
+                $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
+
+                $query->whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month);
+            })
+
+            ->get();
+
+        return view('secretary.reports.report_piggery', compact('data'));
+    }
+
+    public function report_quarry(Request $request)
+    {
+        $monthYear = $request->query('month');
+
+        $data = Certification::where('certification_type', 'quarry')
+
+            ->when($monthYear, function ($query) use ($monthYear) {
+
+                $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
+
+                $query->whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month);
+            })
+
+            ->get();
+
+        return view('secretary.reports.report_quarry', compact('data'));
     }
 }

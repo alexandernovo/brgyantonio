@@ -58,6 +58,15 @@ Route::post('/deleteRBI', [SecretaryController::class, 'deleteRBI'])->name('dele
 //reports
 Route::get('/report_select', [SecretaryController::class, 'report_select'])->name('report_select');
 Route::get('/report_brgy', [SecretaryController::class, 'report_brgy'])->name('report_brgy');
+Route::get('/report_trees', [SecretaryController::class, 'report_trees'])->name('report_trees');
+Route::get('/report_jobseeker', [SecretaryController::class, 'report_jobseeker'])->name('report_jobseeker');
+Route::get('/report_goodmoral', [SecretaryController::class, 'report_goodmoral'])->name('report_goodmoral');
+Route::get('/report_indigency', [SecretaryController::class, 'report_indigency'])->name('report_indigency');
+Route::get('/report_livestock', [SecretaryController::class, 'report_livestock'])->name('report_livestock');
+Route::get('/report_lot', [SecretaryController::class, 'report_lot'])->name('report_lot');
+Route::get('/report_motorcycle', [SecretaryController::class, 'report_motorcycle'])->name('report_motorcycle');
+Route::get('/report_piggery', [SecretaryController::class, 'report_piggery'])->name('report_piggery');
+Route::get('/report_quarry', [SecretaryController::class, 'report_quarry'])->name('report_quarry');
 
 //quarry
 Route::get('/quarry', [SecretaryController::class, 'quarry'])->name('quarry');

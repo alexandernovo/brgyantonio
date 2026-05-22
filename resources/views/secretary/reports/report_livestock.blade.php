@@ -83,25 +83,17 @@
         <div class="card-body bg-white p-1" style="border-radius: 8px">
 
             <div class="report-header-bg d-flex justify-content-between align-items-center p-3 flex-wrap gap-3">
-                <form method="GET" action="{{ url()->current() }}">
-
-                    <div class="d-flex flex-column align-items-start gap-2">
-
-                        <label for="monthYearSelect" class="text-white text-nowrap mb-0 fw-bold" style="font-size: 14px;">
-                            Select Month and Year
-                        </label>
-
-                        <div class="input-group">
-
-                            <input type="month" name="month" id="monthYearSelect" class="form-control form-control-sm"
-                                value="{{ request('month') }}" style="width: 250px; height: 30px; background-color: white"
-                                onchange="this.form.submit()">
-
-                        </div>
-
+                <div class="d-flex flex-column align-items-start gap-2">
+                    <label for="monthYearSelect" class="text-white text-nowrap mb-0 fw-bold" style="font-size: 14px;">Select
+                        Month
+                        and Year
+                    </label>
+                    <div class="input-group">
+                        <input type="month" id="monthYearSelect" class="form-control form-control-sm"
+                            style="width: 250px; height: 30px; background-color: white">
                     </div>
+                </div>
 
-                </form>
                 <div class="d-flex align-items-center gap-3">
                     <button class="btn-print-report d-flex align-items-center gap-2">
                         <i class="bi bi-printer"></i> Print Report
@@ -136,37 +128,71 @@
 
             <div class="text-center mb-4">
                 <h3 class="brgy-title mb-2">BARANGAY SAN ANTONIO</h3>
-                <h4 class="report-subtitle">LIST OF BARANGAY CLEARANCE CERTIFICATION AS OF APRIL 2026</h4>
-            </div>
 
+                <h4 class="report-subtitle text-uppercase">
+                    LIST OF LIVESTOCK CERTIFICATION AS OF
+                    {{ request('month') ? \Carbon\Carbon::parse(request('month'))->format('F Y') : now()->format('F Y') }}
+                </h4>
+            </div>
             <div class="table-responsive px-2">
                 <table id="certificationTableBrgy" class="table custom-table table-bordered w-100 mb-0">
                     <thead>
                         <tr>
-                            <th style="width: 5%;">NO.</th>
-                            <th style="width: 15%;">REQUESTER</th>
-                            <th style="width: 10%;">DATE OF ISSUED</th>
+                            <th>RECORD NO.</th>
+                            <th>REQUESTER</th>
+                            <th>OR NUMBER</th>
+                            <th>ADDRESS</th>
+                            <th>SEX</th>
+                            <th>NO. OF LIVESTOCK</th>
+                            <th>AGE CLASSES</th>
+                            <th>COLOR</th>
+                            <th>LIVESTOCK OWNER</th>
+                            <th>DATE OF ISSUED</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach ($data as $item)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
+                    @if (count($data) == 0)
+                        <tr>
+                            <td colspan="10" class="text-center py-3 text-muted">No Data Available</td>
+                        </tr>
+                    @endif
 
+                    @foreach ($data as $item)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
 
-                                <td>{{ trim($item->first_name . ' ' . ($item->middle_name ? $item->middle_name . ' ' : '') . $item->last_name) }}
-                                </td>
-                                <td>{{ $item->date_issued ? \Carbon\Carbon::parse($item->date_issued)->format('M d, Y') : '-' }}
-                                </td>
-                            </tr>
-                        @endforeach
+                            <td>
+                                {{ trim($item->first_name . ' ' . ($item->middle_name ? $item->middle_name . ' ' : '') . $item->last_name) }}
+                            </td>
 
-                        @if (count($data) == 0)
-                            <tr>
-                                <td colspan="3" class="text-center">No Data</td>
-                            </tr>
-                        @endif
-                    </tbody>
+                            <td>{{ $item->or_number ?? '-' }}</td>
+
+                            <td>
+                                @php
+                                    $addressParts = array_filter([
+                                        $item->purok ? 'Purok ' . $item->purok : null,
+                                        $item->barangay,
+                                        $item->municipality,
+                                        $item->province,
+                                    ]);
+                                    echo !empty($addressParts) ? implode(', ', $addressParts) : '-';
+                                @endphp
+                            </td>
+
+                            <td>{{ $item->sexlivestock ?? '-' }}</td>
+
+                            <td>{{ $item->nolivestock ?? '-' }}</td>
+
+                            <td>{{ $item->ageclasses ?? '-' }}</td>
+
+                            <td>{{ $item->color ?? '-' }}</td>
+
+                            <td>{{ $item->livestockowner ?? '-' }}</td>
+
+                            <td>
+                                {{ $item->date_issued ? \Carbon\Carbon::parse($item->date_issued)->format('M d, Y') : '-' }}
+                            </td>
+                        </tr>
+                    @endforeach
                 </table>
             </div>
 

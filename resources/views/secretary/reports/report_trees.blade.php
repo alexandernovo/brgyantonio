@@ -136,16 +136,23 @@
 
             <div class="text-center mb-4">
                 <h3 class="brgy-title mb-2">BARANGAY SAN ANTONIO</h3>
-                <h4 class="report-subtitle">LIST OF BARANGAY CLEARANCE CERTIFICATION AS OF APRIL 2026</h4>
+                <h4 class="report-subtitle text-uppercase">LIST OF TREE CERTIFICATION AS OF
+                    {{ request('month') ? \Carbon\Carbon::parse(request('month'))->format('F Y') : now()->format('F Y') }}
+                </h4>
             </div>
 
             <div class="table-responsive px-2">
                 <table id="certificationTableBrgy" class="table custom-table table-bordered w-100 mb-0">
                     <thead>
                         <tr>
-                            <th style="width: 5%;">NO.</th>
-                            <th style="width: 15%;">REQUESTER</th>
-                            <th style="width: 10%;">DATE OF ISSUED</th>
+                            <th>NO.</th>
+                            <th>REQUESTER</th>
+                            <th>CIVIL STATUS</th>
+                            <th>OR NUMBER</th>
+                            <th>NAME OF TREE</th>
+                            <th>NUMBER OF TREE</th>
+                            <th>ADDRESS</th>
+                            <th>DATE OF ISSUED</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -153,17 +160,39 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
 
-
-                                <td>{{ trim($item->first_name . ' ' . ($item->middle_name ? $item->middle_name . ' ' : '') . $item->last_name) }}
+                                <td>
+                                    {{ trim($item->first_name . ' ' . ($item->middle_name ? $item->middle_name . ' ' : '') . $item->last_name) }}
                                 </td>
-                                <td>{{ $item->date_issued ? \Carbon\Carbon::parse($item->date_issued)->format('M d, Y') : '-' }}
+
+                                <td>{{ $item->civil_status ?? '-' }}</td>
+
+                                <td>{{ $item->or_number ?? '-' }}</td>
+
+                                <td>{{ $item->name_of_tree ?? '-' }}</td>
+
+                                <td>{{ $item->no_of_tree ?? '-' }}</td>
+
+                                <td>
+                                    @php
+                                        $addressParts = array_filter([
+                                            $item->purok ? 'Purok ' . $item->purok : null,
+                                            $item->barangay,
+                                            $item->municipality,
+                                            $item->province,
+                                        ]);
+                                        echo !empty($addressParts) ? implode(', ', $addressParts) : '-';
+                                    @endphp
+                                </td>
+
+                                <td>
+                                    {{ $item->date_issued ? \Carbon\Carbon::parse($item->date_issued)->format('F d, Y') : '-' }}
                                 </td>
                             </tr>
                         @endforeach
 
                         @if (count($data) == 0)
                             <tr>
-                                <td colspan="3" class="text-center">No Data</td>
+                                <td colspan="8" class="text-center">No Data</td>
                             </tr>
                         @endif
                     </tbody>

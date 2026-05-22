@@ -53,7 +53,6 @@
                                 <th>COLOR</th>
                                 <th>SEX</th>
                                 <th>LIVESTOCK OWNER</th>
-                                <th>ADDRESS</th>
                                 <th>DATE OF ISSUED</th>
                                 <th>ACTION</th>
                             </tr>

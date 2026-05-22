@@ -53,7 +53,7 @@
                     <a href="{{ route('certification_select') }}"
                         class="sidebar-link {{ in_array(Route::currentRouteName(), $certificationRoute) ? 'active' : '' }}">
 
-                        <img src="{{ asset('assets/images/icons/certification.png') }}" class="sidebar-image-icon"
+                        <img src="{{ asset('assets/images/new/CERTIFICATION.png') }}" class="sidebar-image-icon"
                             alt="">
 
                         <span>
@@ -69,7 +69,7 @@
 
                     <a href="{{ route('brgy_id') }}" class="sidebar-link">
 
-                        <img src="{{ asset('assets/images/icons/barangay-id.png') }}"
+                        <img src="{{ asset('assets/images/new/BRGY ID.png') }}"
                             class="sidebar-image-icon {{ Route::currentRouteName() == 'brgy_id' ? 'active' : '' }}"
                             alt="">
 
@@ -86,7 +86,7 @@
 
                     <a href="{{ route('rbi') }}" class="sidebar-link">
 
-                        <img src="{{ asset('assets/images/icons/rbi.png') }}" class="sidebar-image-icon"
+                        <img src="{{ asset('assets/images/new/HOUSEHOLD INHABITANT.png') }}" class="sidebar-image-icon"
                             alt="">
 
                         <span>
@@ -102,7 +102,7 @@
 
                     <a href="{{ route('quarry') }}" class="sidebar-link">
 
-                        <img src="{{ asset('assets/images/icons/otp.png') }}" class="sidebar-image-icon"
+                        <img src="{{ asset('assets/images/new/QUARRY.png') }}" class="sidebar-image-icon"
                             alt="">
 
                         <span>

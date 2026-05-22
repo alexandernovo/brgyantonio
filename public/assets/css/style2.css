@@ -957,3 +957,7 @@ tbody tr.selected-row td {
     background: #3a9168 !important;
     color: #fff !important;
 }
+
+.sidebar-link.active img {
+    filter: invert(1);
+}

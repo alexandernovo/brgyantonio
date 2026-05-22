@@ -68,6 +68,11 @@
                 data: 'color' // Matches migration
             },
             {
+                title: 'SEX',
+                className: 'text-nowrap p-2 text-center align-middle',
+                data: 'sexlivestock' // Matches migration
+            },
+            {
                 title: 'LIVESTOCK OWNER',
                 className: 'text-nowrap p-2 text-center align-middle',
                 data: 'livestockowner' // Matches migration
