@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BrgyID;
 use App\Models\Certification;
+use App\Models\HouseholdMember;
 use App\Models\Quarry;
 use App\Models\Resident;
 use Illuminate\Http\Request;
@@ -176,9 +177,26 @@ class SecretaryController extends Controller
     public function getRBI1(Request $request)
     {
         $type = $request->type;
-        $data = Resident::where('resident_type', $type)->get();
 
-        return response()->json(['data' => $data]);
+        if ($type == "all") {
+
+            $data = Resident::get()->map(function ($resident) {
+
+                $resident->household_member = HouseholdMember::where(
+                    'resident_id',
+                    $resident->resident_id
+                )->get();
+
+                return $resident;
+            });
+        } else {
+
+            $data = Resident::where('resident_type', $type)->get();
+        }
+
+        return response()->json([
+            'data' => $data
+        ]);
     }
 
     public function deleteCertification(Request $request)

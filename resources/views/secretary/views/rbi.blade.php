@@ -3,6 +3,7 @@
 @section('content')
     @include('secretary.css.certificationcss')
     @include('secretary.modals.rbiModal')
+    @include('secretary.modals.rbi2Modal')
 
     <div class="page-container p-4">
         <div class="top-header mb-3">
@@ -25,7 +26,7 @@
                         </button>
                     </div>
                     <div class="d-flex gap-3">
-                        <button class="btn-edit-table px-4" id="editCertificationSeeker">
+                        <button class="btn-edit-table px-4" id="allIndiInhabitants">
                             <i class="bi bi-plus-circle"></i>
                             All Inhabitants
                         </button>
@@ -46,8 +47,14 @@
                                 <th>BIRTHPLACE</th>
                                 <th>SEX</th>
                                 <th>CIVIL STATUS</th>
+                                <th>RELIGION</th>
+                                <th>BARANGAY</th>
+                                <th>MUNCIPALITY</th>
+                                <th>PROVINCE</th>
                                 <th>REGION</th>
                                 <th>RESIDENCE ADDRESS</th>
+                                <th>HOUSEHOLD ADDRESS</th>
+                                <th>NO. OF HOUSEHOLD MEMBERS</th>
                                 <th>PROFESSION/OCCUPATION</th>
                                 <th>CONTACT NUMBER</th>
                                 <th>ACTION</th>

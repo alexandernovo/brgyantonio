@@ -7,6 +7,9 @@
     let selectedCertificationRow = null;
     let selectedCertificationId = null;
     let certificationRbiData = [];
+    let isAllInhabitantsActive = false;
+    let typeInhabitant = "single";
+    let houseHoldMember = [];
 
     certificationRBIOptions = {
         processing: true,
@@ -16,170 +19,173 @@
             url: "{{ route('getRBI1') }}",
             type: 'POST',
             dataType: 'json',
-
             data: function(d) {
                 d._token = '{{ csrf_token() }}';
                 d.dateFrom = dateFromRbi;
                 d.dateTo = dateToRbi;
-                d.type = "single";
+                d.type = typeInhabitant;
                 d.letter = selectedLetterRbi;
+                // Pass the state to back-end query filters if required
+                d.view_mode = isAllInhabitantsActive ? "all_inhabitants" : "default";
             },
-
             dataSrc: function(json) {
                 certificationRbiData = json.data;
                 return json.data;
             }
         },
 
-        columns: [
-
-            {
+        columns: [{
                 title: 'NO.',
                 className: 'text-nowrap p-2 text-center align-middle',
                 render: (data, type, row, meta) =>
                     meta.row + meta.settings._iDisplayStart + 1
             },
-
             {
-                title: 'NAME',
+                // Title switches dynamically on init depending on context
+                title: isAllInhabitantsActive ? 'MAIN INHABITANT' : 'NAME',
                 className: 'text-nowrap p-2 align-middle',
                 render: (data, type, row) => {
-
                     let middle = row.middle_name ? ` ${row.middle_name}` : '';
                     let suffix = row.suffix ? ` ${row.suffix}` : '';
-
-                    return `
-                    ${row.last_name}, 
-                    ${row.first_name}${middle}${suffix}
-                `;
+                    return `${row.last_name}, ${row.first_name}${middle}${suffix}`;
                 }
             },
-
             {
                 title: 'BIRTHDATE',
                 className: 'text-nowrap p-2 text-center align-middle',
+                visible: !isAllInhabitantsActive, // Hidden when All Inhabitants is Active
                 render: (data, type, row) =>
                     row.birth_date ? formatDateTime(row.birth_date) : ''
             },
-
             {
                 title: 'BIRTHPLACE',
                 className: 'text-nowrap p-2 align-middle',
-                data: 'birth_place'
+                visible: !isAllInhabitantsActive, // Hidden when All Inhabitants is Active
+                data: 'birth_place',
+                defaultContent: '-'
             },
-
             {
                 title: 'SEX',
                 className: 'text-nowrap p-2 text-center align-middle',
-                data: 'sex'
+                visible: !isAllInhabitantsActive, // Hidden when All Inhabitants is Active
+                data: 'sex',
+                defaultContent: '-'
             },
-
             {
                 title: 'CIVIL STATUS',
                 className: 'text-nowrap p-2 text-center align-middle',
-                data: 'civil_status'
+                visible: !isAllInhabitantsActive, // Hidden when All Inhabitants is Active
+                data: 'civil_status',
+                defaultContent: '-'
             },
-
+            {
+                title: 'RELIGION',
+                className: 'text-nowrap p-2 text-center align-middle',
+                visible: !isAllInhabitantsActive, // Hidden when All Inhabitants is Active
+                data: 'religion',
+                defaultContent: '-'
+            },
+            {
+                title: 'BARANGAY',
+                className: 'text-nowrap p-2 align-middle',
+                visible: isAllInhabitantsActive, // ONLY Visible when All Inhabitants is Active
+                data: 'barangay',
+                defaultContent: '-'
+            },
+            {
+                title: 'MUNCIPALITY',
+                className: 'text-nowrap p-2 align-middle',
+                visible: isAllInhabitantsActive, // ONLY Visible when All Inhabitants is Active
+                data: 'city_municipality',
+                defaultContent: '-'
+            },
+            {
+                title: 'PROVINCE',
+                className: 'text-nowrap p-2 align-middle',
+                visible: isAllInhabitantsActive, // ONLY Visible when All Inhabitants is Active
+                data: 'province',
+                defaultContent: '-'
+            },
             {
                 title: 'REGION',
-                className: 'text-nowrap p-2 align-middle',
-                data: 'region'
+                className: 'text-nowrap p-2 text-center align-middle',
+                data: 'region',
+                defaultContent: '-'
             },
-
             {
                 title: 'RESIDENCE ADDRESS',
                 className: 'p-2 align-middle',
-                data: 'residence_address'
+                visible: !isAllInhabitantsActive, // Hidden when All Inhabitants is Active
+                data: 'residence_address',
+                defaultContent: '-'
             },
-
+            {
+                title: 'HOUSEHOLD ADDRESS',
+                className: 'p-2 align-middle',
+                visible: isAllInhabitantsActive, // ONLY Visible when All Inhabitants is Active
+                data: 'household_address',
+                defaultContent: '-'
+            },
+            {
+                title: 'NO. OF HOUSEHOLD MEMBERS',
+                className: 'text-nowrap p-2 text-center align-middle',
+                visible: isAllInhabitantsActive, // ONLY Visible when All Inhabitants is Active
+                data: 'no_household_members',
+                defaultContent: '-'
+            },
             {
                 title: 'PROFESSION/OCCUPATION',
                 className: 'text-nowrap p-2 align-middle',
-                data: 'profession_occupation'
+                visible: !isAllInhabitantsActive, // Hidden when All Inhabitants is Active
+                data: 'profession_occupation',
+                defaultContent: '-'
             },
-
             {
                 title: 'CONTACT NUMBER',
                 className: 'text-nowrap p-2 text-center align-middle',
-                data: 'contact_number'
+                visible: !isAllInhabitantsActive, // Hidden when All Inhabitants is Active
+                data: 'contact_number',
+                defaultContent: '-'
             },
-
             {
                 title: 'ACTION',
                 className: 'text-nowrap p-2 text-center align-middle sticky-action',
-
                 render: function(data, type, row) {
-
                     return `
-                    <div class="d-flex gap-1 justify-content-center">
-
-                        <button class="btn btn-warning btn-sm editButton px-2"
-                            style="background-color: #B35100 !important"
-                            data-resident_id="${row.resident_id}">
-
-                            <i style="font-size: 15px"
-                                class="bi bi-pencil-fill"></i>
-
-                        </button>
-
-                        <button class="btn btn-danger btn-sm deleteButton px-2"
-                            style="background-color: #A10101 !important"
-                            data-resident_id="${row.resident_id}">
-
-                            <i style="font-size: 15px"
-                                class="bi bi-trash3-fill"></i>
-
-                        </button>
-
-                    </div>
-                `;
+                <div class="d-flex gap-1 justify-content-center">
+                    <button class="btn btn-warning btn-sm editButton px-2"
+                        style="background-color: #B35100 !important"
+                        data-resident_id="${row.resident_id}">
+                        <i style="font-size: 15px" class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm deleteButton px-2"
+                        style="background-color: #A10101 !important"
+                        data-resident_id="${row.resident_id}">
+                        <i style="font-size: 15px" class="bi bi-trash3-fill"></i>
+                    </button>
+                </div>`;
                 }
             },
         ],
 
         initComplete: function(settings, json) {
-
             let filterHtml = `
-            <div class="d-flex align-items-center gap-2 flex-wrap">
-
-                <div class="input-group date-filter-box" style="width:auto;">
-
-                    <span class="input-group-text">From</span>
-
-                    <input type="date"
-                        class="form-control"
-                        id="certDateFromRbi">
-
-                    <span class="input-group-text">To</span>
-
-                    <input type="date"
-                        class="form-control"
-                        id="certDateToRbi">
-
-                    <button id="btnCertFilter"
-                        class="btn btn-filter">
-
-                        Filter
-
-                    </button>
-
-                </div>
-
-                <div class="alphabet-filter d-flex gap-1 flex-wrap">
-
-                    ${'ABCDEFGHIJKL'.split('').map(char =>
-                        `<button class="alpha-btn ${char === 'A' ? 'active' : ''}"
-                            data-letter="${char}">
-
-                            ${char}
-
-                        </button>`
-                    ).join('')}
-
-                </div>
-
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+            <div class="input-group date-filter-box" style="width:auto;">
+                <span class="input-group-text">From</span>
+                <input type="date" class="form-control" id="certDateFromRbi">
+                <span class="input-group-text">To</span>
+                <input type="date" class="form-control" id="certDateToRbi">
+                <button id="btnCertFilter" class="btn btn-filter">Filter</button>
             </div>
-        `;
+            <div class="alphabet-filter d-flex gap-1 flex-wrap">
+                ${'ABCDEFGHIJKL'.split('').map(char =>
+                    `<button class="alpha-btn ${char === 'A' ? 'active' : ''}" data-letter="${char}">
+                        ${char}
+                    </button>`
+                ).join('')}
+            </div>
+        </div>`;
 
             $("#certificationTableRbi_wrapper .dt-length")
                 .addClass('d-flex align-items-center gap-2')
@@ -208,8 +214,12 @@
             .not('[name="_token"]')
             .not('[name="resident_type"]')
             .val('');
-
-        $("#rbi1Modal").modal("show");
+        console.log("typeInhabitant: ", typeInhabitant)
+        if (typeInhabitant == "single") {
+            $("#rbi1Modal").modal("show");
+        } else {
+            $("#rbi2Modal").modal("show");
+        }
     })
 
     $(document).ready(function() {
@@ -473,4 +483,109 @@
             printWindow.close();
         }, 500);
     }
+
+    $(document).on('click', "#allIndiInhabitants", function() {
+        if ($(this).hasClass("btn-add-table")) {
+            $(this).removeClass('btn-add-table').addClass("btn-edit-table");
+            isAllInhabitantsActive = false;
+            typeInhabitant = "single";
+            $(certificationTableRbi.column(1).header()).text('NAME');
+            certificationTableRbi.columns([2, 3, 4, 5, 6, 11, 14, 15]).visible(true);
+            certificationTableRbi.columns([7, 8, 9, 12, 13]).visible(false);
+        } else {
+            $(this).addClass('btn-add-table').removeClass("btn-edit-table");
+            isAllInhabitantsActive = true;
+            typeInhabitant = "all";
+            $(certificationTableRbi.column(1).header()).text('MAIN INHABITANT');
+            certificationTableRbi.columns([2, 3, 4, 5, 6, 11, 14, 15]).visible(false);
+            certificationTableRbi.columns([7, 8, 9, 12, 13]).visible(true);
+        }
+        certificationRBIOptions.ajax.data.type = typeInhabitant;
+        certificationTableRbi.ajax.reload(null, false);
+    });
+
+    function appendRow(item, number) {
+        let row = `
+        <tr data-id="${item.id}">
+
+            <td>${number}</td>
+
+            <td>
+                <input type="text" class="form-control update-field"
+                    data-field="last_name"
+                    value="${item.last_name ?? ''}">
+            </td>
+
+            <td>
+                <input type="text" class="form-control update-field"
+                    data-field="first_name"
+                    value="${item.first_name ?? ''}">
+            </td>
+
+            <td>
+                <input type="text" class="form-control update-field"
+                    data-field="middle_name"
+                    value="${item.middle_name ?? ''}">
+            </td>
+
+            <td>
+                <input type="text" class="form-control update-field"
+                    data-field="extension"
+                    value="${item.extension ?? ''}">
+            </td>
+
+            <td>
+                <input type="text" class="form-control update-field"
+                    data-field="place_of_birth"
+                    value="${item.place_of_birth ?? ''}">
+            </td>
+
+            <td>
+                <input type="date" class="form-control update-field"
+                    data-field="date_of_birth"
+                    value="${item.date_of_birth ?? ''}">
+            </td>
+
+            <td>
+                <input type="number" class="form-control update-field"
+                    data-field="age"
+                    value="${item.age ?? ''}">
+            </td>
+
+            <td>
+                <input type="text" class="form-control update-field"
+                    data-field="sex"
+                    value="${item.sex ?? ''}">
+            </td>
+
+            <td>
+                <input type="text" class="form-control update-field"
+                    data-field="civil_status"
+                    value="${item.civil_status ?? ''}">
+            </td>
+
+            <td>
+                <input type="text" class="form-control update-field"
+                    data-field="citizenship"
+                    value="${item.citizenship ?? ''}">
+            </td>
+
+            <td>
+                <input type="text" class="form-control update-field"
+                    data-field="occupation"
+                    value="${item.occupation ?? ''}">
+            </td>
+
+            <td>
+                <button class="btn btn-danger btn-sm deleteRow">
+                    Delete
+                </button>
+            </td>
+
+        </tr>
+    `;
+
+        $('#householdTable tbody').append(row);
+    }
+
 </script>
