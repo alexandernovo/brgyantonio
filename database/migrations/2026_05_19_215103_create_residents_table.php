@@ -22,12 +22,12 @@ return new class extends Migration
 
             // Personal Information
             $table->string('philsys_card_no')->unique()->nullable();
-            $table->string('last_name');
+            $table->string('last_name')->nullable();
             $table->string('suffix')->nullable(); // e.g., Jr, I, II, III
-            $table->string('first_name');
+            $table->string('first_name')->nullable();
             $table->string('middle_name')->nullable();
 
-            $table->date('birth_date');
+            $table->date('birth_date')->nullable();
             $table->string('birth_place')->nullable();
             $table->string('sex', 10)->nullable(); // Male, Female
             $table->string('civil_status')->nullable(); // Single, Married, etc.
@@ -35,7 +35,6 @@ return new class extends Migration
 
             $table->text('residence_address')->nullable();
             $table->text('household_address')->nullable();
-            $table->integer('no_household_members')->nullable();
             $table->string('citizenship')->default('Filipino');
 
             $table->string('profession_occupation')->nullable();
@@ -49,6 +48,12 @@ return new class extends Migration
             // Educational Status (Graduate / Undergraduate)
             $table->string('educational_status')->nullable();
             $table->string('resident_type')->nullable();
+            $table->integer('no_household_members')->nullable();
+
+            // RBI signature fields
+            $table->string('prepared_by')->nullable();
+            $table->string('certified_by')->nullable();
+            $table->string('validated_by')->nullable();
 
             $table->timestamps();
         });

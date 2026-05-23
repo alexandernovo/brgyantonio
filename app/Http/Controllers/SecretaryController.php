@@ -114,7 +114,7 @@ class SecretaryController extends Controller
         $data = $request->all();
         unset($data['_token']);
 
-        if ($data['brgy_id'] != 0 || $data['brgy_id'] != "") {
+        if ($data['brgy_id'] != 0 && $data['brgy_id'] != "") {
             BrgyID::where("brgy_id", $data['brgy_id'])->update($data);
         } else {
             BrgyID::create($data);
@@ -128,7 +128,7 @@ class SecretaryController extends Controller
         $data = $request->all();
         unset($data['_token']);
 
-        if ($data['quarry_id'] != 0 || $data['quarry_id'] != "") {
+        if ($data['quarry_id'] != 0 && $data['quarry_id'] != "") {
             Quarry::where("quarry_id", $data['quarry_id'])->update($data);
         } else {
             Quarry::create($data);
@@ -140,12 +140,22 @@ class SecretaryController extends Controller
     public function storeRBI(Request $request)
     {
         $data = $request->all();
-        unset($data['_token']);
+        $houseHoldMember = json_decode($request->houseHoldMember, true) ?? [];
+        unset($data['_token'], $data['houseHoldMember']);
 
-        if ($data['resident_id'] != 0 || $data['resident_id'] != "") {
+        if ($data['resident_id'] != 0 && $data['resident_id'] != "") {
+            $resident_id = $data['resident_id'];
             Resident::where("resident_id", $data['resident_id'])->update($data);
         } else {
-            Resident::create($data);
+            $resident = Resident::create($data);
+            $resident_id = $resident->resident_id;
+        }
+
+        HouseholdMember::where("resident_id", $resident_id)->delete();
+
+        foreach ($houseHoldMember as $item) {
+            $item['resident_id'] = $resident_id;
+            HouseholdMember::create($item);
         }
 
         return response()->json(['status' => 'success', 'message' => 'Barangay ID saved successfully!']);

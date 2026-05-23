@@ -1,6 +1,6 @@
 <div class="modal fade" data-bs-backdrop="static" id="rbi2Modal" tabindex="-1" aria-hidden="true">
 
-    <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 90vw">
 
         <div class="modal-content border-0" style="border-radius: 12px; overflow: hidden;">
 
@@ -22,12 +22,12 @@
 
                 </div>
 
-                <form id="rbiForm">
+                <form id="rbi2Form">
 
                     @csrf
 
-                    <input type="hidden" name="household_id" id="household_id" value="0">
-
+                    <input type="hidden" value="0" name="resident_id" id="resident_id">
+                    <input type="hidden" value="all" name="resident_type" id="resident_type">
                     {{-- TOP DETAILS --}}
                     <div class="row mt-3">
 
@@ -39,8 +39,8 @@
 
                             <div class="mb-2 d-flex align-items-center gap-2">
                                 <label style="width:220px;">REGION:</label>
-                                <input type="text" name="region" id="region"
-                                    class="form-control form-control-sm" style="border: 1px solid #184d35">
+                                <input type="text" name="region" id="region" class="form-control form-control-sm"
+                                    style="border: 1px solid #184d35">
                             </div>
 
                             <div class="mb-2 d-flex align-items-center gap-2">
@@ -51,7 +51,7 @@
 
                             <div class="mb-2 d-flex align-items-center gap-2">
                                 <label style="width:220px;">CITY/MUNICIPALITY:</label>
-                                <input type="text" name="municipality" id="municipality" value="Barbaza"
+                                <input type="text" name="city_municipality" id="city_municipality" value="Barbaza"
                                     class="form-control form-control-sm" style="border: 1px solid #184d35">
                             </div>
 
@@ -186,7 +186,7 @@
                     <div class="row mt-4">
 
                         <div class="col-md-4">
-                            <button onclick="printRBIForm()" type="button"
+                            <button onclick="printRBI2Form()" type="button"
                                 class="btn w-100 text-white fw-semibold py-2"
                                 style="background-color: #1b3f2f; border-radius: 6px;">
                                 Print
@@ -229,4 +229,3 @@
     </div>
 
 </div>
-

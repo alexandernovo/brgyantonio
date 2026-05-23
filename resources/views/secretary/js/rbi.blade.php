@@ -306,6 +306,38 @@
         });
     });
 
+    $(document).on('submit', '#rbi2Form', function(e) {
+        e.preventDefault();
+
+        let formData = new FormData(this);
+        formData.append('houseHoldMember', JSON.stringify(houseHoldMember ?? []));
+
+        $.ajax({
+            url: "{{ route('storeRBI') }}",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                Swal.fire({
+                    title: "Success",
+                    text: "Inhabitant Saved Successfully!",
+                    icon: "success",
+                    showCancelButton: false,
+                })
+
+                $('#rbi2Modal').modal('hide');
+                $('#rbi2Form')[0].reset();
+                reloadRBI();
+            },
+            error: function(xhr) {
+                let errors = xhr.responseJSON.errors;
+                console.log(errors);
+                alert("Something went wrong. Please check the console.");
+            }
+        });
+    });
+
     function reloadRBI() {
         if (certificationTableRbi) {
             certificationTableRbi.ajax.reload(null, false);
@@ -326,10 +358,22 @@
                 .not('[name="_token"]')
                 .not('[name="resident_type"]')
                 .val('');
+            if (typeInhabitant == "single") {
+                populateCertificationForm('residentForm', find_data);
 
-            populateCertificationForm('residentForm', find_data);
+                $("#rbi1Modal").modal("show");
+            } else {
+                populateCertificationForm('rbi2Form', find_data);
+                let tbody = "";
+                houseHoldMember = find_data.household_member;
+                houseHoldMember.forEach((item, index) => {
+                    tbody += buildHouseholdRow(item, index + 1);
+                });
 
-            $("#rbi1Modal").modal("show");
+                $("#rbi2Modal").modal("show");
+                $("#householdTable tbody").html(tbody);
+            }
+
         }
     })
 
@@ -416,7 +460,6 @@
     function printRBIForm() {
 
         let printContent = $("#rbi1Modal .modal-body").clone();
-
         let printWindow = window.open('', '', 'width=1000,height=900');
 
         printWindow.document.write(`
@@ -428,7 +471,16 @@
                     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
                 <style>
-
+                    input, select
+                    {
+                    color: black !important;
+                        text-align:center !important; 
+                        border: 0 !important;
+                    }
+                        select
+                        {
+                        width: 80px !important
+                        }
                     body{
                         font-family: Arial, sans-serif;
                         padding: 20px;
@@ -480,10 +532,92 @@
         setTimeout(() => {
             printWindow.focus();
             printWindow.print();
-            printWindow.close();
+            // printWindow.close();
         }, 500);
     }
 
+
+    function printRBI2Form() {
+
+        let printContent = $("#rbi2Modal .modal-body").clone();
+
+        let printWindow = window.open('', '', 'width=1000,height=900');
+
+        printWindow.document.write(`
+        <html>
+            <head>
+                <title>RBI FORM A</title>
+
+                <link rel="stylesheet"
+                    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+                <style>
+                    @page {
+                        size: 13in 11in; /* Standard Long/F4 Legal size in landscape */
+                        margin: 0 0.4in;    /* Safe print margins */
+                    }
+                    input
+                    {
+                        border: 0 !important;
+                    }
+                    body{
+                        font-family: Arial, sans-serif;
+                        padding: 20px;
+                    }
+                    #addRowBtn
+                    {
+                      display: none !important;
+                    }
+
+                    button,
+                    .btn-close{
+                        display:none !important;
+                    }
+                        
+                   .form-check-input{
+                        accent-color: #000 !important;
+                    }
+                    .form-check-input{
+                        pointer-events: none !important;
+                    }
+                    .form-check-input{
+                        appearance: none;
+                        -webkit-appearance: none;
+                    }
+                    /* FIX FLEX / BOOTSTRAP GRID */
+                    .row{
+                        display:flex !important;
+                        flex-wrap:wrap !important;
+                    }
+
+                    .col-md-1{ width:8.333333% !important; }
+                    .col-md-2{ width:16.666667% !important; }
+                    .col-md-3{ width:25% !important; }
+                    .col-md-4{ width:33.333333% !important; }
+                    .col-md-6{ width:50% !important; }
+                    .col-md-9{ width:75% !important; }
+
+                    .d-flex{ display:flex !important; }
+                    .justify-content-center{ justify-content:center !important; }
+                    .align-items-center{ align-items:center !important; }
+
+                </style>
+            </head>
+
+            <body></body>
+        </html>
+    `);
+
+        printWindow.document.body.appendChild(printContent[0]);
+
+        printWindow.document.close();
+
+        setTimeout(() => {
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+        }, 500);
+    }
     $(document).on('click', "#allIndiInhabitants", function() {
         if ($(this).hasClass("btn-add-table")) {
             $(this).removeClass('btn-add-table').addClass("btn-edit-table");
@@ -504,88 +638,117 @@
         certificationTableRbi.ajax.reload(null, false);
     });
 
-    function appendRow(item, number) {
-        let row = `
-        <tr data-id="${item.id}">
+    function RenderHouseholdMember() {
+        let tbody = "";
+
+        houseHoldMember.forEach((item, index) => {
+            tbody += buildHouseholdRow(item, index + 1);
+        });
+
+        $("#householdTable tbody").html(tbody);
+    }
+
+    function buildHouseholdRow(item = {}, number = 0) {
+        return `
+        <tr data-index="${number - 1}" data-id="${item.household_id ?? ''}">
 
             <td>${number}</td>
 
-            <td>
-                <input type="text" class="form-control update-field"
-                    data-field="last_name"
-                    value="${item.last_name ?? ''}">
-            </td>
+            <td><input type="text" class="form-control update-field"
+                data-field="last_name"
+                value="${item.last_name ?? ''}"></td>
+
+            <td><input type="text" class="form-control update-field"
+                data-field="first_name"
+                value="${item.first_name ?? ''}"></td>
+
+            <td><input type="text" class="form-control update-field"
+                data-field="middle_name"
+                value="${item.middle_name ?? ''}"></td>
+
+            <td><input type="text" class="form-control update-field"
+                data-field="extension"
+                value="${item.extension ?? ''}"></td>
+
+            <td><input type="text" class="form-control update-field"
+                data-field="place_of_birth"
+                value="${item.place_of_birth ?? ''}"></td>
+
+            <td><input type="date" class="form-control update-field"
+                data-field="date_of_birth"
+                value="${item.date_of_birth ?? ''}"></td>
+
+            <td><input type="number" class="form-control update-field"
+                data-field="age"
+                value="${item.age ?? ''}"></td>
+
+            <td><input type="text" class="form-control update-field"
+                data-field="sex"
+                value="${item.sex ?? ''}"></td>
+
+            <td><input type="text" class="form-control update-field"
+                data-field="civil_status"
+                value="${item.civil_status ?? ''}"></td>
+
+            <td><input type="text" class="form-control update-field"
+                data-field="citizenship"
+                value="${item.citizenship ?? ''}"></td>
+
+            <td><input type="text" class="form-control update-field"
+                data-field="occupation"
+                value="${item.occupation ?? ''}"></td>
 
             <td>
-                <input type="text" class="form-control update-field"
-                    data-field="first_name"
-                    value="${item.first_name ?? ''}">
-            </td>
-
-            <td>
-                <input type="text" class="form-control update-field"
-                    data-field="middle_name"
-                    value="${item.middle_name ?? ''}">
-            </td>
-
-            <td>
-                <input type="text" class="form-control update-field"
-                    data-field="extension"
-                    value="${item.extension ?? ''}">
-            </td>
-
-            <td>
-                <input type="text" class="form-control update-field"
-                    data-field="place_of_birth"
-                    value="${item.place_of_birth ?? ''}">
-            </td>
-
-            <td>
-                <input type="date" class="form-control update-field"
-                    data-field="date_of_birth"
-                    value="${item.date_of_birth ?? ''}">
-            </td>
-
-            <td>
-                <input type="number" class="form-control update-field"
-                    data-field="age"
-                    value="${item.age ?? ''}">
-            </td>
-
-            <td>
-                <input type="text" class="form-control update-field"
-                    data-field="sex"
-                    value="${item.sex ?? ''}">
-            </td>
-
-            <td>
-                <input type="text" class="form-control update-field"
-                    data-field="civil_status"
-                    value="${item.civil_status ?? ''}">
-            </td>
-
-            <td>
-                <input type="text" class="form-control update-field"
-                    data-field="citizenship"
-                    value="${item.citizenship ?? ''}">
-            </td>
-
-            <td>
-                <input type="text" class="form-control update-field"
-                    data-field="occupation"
-                    value="${item.occupation ?? ''}">
-            </td>
-
-            <td>
-                <button class="btn btn-danger btn-sm deleteRow">
+                <button type="button" class="btn btn-danger btn-sm deleteRow" style="background-color: #8b0000; border-radius: 6px;">
                     Delete
                 </button>
             </td>
 
         </tr>
     `;
-
-        $('#householdTable tbody').append(row);
     }
 
+    $(document).on("change keyup", ".update-field", function() {
+
+        let row = $(this).closest("tr");
+        let index = row.data("index"); // IMPORTANT
+        let field = $(this).data("field");
+        let value = $(this).val();
+
+        if (houseHoldMember[index]) {
+            houseHoldMember[index][field] = value;
+        }
+
+        console.log(houseHoldMember);
+    });
+
+    $(document).on("click", ".deleteRow", function() {
+
+        let row = $(this).closest("tr");
+        let index = row.data("index");
+
+        houseHoldMember.splice(index, 1);
+
+        RenderHouseholdMember();
+    });
+
+    $(document).on("click", "#addRowBtn", function() {
+
+        houseHoldMember.push({
+            household_id: 0,
+            last_name: "",
+            first_name: "",
+            middle_name: "",
+            extension: "",
+            place_of_birth: "",
+            date_of_birth: "",
+            age: "",
+            sex: "",
+            civil_status: "",
+            citizenship: "",
+            occupation: ""
+        });
+
+        RenderHouseholdMember();
+    });
 </script>
