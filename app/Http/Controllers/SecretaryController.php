@@ -10,6 +10,8 @@ use App\Models\Resident;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class SecretaryController extends Controller
 {
@@ -165,6 +167,13 @@ class SecretaryController extends Controller
     {
         $type = $request->type;
         $data = Certification::where("certification_type", $type)->get();
+
+        return response()->json(['data' => $data]);
+    }
+
+    public function get_dashboard_table(Request $request)
+    {
+        $data = Certification::all();
 
         return response()->json(['data' => $data]);
     }
@@ -487,5 +496,51 @@ class SecretaryController extends Controller
             ->get();
 
         return view('secretary.reports.report_quarry', compact('data'));
+    }
+
+    public function getChartStatistics(Request $request)
+    {
+        $month = $request->input('month');
+        $year = $request->input('year', Carbon::now()->year);
+
+        // KEY is what is stored in the database, VALUE is the full readable name
+        $certificateMap = [
+            'brgy'        => 'Barangay',
+            'clearance'   => 'Barangay Clearance',
+            'trees'       => 'Trees',
+            'jobseeker'   => 'First Time Job Seeker',
+            'goodmoral'   => 'Good Moral Character',
+            'indigency'   => 'Indigency',
+            'livestock'   => 'Livestock',
+            'motorcycle'  => 'Motorcycle',
+            'piggery'     => 'Piggery',
+            'quarry'      => 'Quarry',
+            'lot'         => 'Lot'
+        ];
+
+        $query = Certification::query()->whereYear('date_issued', $year);
+
+        if ($month && $month !== 'all') {
+            $query->whereMonth('date_issued', $month);
+        }
+        // Query groups by the short code values stored in your DB
+        $results = $query->select('certification_type', DB::raw('COUNT(*) as total'))
+            ->groupBy('certification_type')
+            ->get();
+
+        $labels = [];
+        $series = [];
+
+        // Loop through the map to ensure every single option is represented
+        foreach ($certificateMap as $dbValue => $displayLabel) {
+            $labels[] = $displayLabel; // Sends the full name straight to the chart labels
+            $match = $results->firstWhere('certification_type', $dbValue);
+            $series[] = $match ? $match->total : 0;
+        }
+
+        return response()->json([
+            'labels' => $labels,
+            'series' => $series
+        ]);
     }
 }

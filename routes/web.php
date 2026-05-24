@@ -74,5 +74,8 @@ Route::post('/storeQuarry', [SecretaryController::class, 'storeQuarry'])->name('
 Route::post('/get_quary', [SecretaryController::class, 'get_quary'])->name('get_quary');
 Route::post('/deleteQuarry', [SecretaryController::class, 'deleteQuarry'])->name('deleteQuarry');
 
+//dashboard
+Route::post('/get_dashboard_table', [SecretaryController::class, 'get_dashboard_table'])->name('get_dashboard_table');
+Route::get('/getChartStatistics', [SecretaryController::class, 'getChartStatistics'])->name('getChartStatistics');
 
 // });
