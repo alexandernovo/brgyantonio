@@ -501,6 +501,7 @@ class SecretaryController extends Controller
     public function getChartStatistics(Request $request)
     {
         $month = $request->input('month');
+        $type = $request->input('type');
         $year = $request->input('year', Carbon::now()->year);
 
         // KEY is what is stored in the database, VALUE is the full readable name
@@ -523,6 +524,10 @@ class SecretaryController extends Controller
         if ($month && $month !== 'all') {
             $query->whereMonth('date_issued', $month);
         }
+        if (!empty($type) && $type != "all") {
+            $query->where('certification_type', $type);
+        }
+
         // Query groups by the short code values stored in your DB
         $results = $query->select('certification_type', DB::raw('COUNT(*) as total'))
             ->groupBy('certification_type')

@@ -1,11 +1,6 @@
 @extends('layout.mainlayout')
 @section('content')
     @include('secretary.css.certificationcss')
-    <style>
-        .page-container{
-            overflow: auto;
-        }
-    </style>
     @php
         $dashboardCards = [
             [
@@ -111,11 +106,26 @@
                 </table>
             </div>
         </div>
-        <div class="card border-0 mt-3 shadow-sm mb-4" style="border-radius: 8px; overflow: hidden;">
-            <div class="d-flex justify-content-between align-items-center py-3 px-4" style="background-color: #184d35;">
+        <div class="card border-0 mt-3 shadow-sm mb-4 p-3" style="border-radius: 8px; overflow: hidden;">
+            <div class="d-flex justify-content-between align-items-center py-3 px-4 rounded" style="background-color: #184d35;">
                 <h5 class="text-white fw-bold mb-0 tracking-wide" style="font-size: 1.1rem;">STATISTIC DATA CHART</h5>
 
                 <div class="d-flex gap-2">
+                    <select name="certification_type_dashboard" id="certification_type_dashboard" class="form-select text-white">
+                        <option class="text-dark" value="" selected disabled>Select Certification Type</option>
+                        <option class="text-dark" value="all">All Certification</option>
+                        <option class="text-dark" value="brgy">Certificate of Barangay</option>
+                        <option class="text-dark" value="clearance">Certificate of Barangay Clearance</option>
+                        <option class="text-dark" value="trees">Certificate of Trees</option>
+                        <option class="text-dark" value="jobseeker">Certificate of First Time Job Seeker</option>
+                        <option class="text-dark" value="goodmoral">Certificate of Good Moral Character</option>
+                        <option class="text-dark" value="indigency">Certificate of Indigency</option>
+                        <option class="text-dark" value="livestock">Certificate of Livestock</option>
+                        <option class="text-dark" value="motorcycle">Certificate of Motorcycle</option>
+                        <option class="text-dark" value="piggery">Certificate of Piggery</option>
+                        <option class="text-dark" value="quarry">Certificate of Quarry</option>
+                        <option class="text-dark" value="lot">Certificate of Lot</option>
+                    </select>
                     <select id="filterMonth" class="form-select bg-transparent text-white border-white"
                         style="width: 140px; font-size: 0.85rem; border-radius: 4px;">
                         <option value="all" class="text-dark" selected>All Months</option>
@@ -135,7 +145,7 @@
                 </div>
             </div>
 
-            <div class="card-body bg-white p-4">
+            <div class="card-body bg-white p-2">
                 <div id="statisticsApexChart" style="min-height: 380px;"></div>
             </div>
         </div>
@@ -149,5 +159,6 @@
 @endsection
 
 @section('js')
+    @include('secretary.js.certificationjs')
     @include('secretary/js/dashboardJS')
 @endsection

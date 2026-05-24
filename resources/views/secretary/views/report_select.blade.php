@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="report-card p-2">
+        <div class="report-card p-2 mb-4">
             <div class="card-header-green rounded">
                 <span class="close-icon"><i class="fas fa-times-circle"></i></span>
                 <img src="{{ asset('assets/images/logo.png') }}" class="logo-img" alt="Logo">

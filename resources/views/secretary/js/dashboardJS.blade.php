@@ -78,7 +78,7 @@
             {
                 title: 'DATE ISSUED',
                 className: 'text-nowrap p-2 text-center align-middle',
-                data: 'date_issued'
+                render: (data, type, row) => row.date_issued ? formatDateTime(row.date_issued) : ''
             },
             {
                 title: 'ACTION',
@@ -246,13 +246,15 @@
     function updateChartData() {
         const month = $('#filterMonth').val();
         const year = $('#filterYear').val();
+        const type = $('#certification_type_dashboard').val();
 
         $.ajax({
             url: "{{ route('getChartStatistics') }}",
             method: "GET",
             data: {
                 month: month,
-                year: year
+                year: year,
+                type: type,
             },
             success: function(response) {
                 statsChart.updateOptions({
@@ -272,7 +274,7 @@
         });
     }
 
-    $('#filterMonth, #filterYear').on('change', function() {
+    $('#filterMonth, #filterYear, #certification_type_dashboard').on('change', function() {
         updateChartData();
     });
 

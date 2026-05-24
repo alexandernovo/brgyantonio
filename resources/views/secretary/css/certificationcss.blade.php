@@ -4,6 +4,7 @@
         height: calc(100vh - 100px);
         /* padding: 15px; */
         font-family: 'Arial', sans-serif;
+        overflow: auto;
     }
 
     .page-container-print {
