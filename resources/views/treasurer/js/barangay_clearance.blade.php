@@ -1,29 +1,31 @@
 <script>
     // Global variables for certification filtering
-    let dateFromQuarry = '';
-    let dateToQuarry = '';
-    let selectedQuarry = '';
-    let certificationTableQuarry = null;
-    let selectedCertificationRow = null;
-    let selectedCertificationId = null;
-    let certificationQuarryData = [];
+    let dateFromCollectionClearance = '';
+    let dateToCollectionClearance = '';
+    let selectedLetterCollectionClearance = '';
+    let CollectionTableClearance = null;
+    let selectedCollectionClearanceRow = null;
+    let selectedCollectionClearanceId = null;
+    let certificationCollectionClearanceData = [];
+    let statusCollectionClearance = "Paid";
 
-    certificationMoralOptions = {
+    collectionClearanceOptions = {
         processing: true,
-        serverSide: false, // Client-side processing as requested
+        serverSide: false,
         ajax: {
-            url: "{{ route('get_certification') }}",
+            url: "{{ route('get_collection') }}",
             type: 'POST',
             dataType: 'json',
             data: function(d) {
                 d._token = '{{ csrf_token() }}';
-                d.dateFrom = dateFromQuarry;
-                d.dateTo = dateToQuarry;
-                d.type = "quarry";
-                d.letter = selectedQuarry;
+                d.dateFrom = dateFromCollectionClearance;
+                d.dateTo = dateToCollectionClearance;
+                d.type = "clearance";
+                d.status = statusCollectionClearance;
+                d.letter = selectedLetterCollectionClearance;
             },
             dataSrc: function(json) {
-                certificationQuarryData = json.data;
+                certificationCollectionClearanceData = json.data;
                 return json.data;
             }
         },
@@ -33,34 +35,66 @@
                 render: (data, type, row, meta) => meta.row + meta.settings._iDisplayStart + 1
             },
             {
-                title: 'REQUESTER',
+                title: 'DATE',
                 className: 'text-nowrap p-2 text-center align-middle',
-                // Combines names from migration fields
+                render: (data, type, row) => row.payment_date ? formatDateTime(row.payment_date) : ''
+            },
+            {
+                title: 'OR NUMBER',
+                className: 'text-nowrap p-2 text-center align-middle',
+                render: (data, type, row) => {
+                    return row.or_number;
+                }
+            },
+            {
+                title: 'PAYOR',
+                className: 'text-nowrap p-2 text-center align-middle',
                 render: (data, type, row) => {
                     let middle = row.middle_name ? ` ${row.middle_name} ` : ' ';
                     return `${row.first_name}${middle}${row.last_name}`;
                 }
             },
             {
-                title: 'DATE ISSUED',
+                title: 'AMOUNT',
                 className: 'text-nowrap p-2 text-center align-middle',
-                render: (data, type, row) => row.date_issued ? formatDateTime(row.date_issued) : ''
+                render: (data, type, row) => {
+                    return row.payment_amount;
+                }
             },
             {
-                title: 'DATE CREATED',
+                title: 'PAYMENT STATUS',
                 className: 'text-nowrap p-2 text-center align-middle',
-                render: (data, type, row) => row.created_at ? formatDateTime(row.created_at) : ''
+                render: (data, type, row) => {
+
+                    let bgColor = '#830202';
+
+                    if (row.payment_status === 'Paid') {
+                        bgColor = '#0B4E06';
+                    }
+
+                    return `
+                        <span
+                            class="badge px-3 py-2"
+                            style="
+                                background-color:${bgColor};
+                                color:white;
+                                border-radius:6px;
+                                font-size:12px;
+                            ">
+                            ${row.payment_status}
+                        </span>
+                    `;
+                }
             },
             {
                 title: 'ACTION',
                 className: 'text-nowrap p-2 text-center align-middle sticky-action',
                 render: function(data, type, row) {
                     return `
-                <div class="d-flex gap-1 justify-content-center">
-                    <a href="{{ route('viewQuarryCertification') }}?certification_id=${row.certification_id}" class="btn btn-dark btn-sm printButton px-2" style="background-color: #1A212B !important"><i style="font-size: 15px" class="bi bi-printer-fill"></i></a>
-                    <button class="btn btn-warning btn-sm editButton px-2" style="background-color: #B35100 !important" data-certification_id="${row.certification_id}"><i style="font-size: 15px" class="bi bi-pencil-fill"></i></button>
-                    <button class="btn btn-danger btn-sm deleteButton px-2" style="background-color: #A10101 !important" data-certification_id="${row.certification_id}"><i style="font-size: 15px" class="bi bi-trash3-fill"></i></button>
-                </div>`;
+                        <div class="d-flex gap-1 justify-content-center">
+                            <button class="btn btn-warning btn-sm editButtonCollectionClearance px-2" style="background-color: #B35100 !important" data-collection_id="${row.collection_id}"><i style="font-size: 15px" class="bi bi-pencil-fill"></i></button>
+                            <button class="btn btn-danger btn-sm deleteButtonCollectionClearance px-2" style="background-color: #A10101 !important" data-collection_id="${row.collection_id}"><i style="font-size: 15px" class="bi bi-trash3-fill"></i></button>
+                        </div>`;
                 }
             },
         ],
@@ -82,35 +116,35 @@
                 </div>
             </div>`;
 
-            $("#certificationTableQuarry_wrapper .dt-length")
+            $("#CollectionTableClearance_wrapper .dt-length")
                 .addClass('d-flex align-items-center gap-2')
                 .first()
                 .append(filterHtml);
         }
     };
 
-    function renderCertificationTableQuarry() {
-        if (certificationTableQuarry) {
-            certificationTableQuarry.destroy();
+    function renderCollectionClearance() {
+        if (CollectionTableClearance) {
+            CollectionTableClearance.destroy();
         }
 
-        certificationTableQuarry = new DataTable('#certificationTableQuarry', certificationMoralOptions)
+        CollectionTableClearance = new DataTable('#CollectionTableClearance', collectionClearanceOptions)
     }
 
     $(document).ready(function() {
-        renderCertificationTableQuarry();
+        renderCollectionClearance();
     })
 
-    $(document).on("click", "#addCertificationQuarry", function() {
-        $("#certificationForm")[0].reset();
+    $(document).on("click", "#addCollectionClearance", function() {
+        $("#collectionForm")[0].reset();
 
-        $("#certificationForm")
+        $("#collectionForm")
             .find('input[type="hidden"]')
             .not('[name="_token"]')
-            .not('[name="certification_type"]')
+            .not('[name="collection_type"]')
             .val('');
 
-        $("#quarryModal").modal("show");
+        $("#clearanceCollectionModal").modal("show");
     })
 
     $(document).ready(function() {
@@ -129,15 +163,15 @@
 
     $(document).on('click', 'table.dataTable tbody tr', function() {
 
-        const rowData = certificationTableQuarry.row(this).data();
+        const rowData = CollectionTableClearance.row(this).data();
 
         // unselect
         if ($(this).hasClass('selected-row')) {
 
             $(this).removeClass('selected-row');
 
-            selectedCertificationRow = null;
-            selectedCertificationId = null;
+            selectedCollectionClearanceRow = null;
+            selectedCollectionClearanceId = null;
 
             return;
         }
@@ -146,13 +180,13 @@
 
         $(this).addClass('selected-row');
 
-        selectedCertificationRow = rowData;
-        selectedCertificationId = rowData.certification_id;
+        selectedCollectionClearanceRow = rowData;
+        selectedCollectionClearanceId = rowData.collection_id;
     });
 
-    $(document).on('click', '#editCertificationQuarry', function() {
+    $(document).on('click', '#editCertificationClearance', function() {
 
-        if (!selectedCertificationRow) {
+        if (!selectedCollectionClearanceRow) {
 
             Swal.fire({
                 icon: 'warning',
@@ -166,13 +200,13 @@
     });
 
 
-    $(document).on('submit', '#certificationForm', function(e) {
+    $(document).on('submit', '#collectionForm', function(e) {
         e.preventDefault();
 
         let formData = new FormData(this);
 
         $.ajax({
-            url: "{{ route('storeCertification') }}",
+            url: "{{ route('storeCollectionClearance') }}",
             type: "POST",
             data: formData,
             contentType: false,
@@ -180,15 +214,14 @@
             success: function(response) {
                 Swal.fire({
                     title: "Success",
-                    text: "Certification Saved Successfully!",
+                    text: "Barangay Clearance Fee Saved Successfully!",
                     icon: "success",
                     showCancelButton: false,
                 })
 
-                $('#quarryModal').modal('hide');
-                $('#certificationForm')[0].reset();
-                $('#image_filename_display').val('No file chosen');
-                reloadBrgyCertification();
+                $('#clearanceCollectionModal').modal('hide');
+                $('#collectionForm')[0].reset();
+                reloadCollectionClearance();
             },
             error: function(xhr) {
                 let errors = xhr.responseJSON.errors;
@@ -198,36 +231,36 @@
         });
     });
 
-    function reloadBrgyCertification() {
-        if (certificationTableQuarry) {
-            certificationTableQuarry.ajax.reload(null, false);
+    function reloadCollectionClearance() {
+        if (CollectionTableClearance) {
+            CollectionTableClearance.ajax.reload(null, false);
         } else {
-            renderCertificationTableQuarry();
+            renderCollectionClearance();
         }
     }
 
-    $(document).on("click", ".editButton", function(e) {
+    $(document).on("click", ".editButtonCollectionClearance", function(e) {
         e.stopPropagation();
-        let certification_id = $(this).attr("data-certification_id");
-        let find_data = certificationQuarryData.find(x => x.certification_id == certification_id);
+        let collection_id = $(this).attr("data-collection_id");
+        let find_data = certificationCollectionClearanceData.find(x => x.collection_id == collection_id);
         if (find_data) {
-            $("#certificationForm")[0].reset();
+            $("#collectionForm")[0].reset();
 
-            $("#certificationForm")
+            $("#collectionForm")
                 .find('input[type="hidden"]')
                 .not('[name="_token"]')
-                .not('[name="certification_type"]')
+                .not('[name="collection_type"]')
                 .val('');
 
-            populateCertificationForm('certificationForm', find_data);
+            populateCollectionForm('collectionForm', find_data);
 
-            $("#quarryModal").modal("show");
+            $("#clearanceCollectionModal").modal("show");
         }
     })
 
-    certificationMoralOptions.drawCallback = function() {
+    collectionClearanceOptions.drawCallback = function() {
 
-        if (!selectedCertificationId) return;
+        if (!selectedCollectionClearanceId) return;
 
         const api = this.api();
 
@@ -235,11 +268,11 @@
 
             let data = this.data();
 
-            if (data.certification_id == selectedCertificationId) {
+            if (data.collection_id == selectedCollectionClearanceId) {
 
                 $(this.node()).addClass('selected-row');
 
-                selectedCertificationRow = data;
+                selectedCollectionClearanceRow = data;
 
             } else {
 
@@ -251,14 +284,14 @@
 
     };
 
-    $(document).on("click", ".deleteButton", function(e) {
+    $(document).on("click", ".deleteButtonCollectionClearance", function(e) {
         e.stopPropagation();
 
-        let certification_id = $(this).attr("data-certification_id");
+        let collection_id = $(this).attr("data-collection_id");
 
         Swal.fire({
             icon: "warning",
-            title: "Delete Certification?",
+            title: "Delete Barangay Clearance Fee?",
             text: "This action cannot be undone.",
             showCancelButton: true,
             confirmButtonColor: "#A10101",
@@ -269,11 +302,11 @@
             if (!result.isConfirmed) return;
 
             $.ajax({
-                url: "{{ route('deleteCertification') }}",
+                url: "{{ route('deleteCollection') }}",
                 type: "POST",
                 data: {
                     _token: "{{ csrf_token() }}",
-                    certification_id: certification_id
+                    collection_id: collection_id
                 },
                 success: function(response) {
 
@@ -284,12 +317,12 @@
                     });
 
                     // clear selection if deleted row is selected
-                    if (selectedCertificationId == certification_id) {
-                        selectedCertificationId = null;
-                        selectedCertificationRow = null;
+                    if (selectedCollectionClearanceId == collection_id) {
+                        selectedCollectionClearanceId = null;
+                        selectedCollectionClearanceRow = null;
                     }
 
-                    reloadBrgyCertification();
+                    reloadCollectionClearance();
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
@@ -304,4 +337,13 @@
 
         });
     });
+
+    $(document).on("click", '.paidUnpaidCollectionClearance', function() {
+        $(".paidUnpaidCollectionClearance").removeClass("active-btn").addClass("btn-edit-table");
+        $(this).addClass("active-btn").removeClass("btn-edit-table");
+
+        statusCollectionClearance = $(this).attr('data-status');
+        collectionClearanceOptions.ajax.data.status = statusCollectionClearance;
+        reloadCollectionClearance();
+    })
 </script>

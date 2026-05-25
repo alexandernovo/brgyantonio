@@ -19,7 +19,8 @@ class User extends Authenticatable
         'background',
         'address',
         'phone_num',
-        'profile'
+        'profile',
+        'type'
     ];
 
     protected $hidden = [

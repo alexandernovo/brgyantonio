@@ -310,7 +310,7 @@
 
                     Swal.fire({
                         icon: "success",
-                        title: "Deleted",
+                        title: "Deleted Successfully",
                         text: response.message
                     });
 

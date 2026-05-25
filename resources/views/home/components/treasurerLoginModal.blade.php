@@ -1,5 +1,5 @@
-<div class="modal fade" data-bs-backdrop="static" id="treasurerLoginModal" tabindex="-1" aria-labelledby="treasurerLoginModalLabel"
-    aria-hidden="true">
+<div class="modal fade" data-bs-backdrop="static" id="treasurerLoginModal" tabindex="-1"
+    aria-labelledby="treasurerLoginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body p-0">
@@ -34,6 +34,8 @@
                         {{-- BODY --}}
                         <div class="login-body">
                             <form class="logins-form" data-type="treasurer">
+                                <input type="hidden" name="type" value="treasurer">
+
                                 <div class="mb-4">
 
                                     <label class="form-label mb-0" style="font-size: 18px; color: #404040 !important">
@@ -69,7 +71,8 @@
                                         <input type="password" class="form-control" name="password" id="password"
                                             placeholder="Enter password">
 
-                                        <button class="input-group-text bg-white border-start-0 togglePassword" type="button">
+                                        <button class="input-group-text bg-white border-start-0 togglePassword"
+                                            type="button">
 
                                             <i class="bi bi-eye-fill"></i>
 

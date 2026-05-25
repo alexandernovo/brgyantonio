@@ -34,7 +34,7 @@
                         <div class="login-body">
                             <form class="logins-form" data-type="kagawad">
                                 <div class="mb-4">
-
+                                    <input type="hidden" name="type" value="kagawad">
                                     <label class="form-label mb-0" style="font-size: 18px; color: #404040 !important">
                                         Username:
                                     </label>

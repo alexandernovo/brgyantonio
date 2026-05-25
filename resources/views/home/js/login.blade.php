@@ -16,6 +16,9 @@
                     if (type == "secretary") {
                         window.location = "{{ route('secretary_dashboard') }}";
                     }
+                    if (type == "treasurer") {
+                        window.location = "{{ route('treasurer_dashboard') }}";
+                    }
                     console.log("success");
                 } else {
                     $('.errorLogin').removeClass('d-none').text(response.message);

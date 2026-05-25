@@ -16,10 +16,29 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'username' => 'required',
             'password' => 'required',
+            'type' => 'required',
         ]);
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt([
+            'username' => $credentials['username'],
+            'password' => $credentials['password'],
+        ])) {
+
             $request->session()->regenerate();
+
+            // Get logged in user
+            $user = Auth::user();
+
+            // Check portal type
+            if ($user->type != $credentials['type']) {
+
+                Auth::logout();
+
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'This account is not allowed for this login portal.',
+                ]);
+            }
 
             return response()->json([
                 'status' => 'success',
@@ -29,14 +48,14 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => 'error',
-            'message' => 'Invalid email or password.',
+            'message' => 'Invalid username or password.',
         ]);
     }
 
     public function logout(Request $request)
     {
         $request->session()->flush();
-        
+
         return response()->json([
             'status' => 'success',
         ]);

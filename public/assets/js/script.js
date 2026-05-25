@@ -396,3 +396,19 @@ $(document).on('click', '.togglePassword', function () {
     }
 
 });
+
+function formatDateTime(dateString) {
+    if (!dateString) return "";
+
+    const date = new Date(dateString);
+
+    // Check if the date is valid
+    if (isNaN(date.getTime())) return dateString;
+
+    const options = {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit'
+    };
+    return date.toLocaleDateString('en-US', options);
+}

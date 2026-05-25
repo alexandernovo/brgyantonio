@@ -136,7 +136,7 @@
     }
 
     /* Button */
-    .btn-submit,
+    .btn-submit-collection,
     .btn-report {
         width: 100%;
         background-color: #1b3f2f;
@@ -175,6 +175,32 @@
         cursor: pointer;
         border-radius: 8px;
         border: 1px solid white;
+    }
+
+    .active-btn {
+        background-color: #FFFF;
+        color: black;
+        border: none;
+        border-radius: 8px;
+        padding: 5px 20px !important;
+        font-size: 18px;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .btn-edit-table:focus,
+    .btn-add-table:focus,
+    .btn-edit-table:active,
+    .btn-add-table:active
+    {
+    background-color: #FFFF !important;
+    color: black !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 5px 20px !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
     }
 
     .btn-add-table {

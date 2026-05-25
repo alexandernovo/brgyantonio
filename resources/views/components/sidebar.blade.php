@@ -1,6 +1,7 @@
 @php
     $reportRoute = [];
     $certificationRoute = ['certification_select'];
+    $collectionRoute = ['collectionfee_select'];
 @endphp
 <aside class="left-sidebar sidebar-custom">
 
@@ -8,13 +9,26 @@
 
         {{-- PROFILE --}}
         <div class="text-center pt-3 pb-4">
+            @php
+                $type = '';
+                $image = '';
+                $user_type = Auth::user()->type;
 
+                if ($user_type == 'treasurer') {
+                    $type = 'Treasurer!';
+                    $image = asset('assets/images/users/treasurer.png');
+                } elseif ($user_type == 'secretary') {
+                    $type = 'Secretary!';
+                    $image = asset('assets/images/users/secretary.png');
+                }
+            @endphp
             <div class="profile-wrapper mx-auto">
-                <img src="{{ asset('assets/images/users/secretary.png') }}" class="profile-image" alt="">
+                <img src="{{ $image }}" class="profile-image" alt="">
             </div>
 
             <p class="welcome-text mb-0">
-                Welcome Secretary!
+                Welcome
+                {{ $type }}
             </p>
 
         </div>
@@ -23,107 +37,145 @@
         <nav class="sidebar-nav flex-grow-1">
 
             <ul id="sidebarnav" class="px-0">
+                @if ($user_type == 'secretary')
+                    {{-- DASHBOARD --}}
+                    <li class="sidebar-item px-2 mb-3">
 
-                {{-- DASHBOARD --}}
-                <li class="sidebar-item px-2 mb-3">
+                        <a href="{{ route('secretary_dashboard') }}"
+                            class="sidebar-link dashboard-link {{ Route::currentRouteName() == 'secretary_dashboard' ? 'active' : '' }}">
 
-                    <a href="{{ route('secretary_dashboard') }}"
-                        class="sidebar-link dashboard-link {{ Route::currentRouteName() == 'secretary_dashboard' ? 'active' : '' }}">
+                            <i class="bi bi-grid-fill"></i>
 
-                        <i class="bi bi-grid-fill"></i>
+                            <span>
+                                Dashboard
+                            </span>
 
-                        <span>
-                            Dashboard
-                        </span>
+                        </a>
 
-                    </a>
+                    </li>
 
-                </li>
+                    <hr class="sidebar-divider" style="border-top: 2px solid white">
 
-                <hr class="sidebar-divider" style="border-top: 2px solid white">
+                    {{-- RECORD --}}
+                    <li class="sidebar-title">
+                        RECORD
+                    </li>
 
-                {{-- RECORD --}}
-                <li class="sidebar-title">
-                    RECORD
-                </li>
+                    {{-- CERTIFICATION --}}
+                    <li class="sidebar-item">
 
-                {{-- CERTIFICATION --}}
-                <li class="sidebar-item">
+                        <a href="{{ route('certification_select') }}"
+                            class="sidebar-link {{ in_array(Route::currentRouteName(), $certificationRoute) ? 'active' : '' }}">
 
-                    <a href="{{ route('certification_select') }}"
-                        class="sidebar-link {{ in_array(Route::currentRouteName(), $certificationRoute) ? 'active' : '' }}">
+                            <img src="{{ asset('assets/images/new/CERTIFICATION.png') }}" class="sidebar-image-icon"
+                                alt="">
 
-                        <img src="{{ asset('assets/images/new/CERTIFICATION.png') }}" class="sidebar-image-icon"
-                            alt="">
+                            <span>
+                                Certification
+                            </span>
 
-                        <span>
-                            Certification
-                        </span>
+                        </a>
 
-                    </a>
+                    </li>
 
-                </li>
+                    {{-- BARANGAY ID --}}
+                    <li class="sidebar-item">
 
-                {{-- BARANGAY ID --}}
-                <li class="sidebar-item">
+                        <a href="{{ route('brgy_id') }}" class="sidebar-link">
 
-                    <a href="{{ route('brgy_id') }}" class="sidebar-link">
+                            <img src="{{ asset('assets/images/new/BRGY ID.png') }}"
+                                class="sidebar-image-icon {{ Route::currentRouteName() == 'brgy_id' ? 'active' : '' }}"
+                                alt="">
 
-                        <img src="{{ asset('assets/images/new/BRGY ID.png') }}"
-                            class="sidebar-image-icon {{ Route::currentRouteName() == 'brgy_id' ? 'active' : '' }}"
-                            alt="">
+                            <span>
+                                Barangay ID
+                            </span>
 
-                        <span>
-                            Barangay ID
-                        </span>
+                        </a>
 
-                    </a>
+                    </li>
 
-                </li>
+                    {{-- BARANGAY RBI --}}
+                    <li class="sidebar-item">
 
-                {{-- BARANGAY RBI --}}
-                <li class="sidebar-item">
+                        <a href="{{ route('rbi') }}" class="sidebar-link">
 
-                    <a href="{{ route('rbi') }}" class="sidebar-link">
+                            <img src="{{ asset('assets/images/new/HOUSEHOLD INHABITANT.png') }}"
+                                class="sidebar-image-icon" alt="">
 
-                        <img src="{{ asset('assets/images/new/HOUSEHOLD INHABITANT.png') }}" class="sidebar-image-icon"
-                            alt="">
+                            <span>
+                                Barangay RBI
+                            </span>
 
-                        <span>
-                            Barangay RBI
-                        </span>
+                        </a>
 
-                    </a>
+                    </li>
 
-                </li>
+                    {{-- OTP --}}
+                    <li class="sidebar-item">
 
-                {{-- OTP --}}
-                <li class="sidebar-item">
+                        <a href="{{ route('quarry') }}" class="sidebar-link">
 
-                    <a href="{{ route('quarry') }}" class="sidebar-link">
+                            <img src="{{ asset('assets/images/new/QUARRY.png') }}" class="sidebar-image-icon"
+                                alt="">
 
-                        <img src="{{ asset('assets/images/new/QUARRY.png') }}" class="sidebar-image-icon"
-                            alt="">
+                            <span>
+                                Barangay OTP Quarry
+                            </span>
 
-                        <span>
-                            Barangay OTP Quarry
-                        </span>
+                        </a>
 
-                    </a>
+                    </li>
 
-                </li>
+                    <hr class="sidebar-divider my-0" style="border-top: 2px solid white">
 
-                <hr class="sidebar-divider my-0" style="border-top: 2px solid white">
+                    {{-- REPORT --}}
+                    <li class="sidebar-item">
+                        <a href="{{ route('report_select') }}" class="sidebar-link">
+                            <i class="bi bi-file-earmark-text-fill"></i>
+                            <span>
+                                Report
+                            </span>
+                        </a>
+                    </li>
+                @endif
 
-                {{-- REPORT --}}
-                <li class="sidebar-item">
-                    <a href="{{ route('report_select') }}" class="sidebar-link">
-                        <i class="bi bi-file-earmark-text-fill"></i>
-                        <span>
-                            Report
-                        </span>
-                    </a>
-                </li>
+                @if ($user_type == 'treasurer')
+                    <li class="sidebar-item px-2 mb-3">
+
+                        <a href="{{ route('treasurer_dashboard') }}"
+                            class="sidebar-link dashboard-link {{ Route::currentRouteName() == 'treasurer_dashboard' ? 'active' : '' }}">
+
+                            <i class="bi bi-grid-fill"></i>
+
+                            <span>
+                                Dashboard
+                            </span>
+
+                        </a>
+
+                    </li>
+
+                    <hr class="sidebar-divider" style="border-top: 2px solid white">
+                    {{-- RECORD --}}
+                    <li class="sidebar-title">
+                        RECORD
+                    </li>
+                    <li class="sidebar-item">
+
+                        <a href="{{ route('collectionfee_select') }}"
+                            class="sidebar-link {{ in_array($collectionRoute, $certificationRoute) ? 'active' : '' }}">
+                            <img src="{{ asset('assets/images/new/CERTIFICATION.png') }}" class="sidebar-image-icon"
+                                alt="">
+
+                            <span>
+                                Collection Fee
+                            </span>
+
+                        </a>
+
+                    </li>
+                @endif
 
                 <hr class="sidebar-divider my-0" style="border-top: 2px solid white">
 
