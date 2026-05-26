@@ -29,32 +29,8 @@
             route = "{{ route('barangay_id') }}";
         }
 
-        if (collection_type == 'Certificate of Good Moral Character') {
-            route = "{{ route('certificate_goodmoral') }}";
-        }
-
-        if (collection_type == 'Certificate of Indigency') {
-            route = "{{ route('certificate_indigency') }}";
-        }
-
-        if (collection_type == 'Certificate of Livestock') {
-            route = "{{ route('certificate_livestock') }}";
-        }
-
-        if (collection_type == 'Certificate of Motorcycle') {
-            route = "{{ route('certificate_motorcycle') }}";
-        }
-
-        if (collection_type == 'Certificate of Piggery') {
-            route = "{{ route('certificate_piggery') }}";
-        }
-
-        if (collection_type == 'Certificate of Quarry') {
-            route = "{{ route('certificate_quary') }}";
-        }
-
-        if (collection_type == 'Certificate of Lot') {
-            route = "{{ route('certificate_lot') }}";
+        if (collection_type == 'Barangay Business Clearance') {
+            route = "{{ route('business_clearance') }}";
         }
 
         window.location = route;

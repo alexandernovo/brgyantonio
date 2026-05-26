@@ -35,6 +35,10 @@ class TreasurerController extends Controller
     {
         return view('treasurer.views.barangay_id');
     }
+    public function business_clearance()
+    {
+        return view('treasurer.views.business_clearance');
+    }
     public function storeCollection(Request $request)
     {
         $data = $request->all();
