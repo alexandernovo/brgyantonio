@@ -1,4 +1,4 @@
-<div class="modal fade" data-bs-backdrop="static" id="collectionCertificationModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" data-bs-backdrop="static" id="collectionSummonModal" tabindex="-1" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered" style="max-width: 520px;">
 
@@ -32,7 +32,7 @@
                         font-size: 20px;
                         letter-spacing: .5px;
                     ">
-                    BARANGAY CERTIFICATION FEE
+                    SUMMON FEE
                 </h2>
 
             </div>
@@ -40,12 +40,12 @@
             {{-- BODY --}}
             <div class="p-3">
 
-                <form id="collectionCertificationForm">
+                <form id="collectionFormSummon">
 
                     @csrf
 
                     <input type="hidden" name="collection_id" id="collection_id" value="0">
-                    <input type="hidden" name="collection_type" id="collection_type" value="certification">
+                    <input type="hidden" name="collection_type" id="collection_type" value="summon">
 
                     {{-- DATE --}}
                     <div class="mb-3">

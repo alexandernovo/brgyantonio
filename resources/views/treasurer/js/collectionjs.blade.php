@@ -21,12 +21,12 @@
             route = "{{ route('barangay_certification') }}";
         }
 
-        if (collection_type == 'Certificate of Trees') {
-            route = "{{ route('certificate_trees') }}";
+        if (collection_type == 'Summon') {
+            route = "{{ route('summon') }}";
         }
 
-        if (collection_type == 'Certificate of First Time Job Seeker') {
-            route = "{{ route('certificate_jobseeker') }}";
+        if (collection_type == 'Barangay ID') {
+            route = "{{ route('barangay_id') }}";
         }
 
         if (collection_type == 'Certificate of Good Moral Character') {

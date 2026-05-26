@@ -2,7 +2,7 @@
 
 @section('content')
     @include('treasurer.css.treasurercss')
-    @include('treasurer.modals.collectioncertificationModal')
+    @include('treasurer.modals.collectionsummonModal')
 
     <div class="page-container p-4">
         <div class="top-header mb-3">
@@ -25,19 +25,19 @@
                         </button>
                         <div class="d-flex gap-2 align-items-center">
                             <i class="bi bi-archive-fill text-white" style="font-size: 32px"></i>
-                            <p class="mb-0 text-white" style="font-size: 25px">BARANGAY CERTIFICATION</p>
+                            <p class="mb-0 text-white" style="font-size: 25px">SUMMON</p>
                         </div>
                     </div>
                     <div class="d-flex gap-3">
-                        <button class="btn-edit-table px-4 paidUnpaidCertificationCertification" data-status="Unpaid">
+                        <button class="btn-edit-table px-4 paidUnpaidCollectionSummon" data-status="Unpaid">
                             <i class="bi bi-x-circle"></i>
                             Unpaid Payor
                         </button>
-                        <button class="btn-edit-table px-4 paidUnpaidCertificationCertification active-btn" data-status="Paid">
+                        <button class="btn-edit-table px-4 paidUnpaidCollectionSummon active-btn" data-status="Paid">
                             <i class="bi bi-check-circle"></i>
                             Paid Payor
                         </button>
-                        <button class="btn-add-table px-4" id="addCertificationCertification">
+                        <button class="btn-add-table px-4" id="addCollectionSummon">
                             <i class="bi bi-plus-circle"></i>
                             Add Payor
                         </button>
@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="p-3">
-                    <table id="CollectionTableCertification" class="table data_table table-bordered table-hover w-100 mb-0">
+                    <table id="CollectionTableSummon" class="table data_table table-bordered table-hover w-100 mb-0">
                         <thead>
                             <tr>
                                 <th>NO.</th>
@@ -66,5 +66,5 @@
 
 @section('js')
     @include('treasurer.js.collectionjs')
-    @include('treasurer.js.barangay_certification')
+    @include('treasurer.js.summon')
 @endsection

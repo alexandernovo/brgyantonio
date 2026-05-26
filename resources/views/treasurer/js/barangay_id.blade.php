@@ -1,15 +1,15 @@
 <script>
     // Global variables for certification filtering
-    let dateFromCollectionCertification = '';
-    let dateToCollectionCertification = '';
-    let selectedLetterCollectionCertification = '';
-    let CollectionTableCertification = null;
-    let selectedCollectionCertificationRow = null;
-    let selectedCollectionCertificationId = null;
-    let certificationCollectionCertificationData = [];
-    let statusCollectionCertification = "Paid";
+    let dateFromCollectionBarangayID = '';
+    let dateToCollectionBarangayID = '';
+    let selectedLetterCollectionBarangayID = '';
+    let CollectionTableBarangayID = null;
+    let selectedCollectionBarangayIDRow = null;
+    let selectedCollectionBarangayIDId = null;
+    let certificationCollectionBarangayIDData = [];
+    let statusCollectionBarangayID = "Paid";
 
-    collectionCertificationOptions = {
+    collectionBarangayIDOptions = {
         processing: true,
         serverSide: false,
         ajax: {
@@ -18,14 +18,14 @@
             dataType: 'json',
             data: function(d) {
                 d._token = '{{ csrf_token() }}';
-                d.dateFrom = dateFromCollectionCertification;
-                d.dateTo = dateToCollectionCertification;
-                d.type = "certification";
-                d.status = statusCollectionCertification;
-                d.letter = selectedLetterCollectionCertification;
+                d.dateFrom = dateFromCollectionBarangayID;
+                d.dateTo = dateToCollectionBarangayID;
+                d.type = "barangay_id";
+                d.status = statusCollectionBarangayID;
+                d.letter = selectedLetterCollectionBarangayID;
             },
             dataSrc: function(json) {
-                certificationCollectionCertificationData = json.data;
+                certificationCollectionBarangayIDData = json.data;
                 return json.data;
             }
         },
@@ -92,8 +92,8 @@
                 render: function(data, type, row) {
                     return `
                         <div class="d-flex gap-1 justify-content-center">
-                            <button class="btn btn-warning btn-sm editButtonCertificationCertification px-2" style="background-color: #B35100 !important" data-collection_id="${row.collection_id}"><i style="font-size: 15px" class="bi bi-pencil-fill"></i></button>
-                            <button class="btn btn-danger btn-sm deleteButtonCollectionCertification px-2" style="background-color: #A10101 !important" data-collection_id="${row.collection_id}"><i style="font-size: 15px" class="bi bi-trash3-fill"></i></button>
+                            <button class="btn btn-warning btn-sm editButtonCollectionBarangayID px-2" style="background-color: #B35100 !important" data-collection_id="${row.collection_id}"><i style="font-size: 15px" class="bi bi-pencil-fill"></i></button>
+                            <button class="btn btn-danger btn-sm deleteButtonCollectionBarangayID px-2" style="background-color: #A10101 !important" data-collection_id="${row.collection_id}"><i style="font-size: 15px" class="bi bi-trash3-fill"></i></button>
                         </div>`;
                 }
             },
@@ -116,35 +116,35 @@
                 </div>
             </div>`;
 
-            $("#CollectionTableCertification_wrapper .dt-length")
+            $("#CollectionTableBarangayID_wrapper .dt-length")
                 .addClass('d-flex align-items-center gap-2')
                 .first()
                 .append(filterHtml);
         }
     };
 
-    function renderCollectionCertification() {
-        if (CollectionTableCertification) {
-            CollectionTableCertification.destroy();
+    function renderCollectionBarangayID() {
+        if (CollectionTableBarangayID) {
+            CollectionTableBarangayID.destroy();
         }
 
-        CollectionTableCertification = new DataTable('#CollectionTableCertification', collectionCertificationOptions)
+        CollectionTableBarangayID = new DataTable('#CollectionTableBarangayID', collectionBarangayIDOptions)
     }
 
     $(document).ready(function() {
-        renderCollectionCertification();
+        renderCollectionBarangayID();
     })
 
-    $(document).on("click", "#addCertificationCertification", function() {
-        $("#collectionCertificationForm")[0].reset();
+    $(document).on("click", "#addCollectionBarangayID", function() {
+        $("#collectionFormBarangayID")[0].reset();
 
-        $("#collectionCertificationForm")
+        $("#collectionFormBarangayID")
             .find('input[type="hidden"]')
             .not('[name="_token"]')
             .not('[name="collection_type"]')
             .val('');
 
-        $("#collectionCertificationModal").modal("show");
+        $("#collectionBarangayIDModal").modal("show");
     })
 
     $(document).ready(function() {
@@ -163,15 +163,15 @@
 
     $(document).on('click', 'table.dataTable tbody tr', function() {
 
-        const rowData = CollectionTableCertification.row(this).data();
+        const rowData = CollectionTableBarangayID.row(this).data();
 
         // unselect
         if ($(this).hasClass('selected-row')) {
 
             $(this).removeClass('selected-row');
 
-            selectedCollectionCertificationRow = null;
-            selectedCollectionCertificationId = null;
+            selectedCollectionBarangayIDRow = null;
+            selectedCollectionBarangayIDId = null;
 
             return;
         }
@@ -180,13 +180,13 @@
 
         $(this).addClass('selected-row');
 
-        selectedCollectionCertificationRow = rowData;
-        selectedCollectionCertificationId = rowData.collection_id;
+        selectedCollectionBarangayIDRow = rowData;
+        selectedCollectionBarangayIDId = rowData.collection_id;
     });
 
-    $(document).on('click', '#editCertificationCertification', function() {
+    $(document).on('click', '#editBarangayIDClearance', function() {
 
-        if (!selectedCollectionCertificationRow) {
+        if (!selectedCollectionBarangayIDRow) {
 
             Swal.fire({
                 icon: 'warning',
@@ -200,7 +200,7 @@
     });
 
 
-    $(document).on('submit', '#collectionCertificationForm', function(e) {
+    $(document).on('submit', '#collectionFormBarangayID', function(e) {
         e.preventDefault();
 
         let formData = new FormData(this);
@@ -214,14 +214,14 @@
             success: function(response) {
                 Swal.fire({
                     title: "Success",
-                    text: "Barangay Certification Fee Saved Successfully!",
+                    text: "Barangay ID Fee Saved Successfully!",
                     icon: "success",
                     showCancelButton: false,
                 })
 
-                $('#collectionCertificationModal').modal('hide');
-                $('#collectionCertificationForm')[0].reset();
-                reloadCollectionCertification();
+                $('#collectionBarangayIDModal').modal('hide');
+                $('#collectionFormBarangayID')[0].reset();
+                reloadCollectionBarangayID();
             },
             error: function(xhr) {
                 let errors = xhr.responseJSON.errors;
@@ -231,36 +231,36 @@
         });
     });
 
-    function reloadCollectionCertification() {
-        if (CollectionTableCertification) {
-            CollectionTableCertification.ajax.reload(null, false);
+    function reloadCollectionBarangayID() {
+        if (CollectionTableBarangayID) {
+            CollectionTableBarangayID.ajax.reload(null, false);
         } else {
-            renderCollectionCertification();
+            renderCollectionBarangayID();
         }
     }
 
-    $(document).on("click", ".editButtonCertificationCertification", function(e) {
+    $(document).on("click", ".editButtonCollectionBarangayID", function(e) {
         e.stopPropagation();
         let collection_id = $(this).attr("data-collection_id");
-        let find_data = certificationCollectionCertificationData.find(x => x.collection_id == collection_id);
+        let find_data = certificationCollectionBarangayIDData.find(x => x.collection_id == collection_id);
         if (find_data) {
-            $("#collectionCertificationForm")[0].reset();
+            $("#collectionFormBarangayID")[0].reset();
 
-            $("#collectionCertificationForm")
+            $("#collectionFormBarangayID")
                 .find('input[type="hidden"]')
                 .not('[name="_token"]')
                 .not('[name="collection_type"]')
                 .val('');
 
-            populateCollectionForm('collectionCertificationForm', find_data);
+            populateCollectionForm('collectionFormBarangayID', find_data);
 
-            $("#collectionCertificationModal").modal("show");
+            $("#collectionBarangayIDModal").modal("show");
         }
     })
 
-    collectionCertificationOptions.drawCallback = function() {
+    collectionBarangayIDOptions.drawCallback = function() {
 
-        if (!selectedCollectionCertificationId) return;
+        if (!selectedCollectionBarangayIDId) return;
 
         const api = this.api();
 
@@ -268,11 +268,11 @@
 
             let data = this.data();
 
-            if (data.collection_id == selectedCollectionCertificationId) {
+            if (data.collection_id == selectedCollectionBarangayIDId) {
 
                 $(this.node()).addClass('selected-row');
 
-                selectedCollectionCertificationRow = data;
+                selectedCollectionBarangayIDRow = data;
 
             } else {
 
@@ -284,14 +284,14 @@
 
     };
 
-    $(document).on("click", ".deleteButtonCollectionCertification", function(e) {
+    $(document).on("click", ".deleteButtonCollectionBarangayID", function(e) {
         e.stopPropagation();
 
         let collection_id = $(this).attr("data-collection_id");
 
         Swal.fire({
             icon: "warning",
-            title: "Delete Barangay Certification Fee?",
+            title: "Delete Barangay Clearance Fee?",
             text: "This action cannot be undone.",
             showCancelButton: true,
             confirmButtonColor: "#A10101",
@@ -317,12 +317,12 @@
                     });
 
                     // clear selection if deleted row is selected
-                    if (selectedCollectionCertificationId == collection_id) {
-                        selectedCollectionCertificationId = null;
-                        selectedCollectionCertificationRow = null;
+                    if (selectedCollectionBarangayIDId == collection_id) {
+                        selectedCollectionBarangayIDId = null;
+                        selectedCollectionBarangayIDRow = null;
                     }
 
-                    reloadCollectionCertification();
+                    reloadCollectionBarangayID();
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
@@ -338,12 +338,12 @@
         });
     });
 
-    $(document).on("click", '.paidUnpaidCertificationertificatione', function() {
-        $(".paidUnpaidCertificationCertification").removeClass("active-btn").addClass("btn-edit-table");
+    $(document).on("click", '.paidUnpaidCollectionBarangayID', function() {
+        $(".paidUnpaidCollectionBarangayID").removeClass("active-btn").addClass("btn-edit-table");
         $(this).addClass("active-btn").removeClass("btn-edit-table");
 
-        statusCollectionCertification = $(this).attr('data-status');
-        collectionCertificationOptions.ajax.data.status = statusCollectionCertification;
-        reloadCollectionCertification();
+        statusCollectionBarangayID = $(this).attr('data-status');
+        collectionBarangayIDOptions.ajax.data.status = statusCollectionBarangayID;
+        reloadCollectionBarangayID();
     })
 </script>

@@ -27,8 +27,15 @@ class TreasurerController extends Controller
     {
         return view('treasurer.views.barangay_certification');
     }
-
-    public function storeCollectionClearance(Request $request)
+    public function summon()
+    {
+        return view('treasurer.views.summon');
+    }
+    public function barangay_id()
+    {
+        return view('treasurer.views.barangay_id');
+    }
+    public function storeCollection(Request $request)
     {
         $data = $request->all();
         unset($data['_token']);

@@ -184,7 +184,7 @@
         selectedCollectionClearanceId = rowData.collection_id;
     });
 
-    $(document).on('click', '#editCertificationClearance', function() {
+    $(document).on('click', '#editCollectionClearance', function() {
 
         if (!selectedCollectionClearanceRow) {
 
@@ -206,7 +206,7 @@
         let formData = new FormData(this);
 
         $.ajax({
-            url: "{{ route('storeCollectionClearance') }}",
+            url: "{{ route('storeCollection') }}",
             type: "POST",
             data: formData,
             contentType: false,

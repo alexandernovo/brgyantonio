@@ -39,7 +39,7 @@
                         </button>
                         <button class="btn-add-table px-4" id="addCollectionClearance">
                             <i class="bi bi-plus-circle"></i>
-                            Add Certification
+                            Add Payor
                         </button>
                     </div>
                 </div>
