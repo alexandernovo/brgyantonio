@@ -17,8 +17,8 @@
             route = "{{ route('barangay_clearance') }}";
         }
 
-        if (collection_type == 'Certificate of Barangay Clearance') {
-            route = "{{ route('certificate_clearance') }}";
+        if (collection_type == 'Barangay Certification') {
+            route = "{{ route('barangay_certification') }}";
         }
 
         if (collection_type == 'Certificate of Trees') {
