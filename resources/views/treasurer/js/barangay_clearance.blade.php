@@ -313,7 +313,7 @@
                     Swal.fire({
                         icon: "success",
                         title: "Deleted Successfully",
-                        text: response.message
+                        text: "Barangay Clearance Deleted Successfully!"
                     });
 
                     // clear selection if deleted row is selected

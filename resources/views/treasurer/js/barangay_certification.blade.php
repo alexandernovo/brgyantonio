@@ -313,7 +313,7 @@
                     Swal.fire({
                         icon: "success",
                         title: "Deleted Successfully",
-                        text: response.message
+                        text: "Barangay Certification Fee Deleted Successfully!"
                     });
 
                     // clear selection if deleted row is selected

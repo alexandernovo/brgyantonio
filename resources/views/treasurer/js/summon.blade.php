@@ -291,7 +291,7 @@
 
         Swal.fire({
             icon: "warning",
-            title: "Delete Barangay Clearance Fee?",
+            title: "Delete Summon Fee?",
             text: "This action cannot be undone.",
             showCancelButton: true,
             confirmButtonColor: "#A10101",
@@ -313,7 +313,7 @@
                     Swal.fire({
                         icon: "success",
                         title: "Deleted Successfully",
-                        text: response.message
+                        text: "Summon Fee Deleted Successfully!"
                     });
 
                     // clear selection if deleted row is selected
