@@ -137,7 +137,7 @@
 
     /* Button */
     .btn-submit-collection,
-    .btn-report {
+    .btn-report-collection {
         width: 100%;
         background-color: #1b3f2f;
         color: white;

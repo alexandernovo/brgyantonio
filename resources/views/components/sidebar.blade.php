@@ -131,7 +131,7 @@
 
                     {{-- REPORT --}}
                     <li class="sidebar-item">
-                        <a href="{{ route('report_select') }}" class="sidebar-link">
+                        <a href="{{ route('report_select') }}" class="sidebar-link {{ Route::currentRouteName() == 'report_select' ? 'active' : '' }}">
                             <i class="bi bi-file-earmark-text-fill"></i>
                             <span>
                                 Report
@@ -165,8 +165,8 @@
 
                         <a href="{{ route('collectionfee_select') }}"
                             class="sidebar-link {{ in_array($collectionRoute, $certificationRoute) ? 'active' : '' }}">
-                            <img src="{{ asset('assets/images/new/CERTIFICATION.png') }}" class="sidebar-image-icon"
-                                alt="">
+                            <img src="{{ asset('assets/images/new/PESO.png') }}"
+                                class="sidebar-image-icon1 image-black" style="filter: invert(1)" alt="">
 
                             <span>
                                 Collection Fee
@@ -174,6 +174,18 @@
 
                         </a>
 
+                    </li>
+
+                    <hr class="sidebar-divider my-0" style="border-top: 2px solid white">
+
+                    {{-- REPORT --}}
+                    <li class="sidebar-item">
+                        <a href="{{ route('collectionfeereport_select') }}" class="sidebar-link {{ Route::currentRouteName() == 'collectionfeereport_select' ? 'active' : '' }}">
+                            <i class="bi bi-file-earmark-text-fill"></i>
+                            <span>
+                                Report
+                            </span>
+                        </a>
                     </li>
                 @endif
 

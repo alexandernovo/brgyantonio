@@ -83,16 +83,25 @@
         <div class="card-body bg-white p-1" style="border-radius: 8px">
 
             <div class="report-header-bg d-flex justify-content-between align-items-center p-3 flex-wrap gap-3">
-                <div class="d-flex flex-column align-items-start gap-2">
-                    <label for="monthYearSelect" class="text-white text-nowrap mb-0 fw-bold" style="font-size: 14px;">Select
-                        Month
-                        and Year
-                    </label>
-                    <div class="input-group">
-                        <input type="month" id="monthYearSelect" class="form-control form-control-sm"
-                            style="width: 250px; height: 30px; background-color: white">
+                <form method="GET" action="{{ url()->current() }}">
+
+                    <div class="d-flex flex-column align-items-start gap-2">
+
+                        <label for="monthYearSelect" class="text-white text-nowrap mb-0 fw-bold" style="font-size: 14px;">
+                            Select Month and Year
+                        </label>
+
+                        <div class="input-group">
+
+                            <input type="month" name="month" id="monthYearSelect" class="form-control form-control-sm"
+                                value="{{ request('month') }}" style="width: 250px; height: 30px; background-color: white"
+                                onchange="this.form.submit()">
+
+                        </div>
+
                     </div>
-                </div>
+
+                </form>
 
                 <div class="d-flex align-items-center gap-3">
                     <button class="btn-print-report d-flex align-items-center gap-2">

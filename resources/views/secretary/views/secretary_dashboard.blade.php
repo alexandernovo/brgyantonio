@@ -8,28 +8,28 @@
                 'subtitle' => '(Barangay Inhabitants by Household)',
                 'icon' => asset('assets/images/new/HOUSEHOLD INHABITANT.png'),
                 'iconColor' => '#1f2937',
-                'total' => 4,
+                'total' => $resident_count,
             ],
             [
                 'title' => 'Total of Requests',
                 'subtitle' => '(Barangay Certification)',
                 'icon' => asset('assets/images/new/CERTIFICATION.png'),
                 'iconColor' => '#1f2937',
-                'total' => 10,
+                'total' => $certification_count,
             ],
             [
                 'title' => 'Total of Requests',
                 'subtitle' => '(Barangay ID)',
                 'icon' => asset('assets/images/new/BRGY ID.png'),
                 'iconColor' => '#d1d5db',
-                'total' => 7,
+                'total' => $brgy_id_count,
             ],
             [
                 'title' => 'Total of Requests',
                 'subtitle' => '(Barangay OTP Quarry)',
                 'icon' => asset('assets/images/new/QUARRY.png'),
                 'iconColor' => '#1f2937',
-                'total' => 8,
+                'total' => $otp_quaryy_count,
             ],
         ];
     @endphp

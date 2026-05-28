@@ -36,6 +36,66 @@
         window.location = route;
     })
 
+    $(document).on("click", ".btn-report-collection", function() {
+        let collection_type = $('#collection_type').val();
+        let collection_type_data = $('#collection_type')
+            .find(':selected')
+            .data('type');
+        let category_collection_type = $('#category_collection_type').val();
+        let month_collection = $('#month_collection').val();
+        let route = "";
+
+        if (!category_collection_type) {
+            Swal.fire({
+                title: "Warning",
+                text: "Please Select Category Collection!",
+                icon: "warning",
+                showCancelButton: false,
+            })
+
+            return;
+        }
+
+        if (!month_collection) {
+            Swal.fire({
+                title: "Warning",
+                text: "Please Select Month!",
+                icon: "warning",
+                showCancelButton: false,
+            })
+            return;
+
+        }
+
+        if (!collection_type && category_collection_type == "Per Collection") {
+            Swal.fire({
+                title: "Warning",
+                text: "Please Select Nature of Collection!",
+                icon: "warning",
+                showCancelButton: false,
+            })
+
+            return;
+        }
+
+        if (category_collection_type == "Per Collection") {
+            window.location = "{{ route('collection_report') }}?type=" + collection_type_data;
+        } else {
+
+        }
+    });
+
+    $(document).on("change", "#category_collection_type", function() {
+        let value = $(this).val();
+        if (value != "Per Collection") {
+            let $select = $("#collection_type");
+            $select.val("").trigger("change").addClass("disabled-input");
+            $select.find("option[value='']");
+        } else {
+            $("#collection_type").removeClass("disabled-input");
+        }
+    })
+
     function populateCollectionForm(formId, data) {
 
         const form = $(`#${formId}`);

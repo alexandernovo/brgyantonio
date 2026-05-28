@@ -1,3 +1,16 @@
+@php
+    $type = request()->query('type');
+
+    $titlesArray = [
+        'clearance' => 'BARANGAY CLEARANCE REPORT OF COLLECTION AND DEPOSITS AS OF',
+        'certification' => 'BARANGAY CERTIFICATION REPORT OF COLLECTION AND DEPOSITS AS OF',
+        'summon' => 'SUMMON REPORT OF COLLECTION AND DEPOSITS AS OF',
+        'barangay_id' => 'BARANGAY ID REPORT OF COLLECTION AND DEPOSITS AS OF',
+        'businessclearance' => 'BARANGAY BUSINESS CLEARANCE REPORT OF COLLECTION AND DEPOSITS AS OF',
+    ];
+
+    $title = $titlesArray[$type] ?? '';
+@endphp
 @extends('layout.mainlayout')
 
 @section('content')
@@ -102,7 +115,6 @@
                     </div>
 
                 </form>
-
                 <div class="d-flex align-items-center gap-3">
                     <button class="btn-print-report d-flex align-items-center gap-2">
                         <i class="bi bi-printer"></i> Print Report
@@ -137,52 +149,63 @@
 
             <div class="text-center mb-4">
                 <h3 class="brgy-title mb-2">BARANGAY SAN ANTONIO</h3>
-
-                <h4 class="report-subtitle text-uppercase">
-                    LIST OF MOTORCYCLE CERTIFICATION AS OF
+                <h4 class="report-subtitle text-uppercase">{{ $title }}
                     {{ request('month') ? \Carbon\Carbon::parse(request('month'))->format('F Y') : now()->format('F Y') }}
                 </h4>
             </div>
+
             <div class="table-responsive px-2">
                 <table id="certificationTableBrgy" class="table custom-table table-bordered w-100 mb-0">
                     <thead>
                         <tr>
                             <th>NO.</th>
-                            <th>REQUESTER</th>
-                            <th>SEX</th>
-                            <th>CITIZENSHIP</th>
-                            <th>MONTHLY SALARY</th>
-                            <th>DATE OF ISSUED</th>
+                            <th>DATE</th>
+                            <th>OR NUMBER</th>
+                            <th>PAYOR</th>
+                            <th>PAYMENT STATUS</th>
+                            <th>AMOUNT</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (count($data) == 0)
-                            <tr>
-                                <td colspan="6" class="text-center py-3 text-muted">No Data Available</td>
-                            </tr>
-                        @endif
-
                         @foreach ($data as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
 
-                                <td>
-                                    {{ trim($item->first_name . ' ' . ($item->middle_name ? $item->middle_name . ' ' : '') . $item->last_name) }}
+                                <td>{{ $item->payment_date ? \Carbon\Carbon::parse($item->payment_date)->format('M d, Y') : '-' }}
                                 </td>
-
-                                <td>{{ $item->sex ?? '-' }}</td>
-
-                                <td>{{ $item->nationality ?? 'Filipino' }}</td>
-
-                                <td>
-                                    {{ $item->monthlysalary ? '₱' . number_format($item->monthlysalary, 2) : '-' }}
+                                <td>{{ $item->or_number }}</td>
+                                <td>{{ trim($item->first_name . ' ' . ($item->middle_name ? $item->middle_name . ' ' : '') . $item->last_name) }}
                                 </td>
-
                                 <td>
-                                    {{ $item->date_issued ? \Carbon\Carbon::parse($item->date_issued)->format('M d, Y') : '-' }}
+                                    @php
+                                        $bgColor = '#830202';
+
+                                        if ($item->payment_status === 'Paid') {
+                                            $bgColor = '#0B4E06';
+                                        }
+                                    @endphp
+
+                                    <span class="badge px-3 py-2"
+                                        style="
+                                            background-color: {{ $bgColor }};
+                                            color: white;
+                                            border-radius: 6px;
+                                            font-size: 12px;
+                                        ">
+                                        {{ $item->payment_status }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {{ $item->payment_amount }}
                                 </td>
                             </tr>
                         @endforeach
+
+                        @if (count($data) == 0)
+                            <tr>
+                                <td colspan="6" class="text-center">No Data</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>

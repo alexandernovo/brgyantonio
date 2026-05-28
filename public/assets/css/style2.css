@@ -948,6 +948,12 @@ div.dt-container .dt-paging .dt-paging-button:not(.active) button:hover {
     object-fit: contain;
 }
 
+.sidebar-image-icon1 {
+    width: 23px;
+    height: 23px;
+    object-fit: contain;
+}
+
 .sidebar-divider {
     border-color: rgba(255, 255, 255, 0.25);
     margin: 12px 0;
@@ -960,4 +966,8 @@ tbody tr.selected-row td {
 
 .sidebar-link.active img {
     filter: invert(1);
+}
+
+.sidebar-link.active .image-black {
+    filter: invert(0) !important;
 }

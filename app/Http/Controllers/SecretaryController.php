@@ -17,7 +17,17 @@ class SecretaryController extends Controller
 {
     public function secretary_dashboard(Request $request)
     {
-        return view('secretary.views.secretary_dashboard');
+        $resident_count = Resident::count();
+        $brgy_id_count = BrgyID::count();
+        $certification_count = Certification::count();
+        $otp_quaryy_count = Quarry::count();
+
+        return view('secretary.views.secretary_dashboard', compact(
+            'resident_count',
+            'brgy_id_count',
+            'certification_count',
+            'otp_quaryy_count'
+        ));
     }
 
     public function certification_select(Request $request)

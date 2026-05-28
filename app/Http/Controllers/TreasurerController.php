@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class TreasurerController extends Controller
 {
     public function treasurer_dashboard()
     {
-        return view('treasurer.views.treasurer_dashboard');
+        $paid = Collection::where('payment_status', 'Paid')->count();
+        $unpaid = Collection::where('payment_status', 'Unpaid')->count();
+        $total_collection = Collection::count();
+        $total_amount = Collection::sum('payment_amount');
+
+        return view('treasurer.views.treasurer_dashboard', compact('paid', 'unpaid', 'total_collection', 'total_amount'));
     }
 
     public function collectionfee_select()
@@ -39,6 +45,32 @@ class TreasurerController extends Controller
     {
         return view('treasurer.views.business_clearance');
     }
+
+    public function collectionfeereport_select(Request $request)
+    {
+        return view('treasurer.views.collectionfeereport_select');
+    }
+
+    public function collection_report(Request $request)
+    {
+        $type = $request->query('type');
+        $monthYear = $request->query('month');
+
+        $data = Collection::where('collection_type', $type)
+
+            ->when($monthYear, function ($query) use ($monthYear) {
+
+                $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
+
+                $query->whereYear('payment_date', $date->year)
+                    ->whereMonth('payment_date', $date->month);
+            })
+            ->get();
+
+        return view('treasurer.report.collection_report', compact('data'));
+    }
+
+
     public function storeCollection(Request $request)
     {
         $data = $request->all();
@@ -65,5 +97,57 @@ class TreasurerController extends Controller
         $data = Collection::where('collection_id', $request->collection_id)->delete();
 
         return response()->json(['status' => 'success', 'message' => 'Barangay Clearance deleted successfully!']);
+    }
+
+    public function get_dashboard_treasurer_table(Request $request)
+    {
+        $data = Collection::all();
+
+        return response()->json(['data' => $data]);
+    }
+
+    public function getChartStatisticsCollection(Request $request)
+    {
+        $month = $request->input('month');
+        $type = $request->input('type');
+        $year = $request->input('year', Carbon::now()->year);
+
+        $certificateMap = [
+            'clearance' => 'Barangay Clearance',
+            'certification' => 'Barangay Certification',
+            'summon' => 'Summon',
+            'barangay_id' => 'Barangay ID',
+            'businessclearance' => 'Barangay Business Clearance',
+        ];
+
+
+        $query = Collection::query()->whereYear('payment_date', $year);
+
+        if ($month && $month !== 'all') {
+            $query->whereMonth('payment_date', $month);
+        }
+        if (!empty($type) && $type != "all") {
+            $query->where('collection_type', $type);
+        }
+
+        // Query groups by the short code values stored in your DB
+        $results = $query->select('collection_type', DB::raw('COUNT(*) as total'))
+            ->groupBy('collection_type')
+            ->get();
+
+        $labels = [];
+        $series = [];
+
+        // Loop through the map to ensure every single option is represented
+        foreach ($certificateMap as $dbValue => $displayLabel) {
+            $labels[] = $displayLabel; // Sends the full name straight to the chart labels
+            $match = $results->firstWhere('collection_type', $dbValue);
+            $series[] = $match ? $match->total : 0;
+        }
+
+        return response()->json([
+            'labels' => $labels,
+            'series' => $series
+        ]);
     }
 }

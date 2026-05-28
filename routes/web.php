@@ -91,5 +91,9 @@ Route::middleware(["userchecker"])->group(function () {
     Route::get('/business_clearance', [TreasurerController::class, 'business_clearance'])->name('business_clearance');
     Route::post('/storeCollection', [TreasurerController::class, 'storeCollection'])->name('storeCollection');
     Route::post('/deleteCollection', [TreasurerController::class, 'deleteCollection'])->name('deleteCollection');
-
+    Route::post('/get_dashboard_treasurer_table', [TreasurerController::class, 'get_dashboard_treasurer_table'])->name('get_dashboard_treasurer_table');
+    //treasurer report
+    Route::get('/collectionfeereport_select', [TreasurerController::class, 'collectionfeereport_select'])->name('collectionfeereport_select');
+    Route::get('/collection_report', [TreasurerController::class, 'collection_report'])->name('collection_report');
+    Route::get('/getChartStatisticsCollection', [TreasurerController::class, 'getChartStatisticsCollection'])->name('getChartStatisticsCollection');
 });
