@@ -21,8 +21,12 @@ return new class extends Migration
             $table->string('respondent_first_name')->nullable();
             $table->string('respondent_middle_name')->nullable();
             $table->string('nature_case')->nullable();
+            $table->string('borrowed_equipment')->nullable();
             $table->date('date_of_complaints')->nullable();
             $table->date('date_of_resolve')->nullable();
+            $table->date('date_of_borrowed')->nullable();
+            $table->date('date_of_return')->nullable();
+            $table->integer('quantity')->nullable();
             $table->string('record_type')->nullable();
             $table->string('status')->nullable(); // Resolve & Unresolve
             $table->timestamps();

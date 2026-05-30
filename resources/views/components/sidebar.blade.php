@@ -2,6 +2,7 @@
     $reportRoute = [];
     $certificationRoute = ['certification_select'];
     $collectionRoute = ['collectionfee_select'];
+    $reportKagawadRoute = ['kagawad_select', 'blotter_report', 'borrowed_report'];
 @endphp
 <aside class="left-sidebar sidebar-custom">
 
@@ -215,7 +216,7 @@
 
                         <a href="{{ route('blotter') }}" class="sidebar-link">
 
-                            <img src="{{ asset('assets/images/new/BRGY ID.png') }}"
+                            <img src="{{ asset('assets/images/new/BLOTTER COMPLAINTS.png') }}"
                                 class="sidebar-image-icon {{ Route::currentRouteName() == 'blotter' ? 'active' : '' }}"
                                 alt="">
 
@@ -225,6 +226,32 @@
 
                         </a>
 
+                    </li>
+
+                    <li class="sidebar-item">
+
+                        <a href="{{ route('borrowedequipment') }}" class="sidebar-link">
+
+                            <img src="{{ asset('assets/images/new/BORROWED EQUIPMENT.png') }}"
+                                class="sidebar-image-icon {{ Route::currentRouteName() == 'borrowedequipment' ? 'active' : '' }}"
+                                alt="">
+
+                            <span>
+                                Borrowed Equipment
+                            </span>
+
+                        </a>
+
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="{{ route('kagawad_select') }}"
+                            class="sidebar-link {{ in_array(Route::currentRouteName(), $reportKagawadRoute) ? 'active' : '' }}">
+                            <i class="bi bi-file-earmark-text-fill"></i>
+                            <span>
+                                Report
+                            </span>
+                        </a>
                     </li>
                 @endif
 

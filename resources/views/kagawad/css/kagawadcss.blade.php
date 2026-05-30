@@ -136,8 +136,8 @@
     }
 
     /* Button */
-    .btn-submit-collection,
-    .btn-report-collection {
+    .btn-submit-kagawad,
+    .btn-report-kagawad {
         width: 100%;
         background-color: #1b3f2f;
         color: white;

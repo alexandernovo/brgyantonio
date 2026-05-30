@@ -1,91 +1,39 @@
 <script>
-    $(document).on("click", ".btn-submit-collection", function() {
-        let collection_type = $('#collection_type').val();
-        let route = "";
-        if (!collection_type) {
-            Swal.fire({
-                title: "Warning",
-                text: "Please Select Nature of Collection!",
-                icon: "warning",
-                showCancelButton: false,
-            })
+    $(document).on("click", ".btn-report-kagawad", function() {
+        let report_type = $('#report_type').val();
+        let report_type_data = $('#report_type').find(':selected').data('type');
 
-            return;
-        }
-
-        if (collection_type == 'Barangay Clearance') {
-            route = "{{ route('barangay_clearance') }}";
-        }
-
-        if (collection_type == 'Barangay Certification') {
-            route = "{{ route('barangay_certification') }}";
-        }
-
-        if (collection_type == 'Summon') {
-            route = "{{ route('summon') }}";
-        }
-
-        if (collection_type == 'Barangay ID') {
-            route = "{{ route('barangay_id') }}";
-        }
-
-        if (collection_type == 'Barangay Business Clearance') {
-            route = "{{ route('business_clearance') }}";
-        }
-
-        window.location = route;
-    })
-
-    $(document).on("click", ".btn-report-collection", function() {
-        let collection_type = $('#collection_type').val();
-        let collection_type_data = $('#collection_type')
-            .find(':selected')
-            .data('type');
-        let category_collection_type = $('#category_collection_type').val();
-        let month_collection = $('#month_collection').val();
+        let month_kagawad = $('#month_kagawad').val();
         let route = "";
 
-        if (!category_collection_type) {
+        if (!report_type) {
             Swal.fire({
                 title: "Warning",
-                text: "Please Select Category Collection!",
+                text: "Please Select Report Type!",
                 icon: "warning",
                 showCancelButton: false,
-            })
-
+            });
             return;
         }
 
-        if (!month_collection) {
-            Swal.fire({
-                title: "Warning",
-                text: "Please Select Month!",
-                icon: "warning",
-                showCancelButton: false,
-            })
-            return;
-
+        // If no month selected, use current month
+        if (!month_kagawad) {
+            const today = new Date();
+            month_kagawad = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
         }
 
-        if (!collection_type && category_collection_type == "Per Collection") {
-            Swal.fire({
-                title: "Warning",
-                text: "Please Select Nature of Collection!",
-                icon: "warning",
-                showCancelButton: false,
-            })
-
-            return;
-        }
-
-        if (category_collection_type == "Per Collection") {
-            window.location = "{{ route('collection_report') }}?type=" + collection_type_data;
+        if (report_type == "Blotter Complaints") {
+            window.location =
+                "{{ route('blotter_report') }}?type=" + report_type_data +
+                "&month=" + month_kagawad;
         } else {
-
+            window.location =
+                "{{ route('borrowed_report') }}?type=" + report_type_data +
+                "&month=" + month_kagawad;
         }
     });
 
-    $(document).on("change", "#category_collection_type", function() {
+    $(document).on("change", "#category_report_type", function() {
         let value = $(this).val();
         if (value != "Per Collection") {
             let $select = $("#collection_type");

@@ -25,6 +25,16 @@ class KagawadController extends Controller
         return view('kagawad.views.blotter');
     }
 
+    public function borrowedequipment()
+    {
+        return view('kagawad.views.borrowedequipment');
+    }
+
+    public function kagawad_select()
+    {
+        return view('kagawad.views.kagawad_select');
+    }
+
     public function storeKagawadRecord(Request $request)
     {
         $data = $request->all();
@@ -53,5 +63,43 @@ class KagawadController extends Controller
         $data = KagawadRecord::where('record_id', $request->record_id)->delete();
 
         return response()->json(['status' => 'success', 'message' => 'Record deleted successfully!']);
+    }
+
+    public function blotter_report(Request $request)
+    {
+        $type = $request->query('type');
+        $monthYear = $request->query('month');
+
+        $data = KagawadRecord::where('record_type', "blotter")
+
+            ->when($monthYear, function ($query) use ($monthYear) {
+
+                $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
+                $query->whereYear('date_of_complaints', $date->year)
+                    ->whereMonth('date_of_complaints', $date->month);
+            })
+            ->get();
+
+
+        return view('kagawad.reports.blotter_report', compact('data'));
+    }
+
+    public function borrowed_report(Request $request)
+    {
+        $type = $request->query('type');
+        $monthYear = $request->query('month');
+
+        $data = KagawadRecord::where('record_type', "borrowed")
+
+            ->when($monthYear, function ($query) use ($monthYear) {
+
+                $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
+                $query->whereYear('date_of_borrowed', $date->year)
+                    ->whereMonth('date_of_borrowed', $date->month);
+            })
+            ->get();
+
+
+        return view('kagawad.reports.borrowed_report', compact('data'));
     }
 }

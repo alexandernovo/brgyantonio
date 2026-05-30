@@ -41,6 +41,10 @@ class KagawadRecord extends Model
         'date_of_resolve',
         'status',
         'record_type',
+        'date_of_borrowed',
+        'date_of_return',
+        'quantity',
+        'borrowed_equipment',
     ];
 
     /**

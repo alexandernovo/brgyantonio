@@ -101,6 +101,10 @@ Route::middleware(["userchecker"])->group(function () {
     //kagawad
     Route::get('/kagawad_dashboard', [KagawadController::class, 'kagawad_dashboard'])->name('kagawad_dashboard');
     Route::get('/blotter', [KagawadController::class, 'blotter'])->name('blotter');
+    Route::get('/kagawad_select', [KagawadController::class, 'kagawad_select'])->name('kagawad_select');
+    Route::get('/blotter_report', [KagawadController::class, 'blotter_report'])->name('blotter_report');
+    Route::get('/borrowed_report', [KagawadController::class, 'borrowed_report'])->name('borrowed_report');
+    Route::get('/borrowedequipment', [KagawadController::class, 'borrowedequipment'])->name('borrowedequipment');
     Route::post('/storeKagawadRecord', [KagawadController::class, 'storeKagawadRecord'])->name('storeKagawadRecord');
     Route::post('/get_blotter', [KagawadController::class, 'get_blotter'])->name('get_blotter');
     Route::post('/deleteRecord', [KagawadController::class, 'deleteRecord'])->name('deleteRecord');
