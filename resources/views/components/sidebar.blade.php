@@ -20,6 +20,9 @@
                 } elseif ($user_type == 'secretary') {
                     $type = 'Secretary!';
                     $image = asset('assets/images/users/secretary.png');
+                } elseif ($user_type == 'kagawad') {
+                    $type = 'Kagawad!';
+                    $image = asset('assets/images/users/kagawad.png');
                 }
             @endphp
             <div class="profile-wrapper mx-auto">
@@ -131,7 +134,8 @@
 
                     {{-- REPORT --}}
                     <li class="sidebar-item">
-                        <a href="{{ route('report_select') }}" class="sidebar-link {{ Route::currentRouteName() == 'report_select' ? 'active' : '' }}">
+                        <a href="{{ route('report_select') }}"
+                            class="sidebar-link {{ Route::currentRouteName() == 'report_select' ? 'active' : '' }}">
                             <i class="bi bi-file-earmark-text-fill"></i>
                             <span>
                                 Report
@@ -180,12 +184,47 @@
 
                     {{-- REPORT --}}
                     <li class="sidebar-item">
-                        <a href="{{ route('collectionfeereport_select') }}" class="sidebar-link {{ Route::currentRouteName() == 'collectionfeereport_select' ? 'active' : '' }}">
+                        <a href="{{ route('collectionfeereport_select') }}"
+                            class="sidebar-link {{ Route::currentRouteName() == 'collectionfeereport_select' ? 'active' : '' }}">
                             <i class="bi bi-file-earmark-text-fill"></i>
                             <span>
                                 Report
                             </span>
                         </a>
+                    </li>
+                @endif
+
+                @if ($user_type == 'kagawad')
+                    <li class="sidebar-item px-2 mb-3">
+
+                        <a href="{{ route('kagawad_dashboard') }}"
+                            class="sidebar-link dashboard-link {{ Route::currentRouteName() == 'kagawad_dashboard' ? 'active' : '' }}">
+
+                            <i class="bi bi-grid-fill"></i>
+
+                            <span>
+                                Dashboard
+                            </span>
+
+                        </a>
+
+                    </li>
+                    <hr class="sidebar-divider" style="border-top: 2px solid white">
+
+                    <li class="sidebar-item">
+
+                        <a href="{{ route('blotter') }}" class="sidebar-link">
+
+                            <img src="{{ asset('assets/images/new/BRGY ID.png') }}"
+                                class="sidebar-image-icon {{ Route::currentRouteName() == 'blotter' ? 'active' : '' }}"
+                                alt="">
+
+                            <span>
+                                Blotter Complaints
+                            </span>
+
+                        </a>
+
                     </li>
                 @endif
 

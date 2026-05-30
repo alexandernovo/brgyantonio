@@ -19,6 +19,9 @@
                     if (type == "treasurer") {
                         window.location = "{{ route('treasurer_dashboard') }}";
                     }
+                    if (type == "kagawad") {
+                        window.location = "{{ route('kagawad_dashboard') }}";
+                    }
                     console.log("success");
                 } else {
                     $('.errorLogin').removeClass('d-none').text(response.message);

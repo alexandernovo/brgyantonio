@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KagawadController;
 use App\Http\Controllers\SecretaryController;
 use App\Http\Controllers\TreasurerController;
 
@@ -96,4 +97,11 @@ Route::middleware(["userchecker"])->group(function () {
     Route::get('/collectionfeereport_select', [TreasurerController::class, 'collectionfeereport_select'])->name('collectionfeereport_select');
     Route::get('/collection_report', [TreasurerController::class, 'collection_report'])->name('collection_report');
     Route::get('/getChartStatisticsCollection', [TreasurerController::class, 'getChartStatisticsCollection'])->name('getChartStatisticsCollection');
+
+    //kagawad
+    Route::get('/kagawad_dashboard', [KagawadController::class, 'kagawad_dashboard'])->name('kagawad_dashboard');
+    Route::get('/blotter', [KagawadController::class, 'blotter'])->name('blotter');
+    Route::post('/storeKagawadRecord', [KagawadController::class, 'storeKagawadRecord'])->name('storeKagawadRecord');
+    Route::post('/get_blotter', [KagawadController::class, 'get_blotter'])->name('get_blotter');
+    Route::post('/deleteRecord', [KagawadController::class, 'deleteRecord'])->name('deleteRecord');
 });
