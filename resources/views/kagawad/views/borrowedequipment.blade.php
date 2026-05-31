@@ -7,7 +7,8 @@
     <div class="page-container p-4">
         <div class="top-header mb-3">
             <div class="icon-container">
-                <i class="bi bi-archive-fill" style="font-size: 40px"></i>
+                <img src="{{ asset('assets/images/new/BORROWED EQUIPMENT.png') }}" alt=""
+                    style="width: 40px; height: 40px; filter: invert(1)">
             </div>
             <div>
                 <h3 class="mb-0" style="color: black">BORROWED EQUIPMENT</h3>

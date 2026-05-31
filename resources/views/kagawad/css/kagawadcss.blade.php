@@ -264,4 +264,41 @@
     .btn-filter:hover {
         background: #256344;
     }
+
+    .chart-wrapper {
+        position: relative;
+        width: 100%;
+        height: 320px;
+    }
+
+    .chart-center-img {
+        position: absolute;
+        top: 40%;
+        left: 49%;
+        width: 78px;
+        height: 78px;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        pointer-events: none;
+        opacity: 0.9;
+    }
+
+    .title_piechart {
+        background-color: #1A412F;
+        color: white;
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 23px;
+        text-align: center
+    }
+
+    .apexcharts-legend-marker {
+        border-radius: 0 !important;
+        width: 15px !important;
+        height: 15px !important;
+    }
+    .apexcharts-legend 
+    {
+        gap: 50px
+    }
 </style>

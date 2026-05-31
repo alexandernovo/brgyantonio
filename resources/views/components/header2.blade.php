@@ -29,8 +29,19 @@
                 <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
                     <div class="d-flex gap align-items-center">
                         <div class="d-flex flex-column justify-content-center align-items-end border-end pe-2">
+                            @php
+                                $user_type_header = Auth::user()->type;
+
+                                if ($user_type_header == 'treasurer') {
+                                    $user = 'Treasurer';
+                                } elseif ($user_type_header == 'secretary') {
+                                    $user = 'Secretary';
+                                } elseif ($user_type_header == 'kagawad') {
+                                    $user = 'Kagawad';
+                                }
+                            @endphp
                             <p class="mb-0 fw-semibold text-white" style="font-size: 13px; line-height: 17px">
-                                Secretary
+                                {{ $user }}
                             </p>
                         </div>
                         <li class="nav-item dropdown">

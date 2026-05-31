@@ -7,7 +7,7 @@
     <div class="page-container p-4">
         <div class="top-header mb-3">
             <div class="icon-container">
-                <i class="bi bi-archive-fill" style="font-size: 40px"></i>
+                <img src="{{ asset('assets/images/new/PESO.png') }}" alt="" style="width: 30px; height: 30px;">
             </div>
             <div>
                 <h3 class="mb-0" style="color: black">COLLECTION FEE</h3>
@@ -24,7 +24,7 @@
                             Reload
                         </button>
                         <div class="d-flex gap-2 align-items-center">
-                            <i class="bi bi-archive-fill text-white" style="font-size: 32px"></i>
+                            <i class="bi bi-file-text-fill text-white" style="font-size: 28px"></i>
                             <p class="mb-0 text-white" style="font-size: 25px">BARANGAY CERTIFICATION</p>
                         </div>
                     </div>
@@ -33,7 +33,8 @@
                             <i class="bi bi-x-circle"></i>
                             Unpaid Payor
                         </button>
-                        <button class="btn-edit-table px-4 paidUnpaidCertificationCertification active-btn" data-status="Paid">
+                        <button class="btn-edit-table px-4 paidUnpaidCertificationCertification active-btn"
+                            data-status="Paid">
                             <i class="bi bi-check-circle"></i>
                             Paid Payor
                         </button>

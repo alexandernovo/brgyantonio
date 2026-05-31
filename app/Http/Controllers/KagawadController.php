@@ -12,12 +12,27 @@ class KagawadController extends Controller
 {
     public function kagawad_dashboard()
     {
-        $paid = Collection::where('payment_status', 'Paid')->count();
-        $unpaid = Collection::where('payment_status', 'Unpaid')->count();
-        $total_collection = Collection::count();
-        $total_amount = Collection::sum('payment_amount');
+        $total_resolved = KagawadRecord::where('record_type', 'blotter')->where('status', 'Resolved')->count();
+        $total_unresolved = KagawadRecord::where('record_type', 'blotter')->where('status', 'Unresolved')->count();
+        $total_returned = KagawadRecord::where('record_type', 'borrowed')->where('status', 'Returned')->count();
+        $total_unreturned = KagawadRecord::where('record_type', 'borrowed')->where('status', 'Unreturned')->count();
 
-        return view('kagawad.views.kagawad_dashboard', compact('paid', 'unpaid', 'total_collection', 'total_amount'));
+        $blotter = KagawadRecord::where('record_type', 'blotter')
+            ->selectRaw("
+                SUM(CASE WHEN status = 'Resolved' THEN 1 ELSE 0 END) as resolved,
+                SUM(CASE WHEN status = 'Unresolved' THEN 1 ELSE 0 END) as unresolved
+            ")
+            ->first();
+
+        // BORROWED: Returned vs Unreturned
+        $borrowed = KagawadRecord::where('record_type', 'borrowed')
+            ->selectRaw("
+            SUM(CASE WHEN date_of_return IS NOT NULL THEN 1 ELSE 0 END) as returned,
+            SUM(CASE WHEN date_of_return IS NULL THEN 1 ELSE 0 END) as unreturned
+        ")
+            ->first();
+
+        return view('kagawad.views.kagawad_dashboard', compact('total_resolved', 'total_unresolved', 'total_returned', 'total_unreturned', 'blotter', 'borrowed'));
     }
 
     public function blotter()

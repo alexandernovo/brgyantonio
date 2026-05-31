@@ -17,12 +17,15 @@
 
                 if ($user_type == 'treasurer') {
                     $type = 'Treasurer!';
+                    $user = "Treasurer";
                     $image = asset('assets/images/users/treasurer.png');
                 } elseif ($user_type == 'secretary') {
                     $type = 'Secretary!';
+                    $user = "Secretary";
                     $image = asset('assets/images/users/secretary.png');
                 } elseif ($user_type == 'kagawad') {
                     $type = 'Kagawad!';
+                    $user = "Kagawad";
                     $image = asset('assets/images/users/kagawad.png');
                 }
             @endphp

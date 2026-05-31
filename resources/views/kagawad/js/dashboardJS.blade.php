@@ -196,109 +196,49 @@
         renderCertificationTableDashboard();
     })
 
-    const options = {
+    const blotterOptions = {
         chart: {
-            type: 'bar',
-            height: 380,
-            toolbar: {
-                show: false
-            }
+            type: 'pie',
+            height: 320
         },
-        plotOptions: {
-            bar: {
-                borderRadius: 4,
-                columnWidth: '55%',
-                distributed: true,
-                dataLabels: {
-                    position: 'top'
-                }
-            }
-        },
-        colors: ['#184d35'],
-        dataLabels: {
-            enabled: true,
-            formatter: function(val) {
-                return val > 0 ? val : '';
-            },
-            offsetY: -20,
-            style: {
-                fontSize: '12px',
-                colors: ["#304758"]
-            }
-        },
+        series: [
+            {{ $blotter->resolved ?? 0 }},
+            {{ $blotter->unresolved ?? 0 }}
+        ],
+        labels: ['Resolved', 'Unresolved'],
+        colors: ['#1f2937', '#335847'],
         legend: {
-            show: false
+            position: 'bottom',
         },
-        series: [{
-            name: 'Total Requests',
-            data: []
-        }],
-        xaxis: {
-            categories: [], // Receives the full names directly from the API response
-            labels: {
-                rotate: -45,
-                rotateAlways: true,
-                style: {
-                    fontSize: '11px',
-                    colors: '#6c757d'
-                }
-            }
-        },
-        yaxis: {
-            title: {
-                text: 'Count Metrics Generated',
-                style: {
-                    color: '#6c757d'
-                }
-            },
-            labels: {
-                style: {
-                    colors: '#6c757d'
-                }
-            }
-        },
-        tooltip: {
-            theme: 'light'
+        dataLabels: {
+            enabled: true
         }
     };
 
-    statsChart = new ApexCharts(document.querySelector("#statisticsApexChart"), options);
-    statsChart.render();
+    new ApexCharts(document.querySelector("#blotterChart"), blotterOptions).render();
 
-    function updateChartData() {
-        const month = $('#filterMonth').val();
-        const year = $('#filterYear').val();
-        const type = $('#certification_type_dashboard').val();
 
-        $.ajax({
-            url: "{{ route('getChartStatisticsCollection') }}",
-            method: "GET",
-            data: {
-                month: month,
-                year: year,
-                type: type,
-            },
-            success: function(response) {
-                statsChart.updateOptions({
-                    xaxis: {
-                        categories: response.labels
-                    }
-                });
+    /* =========================
+       BORROWED CHART
+    ========================= */
+    const borrowedOptions = {
+        chart: {
+            type: 'pie',
+            height: 320
+        },
+        series: [
+            {{ $borrowed->returned ?? 0 }},
+            {{ $borrowed->unreturned ?? 0 }}
+        ],
+        labels: ['Returned', 'Unreturned'],
+        colors: ['#1f2937', '#335847'],
+        legend: {
+            position: 'bottom'
+        },
+        dataLabels: {
+            enabled: true
+        }
+    };
 
-                statsChart.updateSeries([{
-                    name: 'Total Requests',
-                    data: response.series
-                }]);
-            },
-            error: function(xhr) {
-                console.error("Dashboard engine error:", xhr.responseText);
-            }
-        });
-    }
-
-    $('#filterMonth, #filterYear, #certification_type_dashboard').on('change', function() {
-        updateChartData();
-    });
-
-    updateChartData();
+    new ApexCharts(document.querySelector("#borrowedChart"), borrowedOptions).render();
 </script>

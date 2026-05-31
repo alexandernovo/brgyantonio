@@ -7,7 +7,7 @@
     <div class="page-container p-4">
         <div class="top-header mb-3">
             <div class="icon-container">
-                <i class="bi bi-archive-fill" style="font-size: 40px"></i>
+                <img src="{{asset('assets/images/new/BLOTTER COMPLAINTS.png')}}" alt="" style="width: 42px; height: 42px">
             </div>
             <div>
                 <h3 class="mb-0" style="color: black">BLOTTER COMPLAINTS</h3>

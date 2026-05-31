@@ -1,36 +1,43 @@
 @extends('layout.mainlayout')
 @section('content')
-    @include('treasurer.css.treasurercss')
+    @include('kagawad.css.kagawadcss')
     @php
+
         $dashboardCards = [
             [
-                'title' => 'Total Collected and Deposits',
-                'subtitle' => '(Barangay Document Services)',
-                'icon' => asset('assets/images/new/PESO.png'),
+                'title' => 'Total of Resolved',
+                'style' => 'margin-top: -15px !important',
+                'subtitle' => '(Blotter Complaints)',
+                'icon' => asset('assets/images/new/BLOTTER RESOLVED.png'),
                 'iconColor' => '#212529',
-                'total' => $total_amount,
+                'total' => $total_resolved,
                 'type' => 'img',
             ],
             [
-                'title' => 'Total of Requests',
-                'subtitle' => '(Barangay Document Services)',
-                'icon' => 'bi-people-fill',
+                'title' => 'Total of Unresolved',
+                'subtitle' => '(Blotter Complaints)',
+                'icon' => asset('assets/images/new/BLOTTER UNRESOLVED.png'),
                 'iconColor' => '#212529',
-                'total' => $total_collection,
+                'style' => 'filter: invert(1)',
+                'total' => $total_unresolved,
+                'type' => 'img',
             ],
             [
-                'title' => 'Unpaid Payor',
-                'subtitle' => '(Barangay Document Services)',
-                'icon' => 'bi-x-circle',
+                'title' => 'Total Returned',
+                'subtitle' => '(Borrowed Equipment)',
+                'icon' => asset('assets/images/new/RETURNED EQUIPMENT.png'),
                 'iconColor' => '#212529',
-                'total' => $unpaid,
+                'style' => 'filter: invert(1)',
+                'total' => $total_returned,
+                'type' => 'img',
             ],
             [
-                'title' => 'Paid Payor',
-                'subtitle' => '(Barangay Document Services)',
-                'icon' => 'bi-check-circle',
+                'title' => 'Total of Unreturned',
+                'subtitle' => '(Borrowed Equipment)',
+                'icon' => 'bi-x-lg',
+                'style' => 'font-weight: 600',
                 'iconColor' => '#212529',
-                'total' => $paid,
+                'total' => $total_unreturned,
             ],
         ];
 
@@ -42,7 +49,7 @@
             </div>
             <div>
                 <h3 class="mb-0" style="color: black">DASHBOARD</h3>
-                <p style="color: black">Certification, Barangay ID, Barangay RBI, Barangay OTP Quarry</p>
+                <p style="color: black">Blotter Complaints & Borrowed Equipment</p>
             </div>
         </div>
         <div class="row g-3">
@@ -78,13 +85,13 @@
                             @if (empty($card['type']))
                                 <i class="bi {{ $card['icon'] }}"
                                     style="
-                                    font-size:42px;
+                                    font-size:38px;
                                     color:{{ $card['iconColor'] }};
                                 ">
                                 </i>
                             @else
-                                <img src="{{ $card['icon'] }}" class="mt-1" style="width: 36px; height; 36px"
-                                    alt="">
+                                <img src="{{ $card['icon'] }}" class="mt-1"
+                                    style="width: 40px; height; 40px; {{ $card['style'] ?? '' }}" alt="">
                             @endif
 
                             <div class="fw-bold"
@@ -104,69 +111,40 @@
             @endforeach
 
         </div>
-        <div class="card-content bg-white mt-3 rounded p-2">
-            <div class="p-3">
-                <table id="certificationTableDashboard" class="table data_table table-bordered table-hover w-100 mb-0">
-                    <thead>
-                        <tr>
-                            <th>NO.</th>
-                            <th>DATE</th>
-                            <th>OR NUMBER</th>
-                            <th>PAYOR</th>
-                            <th>NATURE OF COLLECTION</th>
-                            <th>PAYMENT STATUS</th>
-                            <th>AMOUNT</th>
-                            <th>ACTION</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
-        <div class="card border-0 mt-3 shadow-sm mb-4 p-3" style="border-radius: 8px; overflow: hidden;">
-            <div class="d-flex justify-content-between align-items-center py-3 px-4 rounded"
-                style="background-color: #184d35;">
-                <h5 class="text-white fw-bold mb-0 tracking-wide" style="font-size: 1.1rem;">STATISTIC DATA CHART</h5>
+        <div class="dashboard-charts row mx-auto">
 
-                <div class="d-flex gap-2">
-                    <select name="certification_type_dashboard" id="certification_type_dashboard"
-                        class="form-select text-white">
-                        <option class="text-dark" value="" selected disabled>Select Nature of Collection</option>
-                        <option class="text-dark" value="all">All</option>
-                        <option class="text-dark" value="clearance">Barangay Clearance</option>
-                        <option class="text-dark" value="certification">Barangay Certification</option>
-                        <option class="text-dark" value="summon">Summon</option>
-                        <option class="text-dark" value="barangay_id">Barangay ID</option>
-                        <option class="text-dark" value="businessclearance">Barangay Business Clearance</option>
-                    </select>
-                    <select id="filterMonth" class="form-select bg-transparent text-white border-white"
-                        style="width: 140px; font-size: 0.85rem; border-radius: 4px;">
-                        <option value="all" class="text-dark" selected>All Months</option>
-                        @for ($m = 1; $m <= 12; $m++)
-                            <option value="{{ $m }}" class="text-dark">{{ date('F', mktime(0, 0, 0, $m, 1)) }}
-                            </option>
-                        @endfor
-                    </select>
+            <div class="chart-card col-6">
+                <div class="card-content bg-white mt-3 rounded p-2">
 
-                    <select id="filterYear" class="form-select bg-transparent text-white border-white"
-                        style="width: 100px; font-size: 0.85rem; border-radius: 4px;">
-                        @for ($y = date('Y'); $y >= date('Y') - 5; $y--)
-                            <option value="{{ $y }}" class="text-dark" {{ $y == date('Y') ? 'selected' : '' }}>
-                                {{ $y }}</option>
-                        @endfor
-                    </select>
+                    <h3 class="title_piechart">BLOTTER COMPLAINTS PIE CHART</h3>
+
+                    <div class="chart-wrapper">
+                        <div id="blotterChart"></div>
+
+                        <!-- CENTER IMAGE (placeholder) -->
+                        <img src="{{ asset('assets/images/new/BLOTTER COMPLAINTS.png') }}" class="chart-center-img"
+                            alt="center image">
+                    </div>
                 </div>
             </div>
 
-            <div class="card-body bg-white p-2">
-                <div id="statisticsApexChart" style="min-height: 380px;"></div>
-            </div>
-        </div>
+            <!-- BORROWED -->
+            <div class="chart-card col-6">
+                <div class="card-content bg-white mt-3 rounded p-2">
 
-        <style>
-            .form-select {
-                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
-            }
-        </style>
+                    <h3 class="title_piechart">BORROWED EQUIPMENT PIE CHART</h3>
+
+                    <div class="chart-wrapper">
+                        <div id="borrowedChart"></div>
+
+                        <!-- CENTER IMAGE -->
+                        <img src="{{ asset('assets/images/new/BORROWED EQUIPMENT.png') }}" class="chart-center-img"
+                            alt="center image"style="left: 50%;">
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 @endsection
 
