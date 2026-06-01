@@ -31,6 +31,7 @@
                         <div class="d-flex flex-column justify-content-center align-items-end border-end pe-2">
                             @php
                                 $user_type_header = Auth::user()->type;
+                                $user = '';
 
                                 if ($user_type_header == 'treasurer') {
                                     $user = 'Treasurer';
@@ -38,6 +39,8 @@
                                     $user = 'Secretary';
                                 } elseif ($user_type_header == 'kagawad') {
                                     $user = 'Kagawad';
+                                } elseif ($user_type_header == 'admin') {
+                                    $user = 'Admin';
                                 }
                             @endphp
                             <p class="mb-0 fw-semibold text-white" style="font-size: 13px; line-height: 17px">

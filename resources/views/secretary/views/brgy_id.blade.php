@@ -5,16 +5,29 @@
     @include('secretary.modals.brgyidModal')
 
     <div class="page-container p-4">
-        <div class="top-header mb-3">
-            <div class="icon-container">
-                 <img src="{{ asset('assets/images/new/BRGY ID.png') }}" alt=""
-                    style="width: 30px; height: 55px; filter: invert(1); margin-top: -10px">
+        @if (Auth::user()->type == 'admin')
+            <div class="top-header mb-3">
+                <div class="icon-container">
+                    <img src="{{ asset('assets/images/users/secretary.png') }}" alt=""
+                        style="width: 40px; height: 50px;">
+                </div>
+                <div>
+                    <h3 class="mb-0">SECRETARY</h3>
+                    <p>Dashboard | Secretary</p>
+                </div>
             </div>
-            <div>
-                <h3 class="mb-0" style="color: black">BARANGAY ID</h3>
-                <p style="color: black">Dashboard | Barangay ID</p>
+        @else
+            <div class="top-header mb-3">
+                <div class="icon-container">
+                    <img src="{{ asset('assets/images/new/BRGY ID.png') }}" alt=""
+                        style="width: 30px; height: 55px; filter: invert(1); margin-top: -10px">
+                </div>
+                <div>
+                    <h3 class="mb-0" style="color: black">BARANGAY ID</h3>
+                    <p style="color: black">Dashboard | Barangay ID</p>
+                </div>
             </div>
-        </div>
+        @endif
 
         <div class="card">
             <div class="card-body p-0">
@@ -25,12 +38,14 @@
                             Reload
                         </button>
                     </div>
-                    <div class="d-flex gap-3">
-                        <button class="btn-add-table px-4" id="addBrgyId" style="padding:10px 20px !important">
-                            <i class="bi bi-plus-circle"></i>
-                            Add Barangay ID
-                        </button>
-                    </div>
+                    @if (Auth::user()->type != 'admin')
+                        <div class="d-flex gap-3">
+                            <button class="btn-add-table px-4" id="addBrgyId" style="padding:10px 20px !important">
+                                <i class="bi bi-plus-circle"></i>
+                                Add Barangay ID
+                            </button>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="p-3">

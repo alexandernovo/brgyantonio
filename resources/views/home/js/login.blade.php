@@ -22,7 +22,9 @@
                     if (type == "kagawad") {
                         window.location = "{{ route('kagawad_dashboard') }}";
                     }
-                    console.log("success");
+                    if (type == "admin") {
+                        window.location = "{{ route('admin_dashboard') }}";
+                    }
                 } else {
                     $('.errorLogin').removeClass('d-none').text(response.message);
                 }

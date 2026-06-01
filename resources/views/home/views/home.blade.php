@@ -54,7 +54,8 @@
                 {{-- BODY --}}
                 <div class="login-body">
 
-                    <form>
+                    <form class="logins-form" data-type="admin">
+                        <input type="hidden" name="type" value="admin">
 
                         <div class="mb-4">
 
@@ -97,7 +98,9 @@
                                 </button>
 
                             </div>
-
+                            <p class="mb-0 text-danger d-none errorLogin" style="font-size: 14px">
+                                Incorrect password or username
+                            </p>
                         </div>
 
                         {{-- LOGIN BUTTON --}}
@@ -114,4 +117,7 @@
         </div>
 
     </div>
+@endsection
+@section('js')
+    @include('home.js.login')
 @endsection

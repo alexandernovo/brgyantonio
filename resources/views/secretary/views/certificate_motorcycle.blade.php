@@ -5,16 +5,29 @@
     @include('secretary.modals.motorcycleModal')
 
     <div class="page-container p-4">
-        <div class="top-header mb-3">
-            <div class="icon-container">
-                <img src="{{ asset('assets/images/new/CERTIFICATION.png') }}" alt=""
-                    style="width: 40px; height: 40px; filter: invert(1)">
+        @if (Auth::user()->type == 'admin')
+            <div class="top-header mb-3">
+                <div class="icon-container">
+                    <img src="{{ asset('assets/images/users/secretary.png') }}" alt=""
+                        style="width: 40px; height: 50px;">
+                </div>
+                <div>
+                    <h3 class="mb-0">SECRETARY</h3>
+                    <p>Dashboard | Secretary</p>
+                </div>
             </div>
-            <div>
-                <h3 class="mb-0" style="color: black">CERTIFICATION</h3>
-                <p style="color: black">Dashboard | Certification</p>
+        @else
+            <div class="top-header mb-3">
+                <div class="icon-container">
+                    <img src="{{ asset('assets/images/new/CERTIFICATION.png') }}" alt=""
+                        style="width: 40px; height: 40px; filter: invert(1)">
+                </div>
+                <div>
+                    <h3 class="mb-0" style="color: black">CERTIFICATION</h3>
+                    <p style="color: black">Dashboard | Certification</p>
+                </div>
             </div>
-        </div>
+        @endif
 
         <div class="card">
             <div class="card-body p-0">
@@ -30,16 +43,18 @@
                             <p class="mb-0 text-white" style="font-size: 25px">MOTORCYCLE CERTIFICATION</p>
                         </div>
                     </div>
-                    <div class="d-flex gap-3">
-                        <button class="btn-edit-table px-4" id="editCertificationMotor">
-                            <i class="bi bi-pen-fill"></i>
-                            Edit Certification
-                        </button>
-                        <button class="btn-add-table px-4" id="addCertificationMotor">
-                            <i class="bi bi-plus-circle"></i>
-                            Add Certification
-                        </button>
-                    </div>
+                    @if (Auth::user()->type != 'admin')
+                        <div class="d-flex gap-3">
+                            <button class="btn-edit-table px-4" id="editCertificationMotor">
+                                <i class="bi bi-pen-fill"></i>
+                                Edit Certification
+                            </button>
+                            <button class="btn-add-table px-4" id="addCertificationMotor">
+                                <i class="bi bi-plus-circle"></i>
+                                Add Certification
+                            </button>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="p-3">

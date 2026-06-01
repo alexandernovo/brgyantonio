@@ -3,6 +3,7 @@
     $certificationRoute = ['certification_select'];
     $collectionRoute = ['collectionfee_select'];
     $reportKagawadRoute = ['kagawad_select', 'blotter_report', 'borrowed_report'];
+    $secretaryRoute = ['secretary_select'];
 @endphp
 <aside class="left-sidebar sidebar-custom">
 
@@ -14,19 +15,23 @@
                 $type = '';
                 $image = '';
                 $user_type = Auth::user()->type;
-
+                $user = '';
                 if ($user_type == 'treasurer') {
                     $type = 'Treasurer!';
-                    $user = "Treasurer";
+                    $user = 'Treasurer';
                     $image = asset('assets/images/users/treasurer.png');
                 } elseif ($user_type == 'secretary') {
                     $type = 'Secretary!';
-                    $user = "Secretary";
+                    $user = 'Secretary';
                     $image = asset('assets/images/users/secretary.png');
                 } elseif ($user_type == 'kagawad') {
                     $type = 'Kagawad!';
-                    $user = "Kagawad";
+                    $user = 'Kagawad';
                     $image = asset('assets/images/users/kagawad.png');
+                } elseif ($user_type == 'admin') {
+                    $type = 'Admin!';
+                    $user = 'Admin';
+                    $image = asset('assets/images/users/captain.png');
                 }
             @endphp
             <div class="profile-wrapper mx-auto">
@@ -255,6 +260,42 @@
                                 Report
                             </span>
                         </a>
+                    </li>
+                @endif
+                @if ($user_type == 'admin')
+                    <li class="sidebar-item px-2 mb-3">
+
+                        <a href="{{ route('admin_dashboard') }}"
+                            class="sidebar-link dashboard-link {{ Route::currentRouteName() == 'admin_dashboard' ? 'active' : '' }}">
+
+                            <i class="bi bi-grid-fill"></i>
+
+                            <span>
+                                Dashboard
+                            </span>
+
+                        </a>
+
+                    </li>
+                    <li class="sidebar-title">
+                        OFFICIALS
+                    </li>
+
+                    {{-- CERTIFICATION --}}
+                    <li class="sidebar-item ">
+
+                        <a href="{{ route('secretary_select') }}"
+                            class="sidebar-link {{ in_array(Route::currentRouteName(), $secretaryRoute) ? 'active' : '' }}">
+                            <div class="image-officials">
+                                <img src="{{ asset('assets/images/users/secretary.png') }}"
+                                    class="w-100 h-100 object-fit-contain image-black" alt="">
+                            </div>
+                            <span>
+                                Secretary
+                            </span>
+
+                        </a>
+
                     </li>
                 @endif
 

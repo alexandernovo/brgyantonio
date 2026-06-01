@@ -57,4 +57,48 @@
             toast.show();
         });
     });
+
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+    });
+
+    function postRequest(
+        route,
+        data = {},
+        callback = null,
+        errorCallback = null,
+        isFormData = false
+    ) {
+        $.ajax({
+            url: route,
+            type: "POST",
+            data: isFormData ? data : JSON.stringify(data),
+            contentType: isFormData ? false : "application/json",
+            process: isFormData ? false : true,
+            success: function(response) {
+                if (callback) {
+                    callback(response);
+                } else {
+                    console.log("success");
+                }
+            },
+            error: function(xhr, status, error) {
+                let errorMessageGlobal = "An unexpected error occurred.";
+                errorMessageGlobal = errorGetter(xhr, status);
+                Swal.fire({
+                    title: "Failed",
+                    text: errorMessageGlobal,
+                    icon: "error",
+                    showCancelButton: false,
+                });
+                if (errorCallback) {
+                    errorCallback(error);
+                } else {
+                    console.error("Error:", status, error);
+                }
+            },
+        });
+    }
 </script>

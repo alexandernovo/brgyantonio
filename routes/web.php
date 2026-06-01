@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
@@ -108,4 +109,8 @@ Route::middleware(["userchecker"])->group(function () {
     Route::post('/storeKagawadRecord', [KagawadController::class, 'storeKagawadRecord'])->name('storeKagawadRecord');
     Route::post('/get_blotter', [KagawadController::class, 'get_blotter'])->name('get_blotter');
     Route::post('/deleteRecord', [KagawadController::class, 'deleteRecord'])->name('deleteRecord');
+
+    //admin
+    Route::get('/admin_dashboard', [AdminController::class, 'admin_dashboard'])->name('admin_dashboard');
+    Route::get('/secretary_select', [AdminController::class, 'secretary_select'])->name('secretary_select');
 });
