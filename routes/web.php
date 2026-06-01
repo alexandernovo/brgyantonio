@@ -113,4 +113,5 @@ Route::middleware(["userchecker"])->group(function () {
     //admin
     Route::get('/admin_dashboard', [AdminController::class, 'admin_dashboard'])->name('admin_dashboard');
     Route::get('/secretary_select', [AdminController::class, 'secretary_select'])->name('secretary_select');
+    Route::get('/treasurer_select', [AdminController::class, 'treasurer_select'])->name('treasurer_select');
 });

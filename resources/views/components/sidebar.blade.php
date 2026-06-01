@@ -4,6 +4,7 @@
     $collectionRoute = ['collectionfee_select'];
     $reportKagawadRoute = ['kagawad_select', 'blotter_report', 'borrowed_report'];
     $secretaryRoute = ['secretary_select'];
+    $treasurerRoute = ['treasurer_select'];
 @endphp
 <aside class="left-sidebar sidebar-custom">
 
@@ -288,6 +289,22 @@
                             class="sidebar-link {{ in_array(Route::currentRouteName(), $secretaryRoute) ? 'active' : '' }}">
                             <div class="image-officials">
                                 <img src="{{ asset('assets/images/users/secretary.png') }}"
+                                    class="w-100 h-100 object-fit-contain image-black" alt="">
+                            </div>
+                            <span>
+                                Secretary
+                            </span>
+
+                        </a>
+
+                    </li>
+
+                    <li class="sidebar-item ">
+
+                        <a href="{{ route('treasurer_select') }}"
+                            class="sidebar-link {{ in_array(Route::currentRouteName(), $treasurerRoute) ? 'active' : '' }}">
+                            <div class="image-officials">
+                                <img src="{{ asset('assets/images/users/treasurer.png') }}"
                                     class="w-100 h-100 object-fit-contain image-black" alt="">
                             </div>
                             <span>

@@ -5,16 +5,28 @@
     @include('treasurer.modals.collectionBarangayIDModal')
 
     <div class="page-container p-4">
-        <div class="top-header mb-3">
-            <div class="icon-container">
-                <img src="{{ asset('assets/images/new/PESO.png') }}" alt="" style="width: 30px; height: 30px;">
+        @if (Auth::user()->type == 'admin')
+            <div class="top-header mb-3">
+                <div class="icon-container">
+                    <img src="{{ asset('assets/images/users/treasurer.png') }}" alt=""
+                        style="width: 40px; height: 50px;">
+                </div>
+                <div>
+                    <h3 class="mb-0">TREASURER</h3>
+                    <p>Dashboard | Treasurer</p>
+                </div>
             </div>
-            <div>
-                <h3 class="mb-0" style="color: black">COLLECTION FEE</h3>
-                <p style="color: black">Dashboard | Collection Fee</p>
+        @else
+            <div class="top-header mb-3">
+                <div class="icon-container">
+                    <img src="{{ asset('assets/images/new/PESO.png') }}" alt="" style="width: 30px; height: 30px;">
+                </div>
+                <div>
+                    <h3 class="mb-0" style="color: black">COLLECTION FEE</h3>
+                    <p style="color: black">Dashboard | Collection Fee</p>
+                </div>
             </div>
-        </div>
-
+        @endif
         <div class="card">
             <div class="card-body p-0">
                 <div class="primary-bg-new d-flex justify-content-between p-3">
@@ -37,10 +49,12 @@
                             <i class="bi bi-check-circle"></i>
                             Paid Payor
                         </button>
-                        <button class="btn-add-table px-4" id="addCollectionBarangayID">
-                            <i class="bi bi-plus-circle"></i>
-                            Add Payor
-                        </button>
+                        @if (Auth::user()->type != 'admin')
+                            <button class="btn-add-table px-4" id="addCollectionBarangayID">
+                                <i class="bi bi-plus-circle"></i>
+                                Add Payor
+                            </button>
+                        @endif
                     </div>
                 </div>
 

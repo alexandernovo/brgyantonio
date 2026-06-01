@@ -977,4 +977,5 @@ tbody tr.selected-row td {
     height: 40px;
     border: 2px solid white;
     border-radius: 50%;
+    background-color: #0D1729;
 }
