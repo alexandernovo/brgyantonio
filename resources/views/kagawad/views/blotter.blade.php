@@ -5,15 +5,29 @@
     @include('kagawad.modals.blotterModal')
 
     <div class="page-container p-4">
-        <div class="top-header mb-3">
-            <div class="icon-container">
-                <img src="{{asset('assets/images/new/BLOTTER COMPLAINTS.png')}}" alt="" style="width: 42px; height: 42px">
+        @if (Auth::user()->type == 'admin')
+            <div class="top-header mb-3">
+                <div class="icon-container">
+                    <img src="{{ asset('assets/images/users/kagawad.png') }}" alt=""
+                        style="width: 40px; height: 50px;">
+                </div>
+                <div>
+                    <h3 class="mb-0">KAGAWAD</h3>
+                    <p>Dashboard | Kagawad</p>
+                </div>
             </div>
-            <div>
-                <h3 class="mb-0" style="color: black">BLOTTER COMPLAINTS</h3>
-                <p style="color: black">Dashboard | Blotter Complaints</p>
+        @else
+            <div class="top-header mb-3">
+                <div class="icon-container">
+                    <img src="{{ asset('assets/images/new/BLOTTER COMPLAINTS.png') }}" alt=""
+                        style="width: 42px; height: 42px">
+                </div>
+                <div>
+                    <h3 class="mb-0" style="color: black">BLOTTER COMPLAINTS</h3>
+                    <p style="color: black">Dashboard | Blotter Complaints</p>
+                </div>
             </div>
-        </div>
+        @endif
 
         <div class="card">
             <div class="card-body p-0">
@@ -33,10 +47,12 @@
                             <i class="bi bi-check-circle"></i>
                             Resolved
                         </button>
-                        <button class="btn-add-table px-4" id="addComplaint">
-                            <i class="bi bi-plus-circle"></i>
-                            Add Complaint
-                        </button>
+                        @if (Auth::user()->type != 'admin')
+                            <button class="btn-add-table px-4" id="addComplaint">
+                                <i class="bi bi-plus-circle"></i>
+                                Add Complaint
+                            </button>
+                        @endif
                     </div>
                 </div>
 

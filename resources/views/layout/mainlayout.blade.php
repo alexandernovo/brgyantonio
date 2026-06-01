@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/select2.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/style2.css') }}" />
+    @include('layout.css.layoutcss')
 </head>
 @php
     $notRoutes = ['home', 'projectteam', 'logins'];

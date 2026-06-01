@@ -5,16 +5,29 @@
     @include('kagawad.modals.borrowedModal')
 
     <div class="page-container p-4">
-        <div class="top-header mb-3">
-            <div class="icon-container">
-                <img src="{{ asset('assets/images/new/BORROWED EQUIPMENT.png') }}" alt=""
-                    style="width: 40px; height: 40px; filter: invert(1)">
+        @if (Auth::user()->type == 'admin')
+            <div class="top-header mb-3">
+                <div class="icon-container">
+                    <img src="{{ asset('assets/images/users/kagawad.png') }}" alt=""
+                        style="width: 40px; height: 50px;">
+                </div>
+                <div>
+                    <h3 class="mb-0">KAGAWAD</h3>
+                    <p>Dashboard | Kagawad</p>
+                </div>
             </div>
-            <div>
-                <h3 class="mb-0" style="color: black">BORROWED EQUIPMENT</h3>
-                <p style="color: black">Dashboard | Borrowed Equipment</p>
+        @else
+            <div class="top-header mb-3">
+                <div class="icon-container">
+                    <img src="{{ asset('assets/images/new/BORROWED EQUIPMENT.png') }}" alt=""
+                        style="width: 40px; height: 40px; filter: invert(1)">
+                </div>
+                <div>
+                    <h3 class="mb-0" style="color: black">BORROWED EQUIPMENT</h3>
+                    <p style="color: black">Dashboard | Borrowed Equipment</p>
+                </div>
             </div>
-        </div>
+        @endif
 
         <div class="card">
             <div class="card-body p-0">
@@ -34,10 +47,12 @@
                             <i class="bi bi-check-circle"></i>
                             Returned
                         </button>
-                        <button class="btn-add-table px-4" id="addBorrowed">
-                            <i class="bi bi-plus-circle"></i>
-                            Add Borrower
-                        </button>
+                        @if (Auth::user()->type != 'admin')
+                            <button class="btn-add-table px-4" id="addBorrowed">
+                                <i class="bi bi-plus-circle"></i>
+                                Add Borrower
+                            </button>
+                        @endif
                     </div>
                 </div>
 

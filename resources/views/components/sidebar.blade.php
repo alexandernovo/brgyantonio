@@ -5,6 +5,7 @@
     $reportKagawadRoute = ['kagawad_select', 'blotter_report', 'borrowed_report'];
     $secretaryRoute = ['secretary_select'];
     $treasurerRoute = ['treasurer_select'];
+    $kagawadRoute = ['kagawad_select'];
 @endphp
 <aside class="left-sidebar sidebar-custom">
 
@@ -308,7 +309,23 @@
                                     class="w-100 h-100 object-fit-contain image-black" alt="">
                             </div>
                             <span>
-                                Secretary
+                                Treasurer
+                            </span>
+
+                        </a>
+
+                    </li>
+
+                    <li class="sidebar-item ">
+
+                        <a href="{{ route('kagawad_select') }}"
+                            class="sidebar-link {{ in_array(Route::currentRouteName(), $kagawadRoute) ? 'active' : '' }}">
+                            <div class="image-officials">
+                                <img src="{{ asset('assets/images/users/kagawad.png') }}"
+                                    class="w-100 h-100 object-fit-contain image-black" alt="">
+                            </div>
+                            <span>
+                                Kagawad
                             </span>
 
                         </a>

@@ -43,4 +43,8 @@ class AdminController extends Controller
     {
         return view("admin.views.treasurer_select");
     }
+    public function kagawad_select()
+    {
+        return view("admin.views.kagawad_select");
+    }
 }
