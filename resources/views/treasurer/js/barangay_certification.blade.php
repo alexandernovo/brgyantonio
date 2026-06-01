@@ -338,8 +338,8 @@
         });
     });
 
-    $(document).on("click", '.paidUnpaidCertificationertificatione', function() {
-        $(".paidUnpaidCertificationCertification").removeClass("active-btn").addClass("btn-edit-table");
+    $(document).on("click", '.paidUnpaidCertificationCollection', function() {
+        $(".paidUnpaidCertificationCollection").removeClass("active-btn").addClass("btn-edit-table");
         $(this).addClass("active-btn").removeClass("btn-edit-table");
 
         statusCollectionCertification = $(this).attr('data-status');

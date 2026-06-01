@@ -42,11 +42,11 @@
                         </div>
                     </div>
                     <div class="d-flex gap-3">
-                        <button class="btn-edit-table px-4 paidUnpaidCertificationCertification" data-status="Unpaid">
+                        <button class="btn-edit-table px-4 paidUnpaidCertificationCollection" data-status="Unpaid">
                             <i class="bi bi-x-circle"></i>
                             Unpaid Payor
                         </button>
-                        <button class="btn-edit-table px-4 paidUnpaidCertificationCertification active-btn"
+                        <button class="btn-edit-table px-4 paidUnpaidCertificationCollection active-btn"
                             data-status="Paid">
                             <i class="bi bi-check-circle"></i>
                             Paid Payor
