@@ -434,10 +434,6 @@
     width: 200px;
 }
 
-.bg-success {
-    background: #1B202B !important;
-}
-
 .data_table.dataTable>tbody>tr>td:last-child {
     background: white !important;
 }
@@ -446,6 +442,49 @@
 .data_table.dataTable td {
     white-space: nowrap !important;
     position: relative;
+}
+
+
+.data_table.dataTable>thead>tr>th,
+.data_table.dataTable>thead>tr>td {
+    position: relative !important;
+    text-wrap: nowrap !important;
+}
+
+.userTable th {
+    background-color: #1A412F !important;
+    color: white !important;
+    padding: 10px 10px !important;
+}
+
+.sticky-action {
+    position: sticky !important;
+    right: -1px !important;
+    background: #1A412F !important;
+    z-index: 3;
+    width: 200px !important;
+}
+
+.userTable.dataTable>thead>tr>th:last-child {
+    position: sticky !important;
+    right: 0 !important;
+    background: #1A412F !important;
+    z-index: 3;
+    width: 200px;
+}
+
+.userTable.dataTable>tbody>tr>td:last-child {
+    background: white !important;
+}
+
+.userTable.dataTable th,
+.userTable.dataTable td {
+    white-space: nowrap !important;
+    position: relative;
+}
+
+.bg-success {
+    background: #1B202B !important;
 }
 
 .dt-layout-table {

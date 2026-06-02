@@ -115,4 +115,8 @@ Route::middleware(["userchecker"])->group(function () {
     Route::get('/secretary_select', [AdminController::class, 'secretary_select'])->name('secretary_select');
     Route::get('/treasurer_select', [AdminController::class, 'treasurer_select'])->name('treasurer_select');
     Route::get('/kagawad_select', [AdminController::class, 'kagawad_select'])->name('kagawad_select');
+    Route::get('/user', [AdminController::class, 'user'])->name('user');
+    Route::post('/get_users', [AdminController::class, 'get_users'])->name('get_users');
+    Route::post('/storeUser', [AdminController::class, 'storeUser'])->name('storeUser');
+    Route::post('/deleteUser', [AdminController::class, 'deleteUser'])->name('deleteUser');
 });

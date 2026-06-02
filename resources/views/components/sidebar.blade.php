@@ -331,6 +331,21 @@
                         </a>
 
                     </li>
+                    <hr class="sidebar-divider my-0" style="border-top: 2px solid white">
+
+                    <li class="sidebar-item">
+
+                        <a href="{{ route('user') }}" class="sidebar-link">
+
+                            <i class="bi bi-person-fill" style="font-size: 25px"></i>
+
+                            <span>
+                                User
+                            </span>
+
+                        </a>
+
+                    </li>
                 @endif
 
                 <hr class="sidebar-divider my-0" style="border-top: 2px solid white">
