@@ -334,7 +334,7 @@ class SecretaryController extends Controller
             })
 
             ->get();
-            
+
 
         return view('secretary.reports.report_brgy', compact('data'));
     }
@@ -526,6 +526,26 @@ class SecretaryController extends Controller
             ->get();
 
         return view('secretary.reports.report_quarry', compact('data'));
+    }
+
+
+
+    public function report_brgy_id(Request $request)
+    {
+        $monthYear = $request->query('month');
+
+        $data = BrgyID::when($monthYear, function ($query) use ($monthYear) {
+
+                $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
+
+                $query->whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month);
+            })
+
+            ->get();
+            
+
+        return view('secretary.reports.report_brgy_id', compact('data'));
     }
 
     public function getChartStatistics(Request $request)

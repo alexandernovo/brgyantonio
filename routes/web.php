@@ -71,6 +71,7 @@ Route::middleware(["userchecker"])->group(function () {
     Route::get('/report_motorcycle', [SecretaryController::class, 'report_motorcycle'])->name('report_motorcycle');
     Route::get('/report_piggery', [SecretaryController::class, 'report_piggery'])->name('report_piggery');
     Route::get('/report_quarry', [SecretaryController::class, 'report_quarry'])->name('report_quarry');
+    Route::get('/report_brgy_id', [SecretaryController::class, 'report_brgy_id'])->name('report_brgy_id');
 
     //quarry
     Route::get('/quarry', [SecretaryController::class, 'quarry'])->name('quarry');

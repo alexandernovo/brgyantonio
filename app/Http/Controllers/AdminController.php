@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Certification;
 use App\Models\Collection;
 use App\Models\KagawadRecord;
 use App\Models\User;
@@ -15,11 +16,10 @@ class AdminController extends Controller
 {
     public function admin_dashboard()
     {
-        $total_resolved = KagawadRecord::where('record_type', 'blotter')->where('status', 'Resolved')->count();
-        $total_unresolved = KagawadRecord::where('record_type', 'blotter')->where('status', 'Unresolved')->count();
-        $total_returned = KagawadRecord::where('record_type', 'borrowed')->where('status', 'Returned')->count();
-        $total_unreturned = KagawadRecord::where('record_type', 'borrowed')->where('status', 'Unreturned')->count();
-
+        $totalCertification = Certification::count();
+        $totalCollection = Collection::sum('payment_amount');
+        $totalUnreturned = KagawadRecord::where('record_type', 'borrowed')->where('status', 'Unreturned')->count();
+        
         $blotter = KagawadRecord::where('record_type', 'blotter')
             ->selectRaw("
                 SUM(CASE WHEN status = 'Resolved' THEN 1 ELSE 0 END) as resolved,
@@ -35,7 +35,7 @@ class AdminController extends Controller
         ")
             ->first();
 
-        return view('admin.views.admin_dashboard', compact('total_resolved', 'total_unresolved', 'total_returned', 'total_unreturned', 'blotter', 'borrowed'));
+        return view('admin.views.admin_dashboard', compact('totalCertification', 'totalCollection', 'totalUnreturned', 'blotter', 'borrowed'));
     }
 
     public function secretary_select()

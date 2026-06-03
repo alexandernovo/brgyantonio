@@ -83,6 +83,8 @@
             if (cert_type == 'Certificate of Lot') {
                 route = "{{ route('report_lot') }}";
             }
+        } else {
+            route = "{{ route('report_brgy_id') }}";
         }
 
         window.location = `${route}?month=${month}`;

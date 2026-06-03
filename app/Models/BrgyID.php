@@ -21,7 +21,6 @@ class BrgyID extends Model
         'dateexpired',
         'dateclaim',
         'dateexpired',
-        'dateclaim',
         ];
 
     protected $casts = [

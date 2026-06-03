@@ -103,7 +103,7 @@
 
                             </label>
 
-                            <input type="text" name="guidance_contact" id="guidance_contact" class="form-control"
+                            <input type="number" name="guidance_contact" id="guidance_contact" class="form-control"
                                 style="border: 2px solid #1b3f2f; border-radius: 6px;" required>
 
                         </div>
