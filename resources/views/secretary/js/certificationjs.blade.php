@@ -118,7 +118,7 @@
             }
 
             if (cert_type == 'Certificate of Barangay Clearance') {
-                route = "{{ route('certificate_clearance') }}";
+                route = "{{ route('report_brgy_clearance') }}";
             }
 
             if (cert_type == 'Certificate of Trees') {

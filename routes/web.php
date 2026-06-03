@@ -61,6 +61,7 @@ Route::middleware(["userchecker"])->group(function () {
     //reports
     Route::get('/report_select', [SecretaryController::class, 'report_select'])->name('report_select');
     Route::get('/report_brgy', [SecretaryController::class, 'report_brgy'])->name('report_brgy');
+    Route::get('/report_brgy_clearance', [SecretaryController::class, 'report_brgy_clearance'])->name('report_brgy_clearance');
     Route::get('/report_trees', [SecretaryController::class, 'report_trees'])->name('report_trees');
     Route::get('/report_jobseeker', [SecretaryController::class, 'report_jobseeker'])->name('report_jobseeker');
     Route::get('/report_goodmoral', [SecretaryController::class, 'report_goodmoral'])->name('report_goodmoral');
@@ -116,6 +117,7 @@ Route::middleware(["userchecker"])->group(function () {
     Route::get('/treasurer_select', [AdminController::class, 'treasurer_select'])->name('treasurer_select');
     Route::get('/kagawad_select', [AdminController::class, 'kagawad_select'])->name('kagawad_select');
     Route::get('/user', [AdminController::class, 'user'])->name('user');
+    Route::get('/report_admin', [AdminController::class, 'report_admin'])->name('report_admin');
     Route::post('/get_users', [AdminController::class, 'get_users'])->name('get_users');
     Route::post('/storeUser', [AdminController::class, 'storeUser'])->name('storeUser');
     Route::post('/deleteUser', [AdminController::class, 'deleteUser'])->name('deleteUser');

@@ -334,8 +334,28 @@ class SecretaryController extends Controller
             })
 
             ->get();
+            
 
         return view('secretary.reports.report_brgy', compact('data'));
+    }
+
+    public function report_brgy_clearance(Request $request)
+    {
+        $monthYear = $request->query('month');
+
+        $data = Certification::where('certification_type', 'clearance')
+
+            ->when($monthYear, function ($query) use ($monthYear) {
+
+                $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
+
+                $query->whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month);
+            })
+
+            ->get();
+
+        return view('secretary.reports.report_brgy_clearance', compact('data'));
     }
 
     public function report_trees(Request $request)

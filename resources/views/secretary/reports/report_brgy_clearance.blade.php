@@ -136,7 +136,7 @@
 
             <div class="text-center mb-4">
                 <h3 class="brgy-title mb-2">BARANGAY SAN ANTONIO</h3>
-                <h4 class="report-subtitle text-uppercase">LIST OF BARANGAY CERTIFICATION AS OF 
+                <h4 class="report-subtitle text-uppercase">LIST OF BARANGAY CLEARANCE CERTIFICATION AS OF 
                     {{ request('month') ? \Carbon\Carbon::parse(request('month'))->format('F Y') : now()->format('F Y') }}
                 </h4>
             </div>

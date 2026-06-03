@@ -346,6 +346,18 @@
                         </a>
 
                     </li>
+                    
+                    <hr class="sidebar-divider my-0" style="border-top: 2px solid white">
+
+                    <li class="sidebar-item">
+                        <a href="{{ route('report_admin') }}"
+                            class="sidebar-link {{ Route::currentRouteName() == 'report_admin' ? 'active' : '' }}">
+                            <i class="bi bi-file-earmark-text-fill"></i>
+                            <span>
+                                Report
+                            </span>
+                        </a>
+                    </li>
                 @endif
 
                 <hr class="sidebar-divider my-0" style="border-top: 2px solid white">

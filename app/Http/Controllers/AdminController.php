@@ -54,6 +54,10 @@ class AdminController extends Controller
     {
         return view("admin.views.user");
     }
+    public function report_admin()
+    {
+        return view("admin.views.report_admin");
+    }
     public function get_users(Request $request)
     {
         $data = User::all();
@@ -74,7 +78,7 @@ class AdminController extends Controller
 
         if ($data['id'] != 0 && $data['id'] != "") {
             $user = User::query()->where('username', '=', $data['username'])->first();
-            
+
             if ($user && $user->id != $data['id']) {
                 return response()->json(['status' => 'error', 'message' => 'Username already exist!']);
             }
