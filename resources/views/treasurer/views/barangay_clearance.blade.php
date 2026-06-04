@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="p-3">
-                    <table id="CollectionTableClearance" class="table data_table table-bordered table-hover w-100 mb-0">
+                    <table id="collectionTableClearance" class="table data_table table-bordered table-hover w-100 mb-0">
                         <thead>
                             <tr>
                                 <th>NO.</th>

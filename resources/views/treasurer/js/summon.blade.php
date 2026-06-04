@@ -9,7 +9,7 @@
     let certificationCollectionSummonData = [];
     let statusCollectionSummon = "Paid";
 
-    collectionClearanceOptions = {
+    collectionSummonOptions = {
         processing: true,
         serverSide: false,
         ajax: {
@@ -104,9 +104,9 @@
             <div class="d-flex align-items-center gap-2 flex-wrap">
                 <div class="input-group date-filter-box" style="width:auto;">
                     <span class="input-group-text">From</span>
-                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateFromBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="collectionDateFrom">
                     <span class="input-group-text">To</span>
-                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateToBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="collectionDateTo">
                     <button id="btnCertFilter" class="btn btn-filter">Filter</button>
                 </div>
                 <div class="alphabet-filter d-flex gap-1 flex-wrap">
@@ -123,16 +123,16 @@
         }
     };
 
-    function renderCollectionClearance() {
+    function renderCollectionSummon() {
         if (CollectionTableSummon) {
             CollectionTableSummon.destroy();
         }
 
-        CollectionTableSummon = new DataTable('#CollectionTableSummon', collectionClearanceOptions)
+        CollectionTableSummon = new DataTable('#CollectionTableSummon', collectionSummonOptions)
     }
 
     $(document).ready(function() {
-        renderCollectionClearance();
+        renderCollectionSummon();
     })
 
     $(document).on("click", "#addCollectionSummon", function() {
@@ -221,7 +221,7 @@
 
                 $('#collectionSummonModal').modal('hide');
                 $('#collectionFormSummon')[0].reset();
-                reloadCollectionClearance();
+                reloadCollectionSummon();
             },
             error: function(xhr) {
                 let errors = xhr.responseJSON.errors;
@@ -231,11 +231,11 @@
         });
     });
 
-    function reloadCollectionClearance() {
+    function reloadCollectionSummon() {
         if (CollectionTableSummon) {
             CollectionTableSummon.ajax.reload(null, false);
         } else {
-            renderCollectionClearance();
+            renderCollectionSummon();
         }
     }
 
@@ -258,7 +258,7 @@
         }
     })
 
-    collectionClearanceOptions.drawCallback = function() {
+    collectionSummonOptions.drawCallback = function() {
 
         if (!selectedCollectionSummonId) return;
 
@@ -322,7 +322,7 @@
                         selectedCollectionSummonRow = null;
                     }
 
-                    reloadCollectionClearance();
+                    reloadCollectionSummon();
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
@@ -343,7 +343,63 @@
         $(this).addClass("active-btn").removeClass("btn-edit-table");
 
         statusCollectionSummon = $(this).attr('data-status');
-        collectionClearanceOptions.ajax.data.status = statusCollectionSummon;
-        reloadCollectionClearance();
+        collectionSummonOptions.ajax.data.status = statusCollectionSummon;
+        reloadCollectionSummon();
     })
+
+
+    $(document).on("click", '.paidUnpaidCertificationCollection', function() {
+        $(".paidUnpaidCertificationCollection").removeClass("active-btn").addClass("btn-edit-table");
+        $(this).addClass("active-btn").removeClass("btn-edit-table");
+
+        statusCollectionSummon = $(this).attr('data-status');
+        collectionSummonOptions.ajax.data.status = statusCollectionSummon;
+        reloadCollectionSummon();
+    })
+
+    $(document).on("click", ".btn-reload-table", function() {
+        dateFromCollectionSummon = '';
+        dateToCollectionSummon = '';
+        selectedLetterCollectionSummon = '';
+
+        collectionSummonOptions.ajax.data.dateFrom = dateFromCollectionSummon;
+        collectionSummonOptions.ajax.data.dateTo = dateToCollectionSummon;
+        collectionSummonOptions.ajax.data.selectedLetterCollectionSummon =
+            selectedLetterCollectionSummon;
+        $(".alpha-btn").removeClass("active");
+        CollectionTableSummon.column(3).search('').draw();
+        reloadCollectionSummon();
+    })
+
+    $(document).on("click", "#btnCertFilter", function() {
+        dateFromCollectionSummon = $("#collectionDateFrom").val();
+        dateToCollectionSummon = $("#collectionDateTo").val();
+        collectionSummonOptions.ajax.data.dateFrom = dateFromCollectionSummon;
+        collectionSummonOptions.ajax.data.dateTo = dateToCollectionSummon;
+        reloadCollectionSummon();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).attr("data-letter").toUpperCase();
+
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            CollectionTableSummon
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }
+
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        CollectionTableSummon
+            .column(3) // 👈 FIX: PAYOR column (not 1)
+            .search('^' + letter, true, false)
+            .draw();
+    });
 </script>

@@ -88,7 +88,17 @@ class TreasurerController extends Controller
     {
         $type = $request->type;
         $status = $request->status;
-        $data = Collection::where("collection_type", $type)->where('payment_status', $status)->get();
+        $query = Collection::where("collection_type", $type)->where('payment_status', $status);
+
+        if ($request->filled('dateFrom')) {
+            $query->whereDate('payment_date', '>=', $request->dateFrom);
+        }
+
+        if ($request->filled('dateTo')) {
+            $query->whereDate('payment_date', '<=', $request->dateTo);
+        }
+
+        $data = $query->get();
 
         return response()->json(['data' => $data]);
     }

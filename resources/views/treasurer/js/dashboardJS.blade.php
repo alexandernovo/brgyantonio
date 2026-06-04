@@ -313,7 +313,7 @@
         dashboardOptions.ajax.data.dateTo = dateTo;
         dashboardOptions.ajax.data.selectedLetterDashboard = selectedLetterDashboard;
         $(".alpha-btn").removeClass("active");
-        certificationTableQuarryOtp.column(1).search('').draw();
+        certificationTableQuarryOtp.column(3).search('').draw();
         reloaddashboardTable();
     })
 
@@ -347,7 +347,7 @@
         $(this).addClass("active");
 
         certificationTableQuarryOtp
-            .column(1)
+            .column(3)
             .search('^' + letter, true, false)
             .draw();
     });

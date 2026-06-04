@@ -104,9 +104,9 @@
             <div class="d-flex align-items-center gap-2 flex-wrap">
                 <div class="input-group date-filter-box" style="width:auto;">
                     <span class="input-group-text">From</span>
-                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateFromBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="collectionDateFrom">
                     <span class="input-group-text">To</span>
-                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateToBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="collectionDateTo">
                     <button id="btnCertFilter" class="btn btn-filter">Filter</button>
                 </div>
                 <div class="alphabet-filter d-flex gap-1 flex-wrap">
@@ -346,4 +346,52 @@
         collectionCertificationOptions.ajax.data.status = statusCollectionCertification;
         reloadCollectionCertification();
     })
+
+    $(document).on("click", ".btn-reload-table", function() {
+        dateFromCollectionCertification = '';
+        dateToCollectionCertification = '';
+        selectedLetterCollectionCertification = '';
+
+        collectionCertificationOptions.ajax.data.dateFrom = dateFromCollectionCertification;
+        collectionCertificationOptions.ajax.data.dateTo = dateToCollectionCertification;
+        collectionCertificationOptions.ajax.data.selectedLetterCollectionCertification =
+            selectedLetterCollectionCertification;
+        $(".alpha-btn").removeClass("active");
+        CollectionTableCertification.column(3).search('').draw();
+        reloadCollectionCertification();
+    })
+
+    $(document).on("click", "#btnCertFilter", function() {
+        dateFromCollectionCertification = $("#collectionDateFrom").val();
+        dateToCollectionCertification = $("#collectionDateTo").val();
+        collectionCertificationOptions.ajax.data.dateFrom = dateFromCollectionCertification;
+        collectionCertificationOptions.ajax.data.dateTo = dateToCollectionCertification;
+        reloadCollectionCertification();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).data("letter");
+
+        // if already active → unselect (reset)
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            CollectionTableCertification
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }
+
+        // normal select
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        CollectionTableCertification
+            .column(3)
+            .search('^' + letter, true, false)
+            .draw();
+    });
 </script>

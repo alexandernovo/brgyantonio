@@ -3,7 +3,7 @@
     let dateFromCollectionClearance = '';
     let dateToCollectionClearance = '';
     let selectedLetterCollectionClearance = '';
-    let CollectionTableClearance = null;
+    let collectionTableClearance = null;
     let selectedCollectionClearanceRow = null;
     let selectedCollectionClearanceId = null;
     let certificationCollectionClearanceData = [];
@@ -104,9 +104,9 @@
             <div class="d-flex align-items-center gap-2 flex-wrap">
                 <div class="input-group date-filter-box" style="width:auto;">
                     <span class="input-group-text">From</span>
-                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateFromBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="collectionDateFrom">
                     <span class="input-group-text">To</span>
-                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateToBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="collectionDateTo">
                     <button id="btnCertFilter" class="btn btn-filter">Filter</button>
                 </div>
                 <div class="alphabet-filter d-flex gap-1 flex-wrap">
@@ -116,7 +116,7 @@
                 </div>
             </div>`;
 
-            $("#CollectionTableClearance_wrapper .dt-length")
+            $("#collectionTableClearance_wrapper .dt-length")
                 .addClass('d-flex align-items-center gap-2')
                 .first()
                 .append(filterHtml);
@@ -124,11 +124,11 @@
     };
 
     function renderCollectionClearance() {
-        if (CollectionTableClearance) {
-            CollectionTableClearance.destroy();
+        if (collectionTableClearance) {
+            collectionTableClearance.destroy();
         }
 
-        CollectionTableClearance = new DataTable('#CollectionTableClearance', collectionClearanceOptions)
+        collectionTableClearance = new DataTable('#collectionTableClearance', collectionClearanceOptions)
     }
 
     $(document).ready(function() {
@@ -163,7 +163,7 @@
 
     $(document).on('click', 'table.dataTable tbody tr', function() {
 
-        const rowData = CollectionTableClearance.row(this).data();
+        const rowData = collectionTableClearance.row(this).data();
 
         // unselect
         if ($(this).hasClass('selected-row')) {
@@ -232,8 +232,8 @@
     });
 
     function reloadCollectionClearance() {
-        if (CollectionTableClearance) {
-            CollectionTableClearance.ajax.reload(null, false);
+        if (collectionTableClearance) {
+            collectionTableClearance.ajax.reload(null, false);
         } else {
             renderCollectionClearance();
         }
@@ -346,4 +346,51 @@
         collectionClearanceOptions.ajax.data.status = statusCollectionClearance;
         reloadCollectionClearance();
     })
+
+    $(document).on("click", ".btn-reload-table", function() {
+        dateFromCollectionClearance = '';
+        dateToCollectionClearance = '';
+        selectedLetterCollectionClearance = '';
+
+        collectionClearanceOptions.ajax.data.dateFrom = dateFromCollectionClearance;
+        collectionClearanceOptions.ajax.data.dateTo = dateToCollectionClearance;
+        collectionClearanceOptions.ajax.data.selectedLetterCollectionClearance = selectedLetterCollectionClearance;
+        $(".alpha-btn").removeClass("active");
+        collectionTableClearance.column(3).search('').draw();
+        reloadCollectionClearance();
+    })
+
+    $(document).on("click", "#btnCertFilter", function() {
+        dateFromCollectionClearance = $("#collectionDateFrom").val();
+        dateToCollectionClearance = $("#collectionDateTo").val();
+        collectionClearanceOptions.ajax.data.dateFrom = dateFromCollectionClearance;
+        collectionClearanceOptions.ajax.data.dateTo = dateToCollectionClearance;
+        reloadCollectionClearance();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).data("letter");
+
+        // if already active → unselect (reset)
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            collectionTableClearance
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }
+
+        // normal select
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        collectionTableClearance
+            .column(3)
+            .search('^' + letter, true, false)
+            .draw();
+    });
 </script>
