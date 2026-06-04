@@ -365,7 +365,7 @@
                 {{-- LOGOUT --}}
                 <li class="sidebar-item">
 
-                    <a href="a" class="sidebar-link">
+                    <a class="sidebar-link logout-btn">
 
                         <i class="bi bi-box-arrow-right"></i>
 

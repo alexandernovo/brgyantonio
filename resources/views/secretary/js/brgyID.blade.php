@@ -131,12 +131,14 @@
 
                     <input type="date"
                         class="form-control"
+                        value="{{ date('Y-m-d') }}"
                         id="certDateFromBrgyId">
 
                     <span class="input-group-text">To</span>
 
                     <input type="date"
                         class="form-control"
+                        value="{{ date('Y-m-d') }}"
                         id="certDateToBrgyId">
 
                     <button id="btnCertFilter"
@@ -151,7 +153,7 @@
                 <div class="alphabet-filter d-flex gap-1 flex-wrap">
 
                     ${'ABCDEFGHIJKL'.split('').map(char =>
-                        `<button class="alpha-btn ${char === 'B' ? 'active' : ''}"
+                        `<button class="alpha-btn"
                             data-letter="${char}">
 
                             ${char}
@@ -384,5 +386,52 @@
             });
 
         });
+    });
+
+    $(document).on("click", ".btn-reload-table", function() {
+        dateFromBrgyId = '';
+        dateToBrgyId = '';
+        selectedLetterBrgyId = '';
+
+        certificationBrgyIdOptions.ajax.data.dateFrom = dateFromBrgyId;
+        certificationBrgyIdOptions.ajax.data.dateTo = dateToBrgyId;
+        certificationBrgyIdOptions.ajax.data.selectedLetterBrgyId = selectedLetterBrgyId;
+        $(".alpha-btn").removeClass("active");
+        certificationTableBrgyId.column(1).search('').draw();
+        reloadBrgyIdCertification();
+    })
+
+    $(document).on("click", "#btnCertFilter", function() {
+        dateFromBrgyId = $("#certDateFromBrgyId").val();
+        dateToBrgyId = $("#certDateToBrgyId").val();
+        certificationBrgyIdOptions.ajax.data.dateFrom = dateFromBrgyId;
+        certificationBrgyIdOptions.ajax.data.dateTo = dateToBrgyId;
+        reloadBrgyIdCertification();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).data("letter");
+
+        // if already active → unselect (reset)
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            certificationTableBrgyId
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }
+
+        // normal select
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        certificationTableBrgyId
+            .column(1)
+            .search('^' + letter, true, false)
+            .draw();
     });
 </script>

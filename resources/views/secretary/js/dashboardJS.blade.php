@@ -1,7 +1,7 @@
 <script>
     let dateFromDashboard = '';
     let dateToDashboard = '';
-    let selectedLetterNrgy = '';
+    let selectedLetterDashboard = '';
     let certificationTableDashboard = null;
     let selectedCertificationRow = null;
     let selectedCertificationId = null;
@@ -37,7 +37,7 @@
                 d._token = '{{ csrf_token() }}';
                 d.dateFrom = dateFromDashboard;
                 d.dateTo = dateToDashboard;
-                d.letter = selectedLetterNrgy;
+                d.letter = selectedLetterDashboard;
             },
             dataSrc: function(json) {
                 certificationDashboarddData = json.data;
@@ -122,11 +122,13 @@
 
                     <input type="date"
                         class="form-control"
+                        value="{{ date('Y-m-d') }}"
                         id="certDateFromDashboard">
 
                     <span class="input-group-text">To</span>
 
                     <input type="date"
+                        value="{{ date('Y-m-d') }}"
                         class="form-control"
                         id="certDateToDashboard">
 
@@ -142,7 +144,7 @@
                 <div class="alphabet-filter d-flex gap-1 flex-wrap">
 
                     ${'ABCDEFGHIJKL'.split('').map(char =>
-                        `<button class="alpha-btn ${char === 'B' ? 'active' : ''}"
+                        `<button class="alpha-btn"
                             data-letter="${char}">
 
                             ${char}
@@ -168,6 +170,14 @@
         }
 
         certificationTableDashboard = new DataTable('#certificationTableDashboard', certificationDashboardOptions)
+    }
+
+       function reloaddashboardTable () {
+        if (certificationTableDashboard) {
+            certificationTableDashboard.ajax.reload(null, false);
+        } else {
+            renderCertificationTableDashboard();
+        }
     }
 
     $(document).ready(function() {
@@ -279,4 +289,52 @@
     });
 
     updateChartData();
+
+     $(document).on("click", ".btn-reload-table", function() {
+        dateFrom = '';
+        dateTo = '';
+        selectedLetterDashboard = '';
+
+        certificationDashboardOptions.ajax.data.dateFrom = dateFrom;
+        certificationDashboardOptions.ajax.data.dateTo = dateTo;
+        certificationDashboardOptions.ajax.data.selectedLetterDashboard = selectedLetterDashboard;
+        $(".alpha-btn").removeClass("active");
+        certificationTableDashboard.column(1).search('').draw();
+        reloaddashboardTable();
+    })
+
+    $(document).on("click", "#btnCertFilter", function() {
+        dateFromDashboard = $("#certDateFromDashboard").val();
+        dateToDashboard = $("#certDateToDashboard").val();
+
+        certificationDashboardOptions.ajax.data.dateFrom = dateFromDashboard;
+        certificationDashboardOptions.ajax.data.dateTo = dateToDashboard;
+        reloaddashboardTable();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).data("letter");
+
+        // if already active → unselect (reset)
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            certificationTableDashboard
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }
+
+        // normal select
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        certificationTableDashboard
+            .column(1)
+            .search('^' + letter, true, false)
+            .draw();
+    });
 </script>

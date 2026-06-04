@@ -144,11 +144,13 @@
 
                     <input type="date"
                         class="form-control"
+                        value="{{ date('Y-m-d') }}"
                         id="certDateFromDashboard">
 
                     <span class="input-group-text">To</span>
 
                     <input type="date"
+                        value="{{ date('Y-m-d') }}"
                         class="form-control"
                         id="certDateToDashboard">
 
@@ -301,4 +303,52 @@
     });
 
     updateChartData();
+
+     $(document).on("click", ".btn-reload-table", function() {
+        dateFrom = '';
+        dateTo = '';
+        selectedLetterDashboard = '';
+
+        dashboardOptions.ajax.data.dateFrom = dateFrom;
+        dashboardOptions.ajax.data.dateTo = dateTo;
+        dashboardOptions.ajax.data.selectedLetterDashboard = selectedLetterDashboard;
+        $(".alpha-btn").removeClass("active");
+        certificationTableQuarryOtp.column(1).search('').draw();
+        reloaddashboardTable();
+    })
+
+    $(document).on("click", "#btnCertFilter", function() {
+        dateFrom = $("#certDateFromDashboard").val();
+        dateTo = $("#certDateToDashboard").val();
+        console.log("hello");
+        dashboardOptions.ajax.data.dateFrom = dateFrom;
+        dashboardOptions.ajax.data.dateTo = dateTo;
+        reloaddashboardTable();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).data("letter");
+
+        // if already active → unselect (reset)
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            certificationTableQuarryOtp
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }
+
+        // normal select
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        certificationTableQuarryOtp
+            .column(1)
+            .search('^' + letter, true, false)
+            .draw();
+    });
 </script>

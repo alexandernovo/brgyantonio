@@ -8,7 +8,7 @@
     let selectedCertificationId = null;
     let certificationQuarryData = [];
 
-    certificationMoralOptions = {
+    certificationQuarryOptions = {
         processing: true,
         serverSide: false, // Client-side processing as requested
         ajax: {
@@ -70,14 +70,14 @@
             <div class="d-flex align-items-center gap-2 flex-wrap">
                 <div class="input-group date-filter-box" style="width:auto;">
                     <span class="input-group-text">From</span>
-                    <input type="date" class="form-control" id="certDateFromBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateFromQuarry">
                     <span class="input-group-text">To</span>
-                    <input type="date" class="form-control" id="certDateToBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateToQuarry">
                     <button id="btnCertFilter" class="btn btn-filter">Filter</button>
                 </div>
                 <div class="alphabet-filter d-flex gap-1 flex-wrap">
                     ${'ABCDEFGHIJKL'.split('').map(char => 
-                        `<button class="alpha-btn ${char === 'B' ? 'active' : ''}" data-letter="${char}">${char}</button>`
+                        `<button class="alpha-btn" data-letter="${char}">${char}</button>`
                     ).join('')}
                 </div>
             </div>`;
@@ -94,7 +94,7 @@
             certificationTableQuarry.destroy();
         }
 
-        certificationTableQuarry = new DataTable('#certificationTableQuarry', certificationMoralOptions)
+        certificationTableQuarry = new DataTable('#certificationTableQuarry', certificationQuarryOptions)
     }
 
     $(document).ready(function() {
@@ -188,7 +188,7 @@
                 $('#quarryModal').modal('hide');
                 $('#certificationForm')[0].reset();
                 $('#image_filename_display').val('No file chosen');
-                reloadBrgyCertification();
+                reloadQuarryCertification();
             },
             error: function(xhr) {
                 let errors = xhr.responseJSON.errors;
@@ -198,7 +198,7 @@
         });
     });
 
-    function reloadBrgyCertification() {
+    function reloadQuarryCertification() {
         if (certificationTableQuarry) {
             certificationTableQuarry.ajax.reload(null, false);
         } else {
@@ -225,7 +225,7 @@
         }
     })
 
-    certificationMoralOptions.drawCallback = function() {
+    certificationQuarryOptions.drawCallback = function() {
 
         if (!selectedCertificationId) return;
 
@@ -289,7 +289,7 @@
                         selectedCertificationRow = null;
                     }
 
-                    reloadBrgyCertification();
+                    reloadQuarryCertification();
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
@@ -303,5 +303,52 @@
             });
 
         });
+    });
+
+    $(document).on("click", ".btn-reload-table", function() {
+        dateFromQuarry = '';
+        dateToQuarry = '';
+        selectedLetterQuarry = '';
+
+        certificationQuarryOptions.ajax.data.dateFrom = dateFromQuarry;
+        certificationQuarryOptions.ajax.data.dateTo = dateToQuarry;
+        certificationQuarryOptions.ajax.data.selectedLetterQuarry = selectedLetterQuarry;
+        $(".alpha-btn").removeClass("active");
+        certificationTableQuarry.column(1).search('').draw();
+        reloadQuarryCertification();
+    })
+
+    $(document).on("click", "#btnCertFilter", function() {
+        dateFromQuarry = $("#certDateFromQuarry").val();
+        dateToQuarry = $("#certDateToQuarry").val();
+        certificationQuarryOptions.ajax.data.dateFrom = dateFromQuarry;
+        certificationQuarryOptions.ajax.data.dateTo = dateToQuarry;
+        reloadQuarryCertification();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).data("letter");
+
+        // if already active → unselect (reset)
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            certificationTableQuarry
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }
+
+        // normal select
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        certificationTableQuarry
+            .column(1)
+            .search('^' + letter, true, false)
+            .draw();
     });
 </script>

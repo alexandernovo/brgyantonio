@@ -2,7 +2,7 @@
     // Global variables for certification filtering
     let dateFromBrgy = '';
     let dateToBrgy = '';
-    let selectedLetterNrgy = '';
+    let selectedLetterBrgy = '';
     let certificationTableBrgy = null;
     let selectedCertificationRow = null;
     let selectedCertificationId = null;
@@ -20,7 +20,7 @@
                 d.dateFrom = dateFromBrgy;
                 d.dateTo = dateToBrgy;
                 d.type = "brgy";
-                d.letter = selectedLetterNrgy;
+                d.letter = selectedLetterBrgy;
             },
             dataSrc: function(json) {
                 certificationBrgyData = json.data;
@@ -50,7 +50,7 @@
             {
                 title: 'DATE OF BIRTH',
                 className: 'text-nowrap p-2 text-center align-middle',
-                data: 'date_of_birth' // Matches migration
+                render: (data, type, row) => row.date_of_birth ? formatDateTime(row.date_of_birth) : ''
             },
             {
                 title: 'PLACE OF BIRTH',
@@ -92,14 +92,14 @@
             <div class="d-flex align-items-center gap-2 flex-wrap">
                 <div class="input-group date-filter-box" style="width:auto;">
                     <span class="input-group-text">From</span>
-                    <input type="date" class="form-control" id="certDateFromBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateFromBrgy">
                     <span class="input-group-text">To</span>
-                    <input type="date" class="form-control" id="certDateToBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateToBrgy">
                     <button id="btnCertFilter" class="btn btn-filter">Filter</button>
                 </div>
                 <div class="alphabet-filter d-flex gap-1 flex-wrap">
                     ${'ABCDEFGHIJKL'.split('').map(char => 
-                        `<button class="alpha-btn ${char === 'B' ? 'active' : ''}" data-letter="${char}">${char}</button>`
+                        `<button class="alpha-btn" data-letter="${char}">${char}</button>`
                     ).join('')}
                 </div>
             </div>`;
@@ -325,5 +325,53 @@
             });
 
         });
+    });
+
+    $(document).on("click", ".btn-reload-table", function() {
+        dateFromBrgy = '';
+        dateToBrgy = '';
+        selectedLetterBrgy = '';
+
+        certificationBrgyOptions.ajax.data.dateFrom = dateFromBrgy;
+        certificationBrgyOptions.ajax.data.dateTo = dateToBrgy;
+        certificationBrgyOptions.ajax.data.selectedLetterBrgy = selectedLetterBrgy;
+        $(".alpha-btn").removeClass("active");
+        certificationTableBrgy.column(1).search('').draw();
+        reloadBrgyCertification();
+    })
+
+    $(document).on("click", "#btnCertFilter", function() {
+        dateFromBrgy = $("#certDateFromBrgy").val();
+        dateToBrgy = $("#certDateToBrgy").val();
+        console.log("hello");
+        certificationBrgyOptions.ajax.data.dateFrom = dateFromBrgy;
+        certificationBrgyOptions.ajax.data.dateTo = dateToBrgy;
+        reloadBrgyCertification();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).data("letter");
+
+        // if already active → unselect (reset)
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            certificationTableBrgy
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }
+
+        // normal select
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        certificationTableBrgy
+            .column(1)
+            .search('^' + letter, true, false)
+            .draw();
     });
 </script>

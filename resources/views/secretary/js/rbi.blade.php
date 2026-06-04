@@ -173,14 +173,14 @@
         <div class="d-flex align-items-center gap-2 flex-wrap">
             <div class="input-group date-filter-box" style="width:auto;">
                 <span class="input-group-text">From</span>
-                <input type="date" class="form-control" id="certDateFromRbi">
+                <input type="date" class="form-control" value="{{ date('Y-m-d') }}" id="certDateFromRbi">
                 <span class="input-group-text">To</span>
-                <input type="date" class="form-control" id="certDateToRbi">
+                <input type="date" class="form-control" value="{{ date('Y-m-d') }}" id="certDateToRbi">
                 <button id="btnCertFilter" class="btn btn-filter">Filter</button>
             </div>
             <div class="alphabet-filter d-flex gap-1 flex-wrap">
                 ${'ABCDEFGHIJKL'.split('').map(char =>
-                    `<button class="alpha-btn ${char === 'A' ? 'active' : ''}" data-letter="${char}">
+                    `<button class="alpha-btn" data-letter="${char}">
                         ${char}
                     </button>`
                 ).join('')}
@@ -750,5 +750,53 @@
         });
 
         RenderHouseholdMember();
+    });
+
+
+    $(document).on("click", ".btn-reload-table", function() {
+        dateFromRbi = '';
+        dateToRbi = '';
+        selectedLetterRbi = '';
+
+        certificationRBIOptions.ajax.data.dateFrom = dateFromRbi;
+        certificationRBIOptions.ajax.data.dateTo = dateToRbi;
+        certificationRBIOptions.ajax.data.selectedLetterRbi = selectedLetterRbi;
+        $(".alpha-btn").removeClass("active");
+        certificationTableRbi.column(1).search('').draw();
+        reloadRBI();
+    })
+
+    $(document).on("click", "#btnCertFilter", function() {
+        dateFromRbi = $("#certDateFromRbi").val();
+        dateToRbi = $("#certDateToRbi").val();
+        certificationRBIOptions.ajax.data.dateFrom = dateFromRbi;
+        certificationRBIOptions.ajax.data.dateTo = dateToRbi;
+        reloadRBI();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).data("letter");
+
+        // if already active → unselect (reset)
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            certificationTableRbi
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }
+
+        // normal select
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        certificationTableRbi
+            .column(1)
+            .search('^' + letter, true, false)
+            .draw();
     });
 </script>

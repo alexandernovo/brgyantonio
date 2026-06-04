@@ -93,14 +93,14 @@
             <div class="d-flex align-items-center gap-2 flex-wrap">
                 <div class="input-group date-filter-box" style="width:auto;">
                     <span class="input-group-text">From</span>
-                    <input type="date" class="form-control" id="certDateFromBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateFromTrees">
                     <span class="input-group-text">To</span>
-                    <input type="date" class="form-control" id="certDateToBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateToTrees">
                     <button id="btnCertFilter" class="btn btn-filter">Filter</button>
                 </div>
                 <div class="alphabet-filter d-flex gap-1 flex-wrap">
                     ${'ABCDEFGHIJKL'.split('').map(char => 
-                        `<button class="alpha-btn ${char === 'B' ? 'active' : ''}" data-letter="${char}">${char}</button>`
+                        `<button class="alpha-btn" data-letter="${char}">${char}</button>`
                     ).join('')}
                 </div>
             </div>`;
@@ -211,7 +211,7 @@
                 $('#treesModal').modal('hide');
                 $('#certificationForm')[0].reset();
                 $('#image_filename_display').val('No file chosen');
-                reloadBrgyCertification();
+                reloadTreesCertification();
             },
             error: function(xhr) {
                 let errors = xhr.responseJSON.errors;
@@ -221,7 +221,7 @@
         });
     });
 
-    function reloadBrgyCertification() {
+    function reloadTreesCertification() {
         if (certificationTableTrees) {
             certificationTableTrees.ajax.reload(null, false);
         } else {
@@ -312,7 +312,7 @@
                         selectedCertificationRow = null;
                     }
 
-                    reloadBrgyCertification();
+                    reloadTreesCertification();
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
@@ -326,5 +326,52 @@
             });
 
         });
+    });
+
+    $(document).on("click", ".btn-reload-table", function() {
+        dateFromTrees = '';
+        dateToTrees = '';
+        selectedLetterTrees = '';
+
+        certificationTreesOptions.ajax.data.dateFrom = dateFromTrees;
+        certificationTreesOptions.ajax.data.dateTo = dateToTrees;
+        certificationTreesOptions.ajax.data.selectedLetterTrees = selectedLetterTrees;
+        $(".alpha-btn").removeClass("active");
+        certificationTableTrees.column(1).search('').draw();
+        reloadTreesCertification();
+    })
+
+    $(document).on("click", "#btnCertFilter", function() {
+        dateFromTrees = $("#certDateFromTrees").val();
+        dateToTrees = $("#certDateToTrees").val();
+        certificationTreesOptions.ajax.data.dateFrom = dateFromTrees;
+        certificationTreesOptions.ajax.data.dateTo = dateToTrees;
+        reloadTreesCertification();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).data("letter");
+
+        // if already active → unselect (reset)
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            certificationTableTrees
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }
+
+        // normal select
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        certificationTableTrees
+            .column(1)
+            .search('^' + letter, true, false)
+            .draw();
     });
 </script>

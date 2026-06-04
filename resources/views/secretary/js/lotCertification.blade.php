@@ -8,7 +8,7 @@
     let selectedCertificationId = null;
     let certificationLotData = [];
 
-    certificationMoralOptions = {
+    certificationLotOptions = {
         processing: true,
         serverSide: false, // Client-side processing as requested
         ajax: {
@@ -95,14 +95,14 @@
             <div class="d-flex align-items-center gap-2 flex-wrap">
                 <div class="input-group date-filter-box" style="width:auto;">
                     <span class="input-group-text">From</span>
-                    <input type="date" class="form-control" id="certDateFromBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateFromLot">
                     <span class="input-group-text">To</span>
-                    <input type="date" class="form-control" id="certDateToBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateToLot">
                     <button id="btnCertFilter" class="btn btn-filter">Filter</button>
                 </div>
                 <div class="alphabet-filter d-flex gap-1 flex-wrap">
                     ${'ABCDEFGHIJKL'.split('').map(char => 
-                        `<button class="alpha-btn ${char === 'B' ? 'active' : ''}" data-letter="${char}">${char}</button>`
+                        `<button class="alpha-btn" data-letter="${char}">${char}</button>`
                     ).join('')}
                 </div>
             </div>`;
@@ -119,7 +119,7 @@
             certificationTableLot.destroy();
         }
 
-        certificationTableLot = new DataTable('#certificationTableLot', certificationMoralOptions)
+        certificationTableLot = new DataTable('#certificationTableLot', certificationLotOptions)
     }
 
     $(document).ready(function() {
@@ -213,7 +213,7 @@
                 $('#lotModal').modal('hide');
                 $('#certificationForm')[0].reset();
                 $('#image_filename_display').val('No file chosen');
-                reloadBrgyCertification();
+                reloadLotCertification();
             },
             error: function(xhr) {
                 let errors = xhr.responseJSON.errors;
@@ -223,7 +223,7 @@
         });
     });
 
-    function reloadBrgyCertification() {
+    function reloadLotCertification() {
         if (certificationTableLot) {
             certificationTableLot.ajax.reload(null, false);
         } else {
@@ -250,7 +250,7 @@
         }
     })
 
-    certificationMoralOptions.drawCallback = function() {
+    certificationLotOptions.drawCallback = function() {
 
         if (!selectedCertificationId) return;
 
@@ -314,7 +314,7 @@
                         selectedCertificationRow = null;
                     }
 
-                    reloadBrgyCertification();
+                    reloadLotCertification();
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
@@ -328,5 +328,52 @@
             });
 
         });
+    });
+
+    $(document).on("click", ".btn-reload-table", function() {
+        dateFromLot = '';
+        dateToLot = '';
+        selectedLetterLot = '';
+
+        certificationLotOptions.ajax.data.dateFrom = dateFromLot;
+        certificationLotOptions.ajax.data.dateTo = dateToLot;
+        certificationLotOptions.ajax.data.selectedLetterLot = selectedLetterLot;
+        $(".alpha-btn").removeClass("active");
+        certificationTableLot.column(1).search('').draw();
+        reloadLotCertification();
+    })
+
+    $(document).on("click", "#btnCertFilter", function() {
+        dateFromLot = $("#certDateFromLot").val();
+        dateToLot = $("#certDateToLot").val();
+        certificationLotOptions.ajax.data.dateFrom = dateFromLot;
+        certificationLotOptions.ajax.data.dateTo = dateToLot;
+        reloadLotCertification();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).data("letter");
+
+        // if already active → unselect (reset)
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            certificationTableLot
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }
+
+        // normal select
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        certificationTableLot
+            .column(1)
+            .search('^' + letter, true, false)
+            .draw();
     });
 </script>

@@ -104,14 +104,14 @@
             <div class="d-flex align-items-center gap-2 flex-wrap">
                 <div class="input-group date-filter-box" style="width:auto;">
                     <span class="input-group-text">From</span>
-                    <input type="date" class="form-control" id="certDateFromBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateFromBrgy">
                     <span class="input-group-text">To</span>
-                    <input type="date" class="form-control" id="certDateToBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateToBrgy">
                     <button id="btnCertFilter" class="btn btn-filter">Filter</button>
                 </div>
                 <div class="alphabet-filter d-flex gap-1 flex-wrap">
                     ${'ABCDEFGHIJKL'.split('').map(char => 
-                        `<button class="alpha-btn ${char === 'B' ? 'active' : ''}" data-letter="${char}">${char}</button>`
+                        `<button class="alpha-btn" data-letter="${char}">${char}</button>`
                     ).join('')}
                 </div>
             </div>`;

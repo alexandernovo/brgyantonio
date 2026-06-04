@@ -8,7 +8,7 @@
     let selectedCertificationId = null;
     let certificationPiggeryData = [];
 
-    certificationMoralOptions = {
+    certificationPiggeryOptions = {
         processing: true,
         serverSide: false, // Client-side processing as requested
         ajax: {
@@ -86,14 +86,14 @@
             <div class="d-flex align-items-center gap-2 flex-wrap">
                 <div class="input-group date-filter-box" style="width:auto;">
                     <span class="input-group-text">From</span>
-                    <input type="date" class="form-control" id="certDateFromBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateFromPiggery">
                     <span class="input-group-text">To</span>
-                    <input type="date" class="form-control" id="certDateToBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateFromPiggery">
                     <button id="btnCertFilter" class="btn btn-filter">Filter</button>
                 </div>
                 <div class="alphabet-filter d-flex gap-1 flex-wrap">
                     ${'ABCDEFGHIJKL'.split('').map(char => 
-                        `<button class="alpha-btn ${char === 'B' ? 'active' : ''}" data-letter="${char}">${char}</button>`
+                        `<button class="alpha-btn" data-letter="${char}">${char}</button>`
                     ).join('')}
                 </div>
             </div>`;
@@ -110,7 +110,7 @@
             certificationTablePiggery.destroy();
         }
 
-        certificationTablePiggery = new DataTable('#certificationTablePiggery', certificationMoralOptions)
+        certificationTablePiggery = new DataTable('#certificationTablePiggery', certificationPiggeryOptions)
     }
 
     $(document).ready(function() {
@@ -204,7 +204,7 @@
                 $('#piggeryModal').modal('hide');
                 $('#certificationForm')[0].reset();
                 $('#image_filename_display').val('No file chosen');
-                reloadBrgyCertification();
+                reloadPiggeryCertification();
             },
             error: function(xhr) {
                 let errors = xhr.responseJSON.errors;
@@ -214,7 +214,7 @@
         });
     });
 
-    function reloadBrgyCertification() {
+    function reloadPiggeryCertification() {
         if (certificationTablePiggery) {
             certificationTablePiggery.ajax.reload(null, false);
         } else {
@@ -241,7 +241,7 @@
         }
     })
 
-    certificationMoralOptions.drawCallback = function() {
+    certificationPiggeryOptions.drawCallback = function() {
 
         if (!selectedCertificationId) return;
 
@@ -305,7 +305,7 @@
                         selectedCertificationRow = null;
                     }
 
-                    reloadBrgyCertification();
+                    reloadPiggeryCertification();
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
@@ -319,5 +319,53 @@
             });
 
         });
+    });
+
+
+    $(document).on("click", ".btn-reload-table", function() {
+        dateFromPiggery = '';
+        dateToPiggery = '';
+        selectedLetterPiggery = '';
+
+        certificationPiggeryOptions.ajax.data.dateFrom = dateFromPiggery;
+        certificationPiggeryOptions.ajax.data.dateTo = dateToPiggery;
+        certificationPiggeryOptions.ajax.data.selectedLetterPiggery = selectedLetterPiggery;
+        $(".alpha-btn").removeClass("active");
+        certificationTablePiggery.column(1).search('').draw();
+        reloadPiggeryCertification();
+    })
+
+    $(document).on("click", "#btnCertFilter", function() {
+        dateFromPiggery = $("#certDateFromPiggery").val();
+        dateToPiggery = $("#certDateToPiggery").val();
+        certificationPiggeryOptions.ajax.data.dateFrom = dateFromPiggery;
+        certificationPiggeryOptions.ajax.data.dateTo = dateToPiggery;
+        reloadPiggeryCertification();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).data("letter");
+
+        // if already active → unselect (reset)
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            certificationTablePiggery
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }
+
+        // normal select
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        certificationTablePiggery
+            .column(1)
+            .search('^' + letter, true, false)
+            .draw();
     });
 </script>

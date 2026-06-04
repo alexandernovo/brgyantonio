@@ -94,7 +94,7 @@
                             <div class="d-flex gap-2 w-100">
 
                                 <input type="text" name="barangay" id="barangay" class="form-control"
-                                    placeholder="Barangay" value="San Antonio" readonly
+                                    placeholder="Barangay" value="San Antonio"
                                     style="border: 2px solid #1b3f2f; border-radius: 6px;">
 
                                 <input type="text" name="municipality" id="municipality" class="form-control"

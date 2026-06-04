@@ -175,53 +175,96 @@ class SecretaryController extends Controller
 
     public function get_certification(Request $request)
     {
-        $type = $request->type;
-        $data = Certification::where("certification_type", $type)->get();
+        $query = Certification::where('certification_type', $request->type);
+
+        if ($request->filled('dateFrom')) {
+            $query->whereDate('date_issued', '>=', $request->dateFrom);
+        }
+
+        if ($request->filled('dateTo')) {
+            $query->whereDate('date_issued', '<=', $request->dateTo);
+        }
+
+        $data = $query->get();
 
         return response()->json(['data' => $data]);
     }
 
     public function get_dashboard_table(Request $request)
     {
-        $data = Certification::all();
+        $query = Certification::query();
 
+        if ($request->filled('dateFrom')) {
+            $query->whereDate('date_issued', '>=', $request->dateFrom);
+        }
+
+        if ($request->filled('dateTo')) {
+            $query->whereDate('date_issued', '<=', $request->dateTo);
+        }
+
+        $data = $query->get();
+        
         return response()->json(['data' => $data]);
     }
 
     public function get_brgy_id(Request $request)
     {
         $type = $request->type;
-        $data = BrgyID::all();
+        $query = BrgyID::query();
+        if ($request->filled('dateFrom')) {
+            $query->whereDate('dateclaim', '>=', $request->dateFrom);
+        }
 
+        if ($request->filled('dateTo')) {
+            $query->whereDate('dateclaim', '<=', $request->dateTo);
+        }
+
+        $data = $query->get();
         return response()->json(['data' => $data]);
     }
 
     public function get_quary(Request $request)
     {
-        $data = Quarry::all();
+        $query = Quarry::query();
+        if ($request->filled('dateFrom')) {
+            $query->whereDate('created_at', '>=', $request->dateFrom);
+        }
 
+        if ($request->filled('dateTo')) {
+            $query->whereDate('created_at', '<=', $request->dateTo);
+        }
+
+        $data = $query->get();
         return response()->json(['data' => $data]);
     }
 
     public function getRBI1(Request $request)
     {
-        $type = $request->type;
+        $query = Resident::query();
 
-        if ($type == "all") {
-
-            $data = Resident::get()->map(function ($resident) {
-
-                $resident->household_member = HouseholdMember::where(
-                    'resident_id',
-                    $resident->resident_id
-                )->get();
-
-                return $resident;
-            });
-        } else {
-
-            $data = Resident::where('resident_type', $type)->get();
+        // filter by type
+        if ($request->type && $request->type != "all") {
+            $query->where('resident_type', $request->type);
         }
+
+        // date filters (for created_at)
+        if ($request->filled('dateFrom')) {
+            $query->whereDate('created_at', '>=', $request->dateFrom);
+        }
+
+        if ($request->filled('dateTo')) {
+            $query->whereDate('created_at', '<=', $request->dateTo);
+        }
+
+        $data = $query->get()->map(function ($resident) {
+
+            $resident->household_member = HouseholdMember::where(
+                'resident_id',
+                $resident->resident_id
+            )->get();
+
+            return $resident;
+        });
 
         return response()->json([
             'data' => $data
@@ -536,14 +579,14 @@ class SecretaryController extends Controller
 
         $data = BrgyID::when($monthYear, function ($query) use ($monthYear) {
 
-                $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
+            $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
 
-                $query->whereYear('created_at', $date->year)
-                    ->whereMonth('created_at', $date->month);
-            })
+            $query->whereYear('created_at', $date->year)
+                ->whereMonth('created_at', $date->month);
+        })
 
             ->get();
-            
+
 
         return view('secretary.reports.report_brgy_id', compact('data'));
     }

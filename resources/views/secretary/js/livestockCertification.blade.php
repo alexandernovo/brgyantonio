@@ -8,7 +8,7 @@
     let selectedCertificationId = null;
     let certificationLivestockData = [];
 
-    certificationMoralOptions = {
+    certificationLivestockOptions = {
         processing: true,
         serverSide: false, // Client-side processing as requested
         ajax: {
@@ -101,14 +101,14 @@
             <div class="d-flex align-items-center gap-2 flex-wrap">
                 <div class="input-group date-filter-box" style="width:auto;">
                     <span class="input-group-text">From</span>
-                    <input type="date" class="form-control" id="certDateFromBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateFromLivestock">
                     <span class="input-group-text">To</span>
-                    <input type="date" class="form-control" id="certDateToBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateToLivestock">
                     <button id="btnCertFilter" class="btn btn-filter">Filter</button>
                 </div>
                 <div class="alphabet-filter d-flex gap-1 flex-wrap">
                     ${'ABCDEFGHIJKL'.split('').map(char => 
-                        `<button class="alpha-btn ${char === 'B' ? 'active' : ''}" data-letter="${char}">${char}</button>`
+                        `<button class="alpha-btn" data-letter="${char}">${char}</button>`
                     ).join('')}
                 </div>
             </div>`;
@@ -125,7 +125,7 @@
             certificationTableLivestock.destroy();
         }
 
-        certificationTableLivestock = new DataTable('#certificationTableLivestock', certificationMoralOptions)
+        certificationTableLivestock = new DataTable('#certificationTableLivestock', certificationLivestockOptions)
     }
 
     $(document).ready(function() {
@@ -219,7 +219,7 @@
                 $('#livestockModal').modal('hide');
                 $('#certificationForm')[0].reset();
                 $('#image_filename_display').val('No file chosen');
-                reloadBrgyCertification();
+                reloadLivestockCertification();
             },
             error: function(xhr) {
                 let errors = xhr.responseJSON.errors;
@@ -229,7 +229,7 @@
         });
     });
 
-    function reloadBrgyCertification() {
+    function reloadLivestockCertification() {
         if (certificationTableLivestock) {
             certificationTableLivestock.ajax.reload(null, false);
         } else {
@@ -256,7 +256,7 @@
         }
     })
 
-    certificationMoralOptions.drawCallback = function() {
+    certificationLivestockOptions.drawCallback = function() {
 
         if (!selectedCertificationId) return;
 
@@ -320,7 +320,7 @@
                         selectedCertificationRow = null;
                     }
 
-                    reloadBrgyCertification();
+                    reloadLivestockCertification();
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
@@ -334,5 +334,52 @@
             });
 
         });
+    });
+
+    $(document).on("click", ".btn-reload-table", function() {
+        dateFromLivestock = '';
+        dateToLivestock = '';
+        selectedLetterLivestock = '';
+
+        certificationLivestockOptions.ajax.data.dateFrom = dateFromLivestock;
+        certificationLivestockOptions.ajax.data.dateTo = dateToLivestock;
+        certificationLivestockOptions.ajax.data.selectedLetterLivestock = selectedLetterLivestock;
+        $(".alpha-btn").removeClass("active");
+        certificationTableLivestock.column(1).search('').draw();
+        reloadLivestockCertification();
+    })
+
+    $(document).on("click", "#btnCertFilter", function() {
+        dateFromLivestock = $("#certDateFromLivestock").val();
+        dateToLivestock = $("#certDateToLivestock").val();
+        certificationLivestockOptions.ajax.data.dateFrom = dateFromLivestock;
+        certificationLivestockOptions.ajax.data.dateTo = dateToLivestock;
+        reloadLivestockCertification();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).data("letter");
+
+        // if already active → unselect (reset)
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            certificationTableLivestock
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }
+
+        // normal select
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        certificationTableLivestock
+            .column(1)
+            .search('^' + letter, true, false)
+            .draw();
     });
 </script>

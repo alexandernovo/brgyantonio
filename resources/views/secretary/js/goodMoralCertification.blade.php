@@ -85,14 +85,14 @@
             <div class="d-flex align-items-center gap-2 flex-wrap">
                 <div class="input-group date-filter-box" style="width:auto;">
                     <span class="input-group-text">From</span>
-                    <input type="date" class="form-control" id="certDateFromBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateFromMoral">
                     <span class="input-group-text">To</span>
-                    <input type="date" class="form-control" id="certDateToBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateToMoral">
                     <button id="btnCertFilter" class="btn btn-filter">Filter</button>
                 </div>
                 <div class="alphabet-filter d-flex gap-1 flex-wrap">
                     ${'ABCDEFGHIJKL'.split('').map(char => 
-                        `<button class="alpha-btn ${char === 'B' ? 'active' : ''}" data-letter="${char}">${char}</button>`
+                        `<button class="alpha-btn" data-letter="${char}">${char}</button>`
                     ).join('')}
                 </div>
             </div>`;
@@ -203,7 +203,7 @@
                 $('#goodmoralModal').modal('hide');
                 $('#certificationForm')[0].reset();
                 $('#image_filename_display').val('No file chosen');
-                reloadBrgyCertification();
+                reloadMoralCertification();
             },
             error: function(xhr) {
                 let errors = xhr.responseJSON.errors;
@@ -213,7 +213,7 @@
         });
     });
 
-    function reloadBrgyCertification() {
+    function reloadMoralCertification() {
         if (certificationTableMoral) {
             certificationTableMoral.ajax.reload(null, false);
         } else {
@@ -304,7 +304,7 @@
                         selectedCertificationRow = null;
                     }
 
-                    reloadBrgyCertification();
+                    reloadMoralCertification();
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
@@ -318,5 +318,52 @@
             });
 
         });
+    });
+
+    $(document).on("click", ".btn-reload-table", function() {
+        dateFromMoral = '';
+        dateToMoral = '';
+        selectedLetterMoral = '';
+
+        certificationMoralOptions.ajax.data.dateFrom = dateFromMoral;
+        certificationMoralOptions.ajax.data.dateTo = dateToMoral;
+        certificationMoralOptions.ajax.data.selectedLetterMoral = selectedLetterMoral;
+        $(".alpha-btn").removeClass("active");
+        certificationTableMoral.column(1).search('').draw();
+        reloadMoralCertification();
+    })
+
+    $(document).on("click", "#btnCertFilter", function() {
+        dateFromMoral = $("#certDateFromMoral").val();
+        dateToMoral = $("#certDateToMoral").val();
+        certificationMoralOptions.ajax.data.dateFrom = dateFromMoral;
+        certificationMoralOptions.ajax.data.dateTo = dateToMoral;
+        reloadMoralCertification();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).data("letter");
+
+        // if already active → unselect (reset)
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            certificationTableMoral
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }
+
+        // normal select
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        certificationTableMoral
+            .column(1)
+            .search('^' + letter, true, false)
+            .draw();
     });
 </script>

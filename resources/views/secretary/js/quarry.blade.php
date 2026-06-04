@@ -136,12 +136,14 @@
 
                 <input type="date"
                     class="form-control"
+                    value="{{ date('Y-m-d') }}"
                     id="certDateFromQuarryOtp">
 
                 <span class="input-group-text">To</span>
 
                 <input type="date"
                     class="form-control"
+                    value="{{ date('Y-m-d') }}"
                     id="certDateToQuarryOtp">
 
                 <button id="btnCertFilter"
@@ -156,7 +158,7 @@
             <div class="alphabet-filter d-flex gap-1 flex-wrap">
 
                 ${'ABCDEFGHIJKL'.split('').map(char =>
-                    `<button class="alpha-btn ${char === 'B' ? 'active' : ''}"
+                    `<button class="alpha-btn"
                         data-letter="${char}">
 
                         ${char}
@@ -385,7 +387,7 @@
         printWindow.document.write(`
         <html>
             <head>
-                <title>RBI FORM A</title>
+                <title>QuarryOtp FORM A</title>
 
                 <link rel="stylesheet"
                     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -450,4 +452,51 @@
             printWindow.close();
         }, 500);
     }
+
+    $(document).on("click", ".btn-reload-table", function() {
+        dateFromQuarryOtp = '';
+        dateToQuarryOtp = '';
+        selectedLetterQuarryOtp = '';
+
+        quarryOTPOptions.ajax.data.dateFrom = dateFromQuarryOtp;
+        quarryOTPOptions.ajax.data.dateTo = dateToQuarryOtp;
+        quarryOTPOptions.ajax.data.selectedLetterQuarryOtp = selectedLetterQuarryOtp;
+        $(".alpha-btn").removeClass("active");
+        certificationTableQuarryOtp.column(1).search('').draw();
+        reloadOTPQuary();
+    })
+
+    $(document).on("click", "#btnCertFilter", function() {
+        dateFromQuarryOtp = $("#certDateFromQuarryOtp").val();
+        dateToQuarryOtp = $("#certDateToQuarryOtp").val();
+        quarryOTPOptions.ajax.data.dateFrom = dateFromQuarryOtp;
+        quarryOTPOptions.ajax.data.dateTo = dateToQuarryOtp;
+        reloadOTPQuary();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).data("letter");
+
+        // if already active → unselect (reset)
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            certificationTableQuarryOtp
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }
+
+        // normal select
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        certificationTableQuarryOtp
+            .column(1)
+            .search('^' + letter, true, false)
+            .draw();
+    });
 </script>
