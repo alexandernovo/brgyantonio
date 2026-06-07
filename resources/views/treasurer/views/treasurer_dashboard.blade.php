@@ -106,7 +106,7 @@
         </div>
         <div class="card-content bg-white mt-3 rounded p-2">
             <div class="p-3">
-                <table id="certificationTableDashboard" class="table data_table table-bordered table-hover w-100 mb-0">
+                <table id="tableDashboard" class="table data_table table-bordered table-hover w-100 mb-0">
                     <thead>
                         <tr>
                             <th>NO.</th>

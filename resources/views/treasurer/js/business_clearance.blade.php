@@ -104,9 +104,9 @@
             <div class="d-flex align-items-center gap-2 flex-wrap">
                 <div class="input-group date-filter-box" style="width:auto;">
                     <span class="input-group-text">From</span>
-                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateFromBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="collectionDateFrom">
                     <span class="input-group-text">To</span>
-                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateToBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="collectionDateTo">
                     <button id="btnCertFilter" class="btn btn-filter">Filter</button>
                 </div>
                 <div class="alphabet-filter d-flex gap-1 flex-wrap">
@@ -128,7 +128,8 @@
             CollectionTableBusinessClearance.destroy();
         }
 
-        CollectionTableBusinessClearance = new DataTable('#CollectionTableBusinessClearance', collectionBusinessClearanceOptions)
+        CollectionTableBusinessClearance = new DataTable('#CollectionTableBusinessClearance',
+            collectionBusinessClearanceOptions)
     }
 
     $(document).ready(function() {
@@ -242,7 +243,8 @@
     $(document).on("click", ".editButtonCollectionClearance", function(e) {
         e.stopPropagation();
         let collection_id = $(this).attr("data-collection_id");
-        let find_data = certificationCollectionBusinessClearanceData.find(x => x.collection_id == collection_id);
+        let find_data = certificationCollectionBusinessClearanceData.find(x => x.collection_id ==
+        collection_id);
         if (find_data) {
             $("#collectionFormBusinessClearance")[0].reset();
 
@@ -252,7 +254,7 @@
                 .not('[name="collection_type"]')
                 .val('');
 
-            populatecollectionFormBusinessClearance('collectionFormBusinessClearance', find_data);
+            populateCollectionForm('collectionFormBusinessClearance', find_data);
 
             $("#collectionBusinessClearanceModal").modal("show");
         }
@@ -346,4 +348,51 @@
         collectionBusinessClearanceOptions.ajax.data.status = statusCollectionBusinessClearance;
         reloadCollectionClearance();
     })
+
+
+    $(document).on("click", ".btn-reload-table", function() {
+        dateFromCollectionBusinessClearance = '';
+        dateToCollectionBusinessClearance = '';
+        selectedLetterCollectionBusinessClearance = '';
+
+        collectionBusinessClearanceOptions.ajax.data.dateFrom = dateFromCollectionBusinessClearance;
+        collectionBusinessClearanceOptions.ajax.data.dateTo = dateToCollectionBusinessClearance;
+        collectionBusinessClearanceOptions.ajax.data.selectedLetterCollectionBusinessClearance =
+            selectedLetterCollectionBusinessClearance;
+        $(".alpha-btn").removeClass("active");
+        CollectionTableBusinessClearance.column(3).search('').draw();
+        reloadCollectionClearance();
+    })
+
+    $(document).on("click", "#btnCertFilter", function() {
+        dateFromCollectionBusinessClearance = $("#collectionDateFrom").val();
+        dateToCollectionBusinessClearance = $("#collectionDateTo").val();
+        collectionBusinessClearanceOptions.ajax.data.dateFrom = dateFromCollectionBusinessClearance;
+        collectionBusinessClearanceOptions.ajax.data.dateTo = dateToCollectionBusinessClearance;
+        reloadCollectionClearance();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).attr("data-letter").toUpperCase();
+
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            CollectionTableBusinessClearance
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }
+
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        CollectionTableBusinessClearance
+            .column(3) // 👈 FIX: PAYOR column (not 1)
+            .search('^' + letter, true, false)
+            .draw();
+    });
 </script>

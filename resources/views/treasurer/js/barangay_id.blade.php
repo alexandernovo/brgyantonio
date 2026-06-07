@@ -104,9 +104,9 @@
             <div class="d-flex align-items-center gap-2 flex-wrap">
                 <div class="input-group date-filter-box" style="width:auto;">
                     <span class="input-group-text">From</span>
-                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateFromBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="collectionDateFrom">
                     <span class="input-group-text">To</span>
-                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="certDateToBrgy">
+                    <input type="date" value="{{ date('Y-m-d') }}" class="form-control" id="collectionDateTo">
                     <button id="btnCertFilter" class="btn btn-filter">Filter</button>
                 </div>
                 <div class="alphabet-filter d-flex gap-1 flex-wrap">
@@ -346,4 +346,51 @@
         collectionBarangayIDOptions.ajax.data.status = statusCollectionBarangayID;
         reloadCollectionBarangayID();
     })
+
+
+    $(document).on("click", ".btn-reload-table", function() {
+        dateFromCollectionBarangayID = '';
+        dateToCollectionBarangayID = '';
+        selectedLetterCollectionBarangayID = '';
+
+        collectionBarangayIDOptions.ajax.data.dateFrom = dateFromCollectionBarangayID;
+        collectionBarangayIDOptions.ajax.data.dateTo = dateToCollectionBarangayID;
+        collectionBarangayIDOptions.ajax.data.selectedLetterCollectionBarangayID =
+            selectedLetterCollectionBarangayID;
+        $(".alpha-btn").removeClass("active");
+        CollectionTableBarangayID.column(3).search('').draw();
+        reloadCollectionBarangayID();
+    })
+
+    $(document).on("click", "#btnCertFilter", function() {
+        dateFromCollectionBarangayID = $("#collectionDateFrom").val();
+        dateToCollectionBarangayID = $("#collectionDateTo").val();
+        collectionBarangayIDOptions.ajax.data.dateFrom = dateFromCollectionBarangayID;
+        collectionBarangayIDOptions.ajax.data.dateTo = dateToCollectionBarangayID;
+        reloadCollectionBarangayID();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).attr("data-letter").toUpperCase();
+
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            CollectionTableBarangayID
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }   
+
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        CollectionTableBarangayID
+            .column(3) // 👈 FIX: PAYOR column (not 1)
+            .search('^' + letter, true, false)
+            .draw();
+    });
 </script>

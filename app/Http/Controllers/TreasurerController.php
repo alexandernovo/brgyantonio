@@ -111,7 +111,17 @@ class TreasurerController extends Controller
 
     public function get_dashboard_treasurer_table(Request $request)
     {
-        $data = Collection::all();
+        $query = Collection::query();
+        
+        if ($request->filled('dateFrom')) {
+            $query->whereDate('payment_date', '>=', $request->dateFrom);
+        }
+
+        if ($request->filled('dateTo')) {
+            $query->whereDate('payment_date', '<=', $request->dateTo);
+        }
+
+        $data = $query->get();
 
         return response()->json(['data' => $data]);
     }

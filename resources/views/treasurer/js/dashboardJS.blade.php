@@ -1,8 +1,8 @@
 <script>
     let dateFromDashboard = '';
     let dateToDashboard = '';
-    let selectedLetterNrgy = '';
-    let certificationTableDashboard = null;
+    let selectedLetter = '';
+    let tableDashboard = null;
     let selectedCertificationRow = null;
     let selectedCertificationId = null;
     let certificationDashboarddData = [];
@@ -20,7 +20,7 @@
         return certificateTypes[key] || '';
     }
 
-    certificationDashboardOptions = {
+    dashboardOptions = {
         processing: true,
         serverSide: false,
         ajax: {
@@ -31,7 +31,7 @@
                 d._token = '{{ csrf_token() }}';
                 d.dateFrom = dateFromDashboard;
                 d.dateTo = dateToDashboard;
-                d.letter = selectedLetterNrgy;
+                d.letter = selectedLetter;
             },
             dataSrc: function(json) {
                 certificationDashboarddData = json.data;
@@ -46,7 +46,7 @@
                     meta.row + meta.settings._iDisplayStart + 1
             },
             {
-                title: 'DATE ISSUED',
+                title: 'DATE',
                 className: 'text-nowrap p-2 text-center align-middle',
                 render: (data, type, row) => row.payment_date ? formatDateTime(row.payment_date) : ''
             },
@@ -166,7 +166,7 @@
                 <div class="alphabet-filter d-flex gap-1 flex-wrap">
 
                     ${'ABCDEFGHIJKL'.split('').map(char =>
-                        `<button class="alpha-btn ${char === 'B' ? 'active' : ''}"
+                        `<button class="alpha-btn"
                             data-letter="${char}">
 
                             ${char}
@@ -179,23 +179,23 @@
             </div>
         `;
 
-            $("#certificationTableDashboard_wrapper .dt-length")
+            $("#tableDashboard_wrapper .dt-length")
                 .addClass('d-flex align-items-center gap-2')
                 .first()
                 .append(filterHtml);
         }
     };
 
-    function renderCertificationTableDashboard() {
-        if (certificationTableDashboard) {
-            certificationTableDashboard.destroy();
+    function rendertableDashboard() {
+        if (tableDashboard) {
+            tableDashboard.destroy();
         }
 
-        certificationTableDashboard = new DataTable('#certificationTableDashboard', certificationDashboardOptions)
+        tableDashboard = new DataTable('#tableDashboard', dashboardOptions)
     }
 
     $(document).ready(function() {
-        renderCertificationTableDashboard();
+        rendertableDashboard();
     })
 
     const options = {
@@ -304,7 +304,7 @@
 
     updateChartData();
 
-     $(document).on("click", ".btn-reload-table", function() {
+    $(document).on("click", ".btn-reload-table", function() {
         dateFrom = '';
         dateTo = '';
         selectedLetterDashboard = '';
@@ -313,16 +313,23 @@
         dashboardOptions.ajax.data.dateTo = dateTo;
         dashboardOptions.ajax.data.selectedLetterDashboard = selectedLetterDashboard;
         $(".alpha-btn").removeClass("active");
-        certificationTableQuarryOtp.column(3).search('').draw();
+        tableDashboard.column(3).search('').draw();
         reloaddashboardTable();
     })
 
+    function reloaddashboardTable() {
+        if (tableDashboard) {
+            tableDashboard.ajax.reload(null, false);
+        } else {
+            rendertableDashboard();
+        }
+    }
+
     $(document).on("click", "#btnCertFilter", function() {
-        dateFrom = $("#certDateFromDashboard").val();
-        dateTo = $("#certDateToDashboard").val();
-        console.log("hello");
-        dashboardOptions.ajax.data.dateFrom = dateFrom;
-        dashboardOptions.ajax.data.dateTo = dateTo;
+        dateFromDashboard = $("#certDateFromDashboard").val();
+        dateToDashboard = $("#certDateToDashboard").val();
+        dashboardOptions.ajax.data.dateFrom = dateFromDashboard;
+        dashboardOptions.ajax.data.dateTo = dateToDashboard;
         reloaddashboardTable();
     })
 
@@ -334,7 +341,7 @@
         if ($(this).hasClass("active")) {
             $(".alpha-btn").removeClass("active");
 
-            certificationTableQuarryOtp
+            tableDashboard
                 .search('')
                 .columns().search('')
                 .draw();
@@ -346,8 +353,8 @@
         $(".alpha-btn").removeClass("active");
         $(this).addClass("active");
 
-        certificationTableQuarryOtp
-            .column(3)
+        tableDashboard
+            .column(5)
             .search('^' + letter, true, false)
             .draw();
     });
