@@ -87,8 +87,7 @@
             {
                 title: 'DATE OF BORROWED',
                 className: 'text-nowrap p-2 text-center align-middle',
-                render: (data, type, row) => row.date_of_borrowed ? formatDateTime(row.date_of_borrowed) :
-                    ''
+                render: (data, type, row) => row.date_of_borrowed ? formatDateTime(row.date_of_borrowed) : ''
             },
             {
                 title: 'DATE OF RETURNED',
@@ -102,7 +101,7 @@
                     return `
                 <div class="d-flex gap-1 justify-content-center">
                     <button class="btn btn-warning btn-sm editButton px-2" style="background-color: #B35100 !important; border: none;" data-record_id="${row.record_id}"><i style="font-size: 15px" class="bi bi-pencil-fill"></i></button>
-                    <button class="btn btn-danger btn-sm deleteButtonBlotter px-2" style="background-color: #A10101 !important; border: none;" data-record_id="${row.record_id}"><i style="font-size: 15px" class="bi bi-trash3-fill"></i></button>
+                    <button class="btn btn-danger btn-sm deleteButtonBorrowed px-2" style="background-color: #A10101 !important; border: none;" data-record_id="${row.record_id}"><i style="font-size: 15px" class="bi bi-trash3-fill"></i></button>
                 </div>`;
                 }
             }
@@ -113,10 +112,10 @@
                 <div class="d-flex align-items-center gap-2 flex-wrap">
                     <div class="input-group date-filter-box" style="width:auto;">
                         <span class="input-group-text">From</span>
-                        <input type="date" class="form-control" id="blotterDateFrom">
+                        <input type="date" class="form-control" value="{{ date('Y-m-d') }}" id="dateFromBorrowed">
                         <span class="input-group-text">To</span>
-                        <input type="date" class="form-control" id="blotterDateTo">
-                        <button id="btnBlotterFilter" class="btn btn-filter">Filter</button>
+                        <input type="date" class="form-control" id="dateToBorrowed" value="{{ date('Y-m-d') }}">
+                        <button id="btnBorrowedFilter" class="btn btn-filter">Filter</button>
                     </div>
                     <div class="alphabet-filter d-flex gap-1 flex-wrap">
                         ${'ABCDEFGHIJKL'.split('').map(char => 
@@ -223,7 +222,7 @@
             success: function(response) {
                 Swal.fire({
                     title: "Success",
-                    text: "Blotter Saved Successfully!",
+                    text: "Borrowed Saved Successfully!",
                     icon: "success",
                     showCancelButton: false,
                 })
@@ -294,14 +293,14 @@
 
     };
 
-    $(document).on("click", ".deleteButtonBlotter", function(e) {
+    $(document).on("click", ".deleteButtonBorrowed", function(e) {
         e.stopPropagation();
 
         let record_id = $(this).attr("data-record_id");
 
         Swal.fire({
             icon: "warning",
-            title: "Delete Blotter?",
+            title: "Delete Borrowed?",
             text: "This action cannot be undone.",
             showCancelButton: true,
             confirmButtonColor: "#A10101",
@@ -323,7 +322,7 @@
                     Swal.fire({
                         icon: "success",
                         title: "Deleted Successfully",
-                        text: "Blotter Deleted Successfully!"
+                        text: "Borrowed Deleted Successfully!"
                     });
 
                     // clear selection if deleted row is selected
@@ -348,12 +347,58 @@
         });
     });
 
-    $(document).on("click", '.returnedUnreturnBlotter', function() {
-        $(".returnedUnreturnBlotter").removeClass("active-btn").addClass("btn-edit-table");
+    $(document).on("click", '.returnedUnreturnBorrowed', function() {
+        $(".returnedUnreturnBorrowed").removeClass("active-btn").addClass("btn-edit-table");
         $(this).addClass("active-btn").removeClass("btn-edit-table");
 
         record_status_borrowed = $(this).attr('data-status');
         borrowedOptions.ajax.data.status = record_status_borrowed;
         reloadBorrower();
     })
+
+
+    $(document).on("click", ".btn-reload-table", function() {
+        dateFromBorrowed = '';
+        dateToBorrowed = '';
+        selectedLetterBorrowed = '';
+
+        borrowedOptions.ajax.data.dateFrom = dateFromBorrowed;
+        borrowedOptions.ajax.data.dateTo = dateToBorrowed;
+        borrowedOptions.ajax.data.selectedLetterBorrowed = selectedLetterBorrowed;
+        $(".alpha-btn").removeClass("active");
+        tableBorrowed.column(3).search('').draw();
+        reloadBorrower();
+    })
+
+    $(document).on("click", "#btnBorrowedFilter", function() {
+        dateFromBorrowed = $("#dateFromBorrowed").val();
+        dateToBorrowed = $("#dateToBorrowed").val();
+        borrowedOptions.ajax.data.dateFrom = dateFromBorrowed;
+        borrowedOptions.ajax.data.dateTo = dateToBorrowed;
+        reloadBorrower();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).attr("data-letter").toUpperCase();
+
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            tableBorrowed
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }
+
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        tableBorrowed
+            .column(2)
+            .search('^' + letter, true, false)
+            .draw();
+    });
 </script>

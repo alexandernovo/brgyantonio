@@ -114,9 +114,9 @@
                 <div class="d-flex align-items-center gap-2 flex-wrap">
                     <div class="input-group date-filter-box" style="width:auto;">
                         <span class="input-group-text">From</span>
-                        <input type="date" class="form-control" id="blotterDateFrom">
+                        <input type="date" class="form-control" value="{{ date('Y-m-d') }}" id="blotterDateFrom">
                         <span class="input-group-text">To</span>
-                        <input type="date" class="form-control" id="blotterDateTo">
+                        <input type="date" class="form-control" value="{{ date('Y-m-d') }}" id="blotterDateTo">
                         <button id="btnBlotterFilter" class="btn btn-filter">Filter</button>
                     </div>
                     <div class="alphabet-filter d-flex gap-1 flex-wrap">
@@ -357,4 +357,50 @@
         blotterOptions.ajax.data.status = record_status_blotter;
         reloadBlotter();
     })
+
+
+    $(document).on("click", ".btn-reload-table", function() {
+        dateFromBlotter = '';
+        dateTolotter = '';
+        selectedLetterBlotter = '';
+
+        blotterOptions.ajax.data.dateFrom = dateFromBlotter;
+        blotterOptions.ajax.data.dateTo = dateTolotter;
+        blotterOptions.ajax.data.selectedLetterBlotter = selectedLetterBlotter;
+        $(".alpha-btn").removeClass("active");
+        tableBlotter.column(3).search('').draw();
+        reloadBlotter();
+    })
+
+    $(document).on("click", "#btnBlotterFilter", function() {
+        dateFromBlotter = $("#blotterDateFrom").val();
+        dateTolotter = $("#blotterDateTo").val();
+        blotterOptions.ajax.data.dateFrom = dateFromBlotter;
+        blotterOptions.ajax.data.dateTo = dateTolotter;
+        reloadBlotter();
+    })
+
+    $(document).on("click", ".alpha-btn", function() {
+
+        let letter = $(this).attr("data-letter").toUpperCase();
+
+        if ($(this).hasClass("active")) {
+            $(".alpha-btn").removeClass("active");
+
+            tableBlotter
+                .search('')
+                .columns().search('')
+                .draw();
+
+            return;
+        }
+
+        $(".alpha-btn").removeClass("active");
+        $(this).addClass("active");
+
+        tableBlotter
+            .column(2)
+            .search('^' + letter, true, false)
+            .draw();
+    });
 </script>

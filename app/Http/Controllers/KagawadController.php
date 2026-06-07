@@ -68,10 +68,29 @@ class KagawadController extends Controller
     {
         $type = $request->type;
         $status = $request->status;
-        $data = KagawadRecord::where("record_type", $type)->where('status', $status)->get();
+        $query = KagawadRecord::where("record_type", $type)->where('status', $status);
+
+        $dateFilter = "";
+
+        if ($type == "borrowed") {
+            $dateFilter = "date_of_borrowed";
+        } else {
+            $dateFilter = "date_of_complaints";
+        }
+
+        if ($request->filled('dateFrom')) {
+            $query->whereDate($dateFilter, '>=', $request->dateFrom);
+        }
+
+        if ($request->filled('dateTo')) {
+            $query->whereDate($dateFilter, '<=', $request->dateTo);
+        }
+
+        $data = $query->get();
 
         return response()->json(['data' => $data]);
     }
+
 
     public function deleteRecord(Request $request)
     {
