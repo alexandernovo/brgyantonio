@@ -69,7 +69,7 @@
                     <div class="d-flex gap align-items-center">
                         <li class="nav-item dropdown">
                             <a class="nav-link nav-icon-hover px-2 cursor-pointer me-4 d-flex align-items-center {{ Route::currentRouteName() == 'home' ? 'badge-header-btn-active' : 'badge-header-btn' }}"
-                                href="{{ route('projectteam') }}">
+                                href="{{ route('home') }}">
                                 <i class="bi bi-house-fill me-1"
                                     style="font-size: calc(24px - 2px); fill: white"></i>
                                 <p class="mb-0 fw-semibold ms-1 ps-1"
