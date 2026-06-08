@@ -123,6 +123,7 @@ Route::middleware(["userchecker"])->group(function () {
     Route::post('/get_users', [AdminController::class, 'get_users'])->name('get_users');
     Route::post('/storeUser', [AdminController::class, 'storeUser'])->name('storeUser');
     Route::post('/deleteUser', [AdminController::class, 'deleteUser'])->name('deleteUser');
+    Route::get('/user_profile', [AdminController::class, 'user_profile'])->name('user.profile');
     Route::get('/statistics/chart', [AdminController::class, 'getStatisticsChart'])
         ->name('statistics.chart');
 });

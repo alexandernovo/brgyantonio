@@ -185,4 +185,9 @@ class AdminController extends Controller
 
         return response()->json($data);
     }
+
+    public function user_profile(Request $request)
+    {
+        return view('admin.views.profile');
+    }
 }
