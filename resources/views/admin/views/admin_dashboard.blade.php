@@ -41,6 +41,42 @@
         ];
 
     @endphp
+
+    <style>
+        .statistics-card {
+            background: #f2f2f2;
+            border: 1px solid #d9d9d9;
+        }
+
+        .statistics-header {
+            background: #184d32;
+            color: #fff;
+            padding: 15px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .statistics-header h3 {
+            margin: 0;
+            font-size: 36px;
+            font-weight: 500;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filters select {
+            background: #184d32;
+            color: #fff;
+            border: 2px solid #fff;
+            border-radius: 4px;
+            padding: 6px 12px;
+            min-width: 140px;
+        }
+    </style>
     <div class="page-container p-4">
         <div class="top-header mb-3">
             <div class="icon-container">
@@ -130,10 +166,44 @@
             </div>
 
         </div>
+
+        <div class="statistics-card mt-3">
+
+            <div class="statistics-header align-items-center">
+
+                <h4 class="text-white mb-0">STATISTIC DATA CHART</h4>
+
+                <div class="filters">
+
+                    <select id="category" class="text-white">
+                        <option value="brgy_id" class="text-white">Barangay ID</option>
+                        <option value="certification" class="text-white">Certification</option>
+                        <option value="collection" class="text-white">Collection</option>
+                        <option value="blotter" class="text-white">Blotter</option>
+                        <option value="borrowed" class="text-white">Borrowed Equipment</option>
+                        <option value="quarry" class="text-white">Quarry</option>
+                    </select>
+
+                    <select id="year" class="text-white">
+                        @for ($i = date('Y'); $i >= 2020; $i--)
+                            <option value="{{ $i }}">
+                                {{ $i }}
+                            </option>
+                        @endfor
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div id="statisticsChart"></div>
+
+        </div>
     </div>
 @endsection
 
 @section('js')
     @include('kagawad.js.kagawadjs')
     @include('kagawad/js/dashboardJS')
+    @include('admin/js/dashboard')
 @endsection

@@ -65,7 +65,7 @@
 
                         <div class="fw-semibold text-center"
                             style="
-                            font-size:16px;
+                            font-size:21px;
                             color:#212529;
                             line-height:1.1;
                         ">
@@ -74,7 +74,7 @@
 
                         <div class="text-center"
                             style="
-                            font-size:12px;
+                            font-size:15px;
                             color:#4b5563;
                             line-height:1;
                         ">

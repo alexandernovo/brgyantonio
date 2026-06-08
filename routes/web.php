@@ -72,6 +72,7 @@ Route::middleware(["userchecker"])->group(function () {
     Route::get('/report_piggery', [SecretaryController::class, 'report_piggery'])->name('report_piggery');
     Route::get('/report_quarry', [SecretaryController::class, 'report_quarry'])->name('report_quarry');
     Route::get('/report_brgy_id', [SecretaryController::class, 'report_brgy_id'])->name('report_brgy_id');
+    Route::get('/overallreport', [TreasurerController::class, 'overallreport'])->name('overallreport');
 
     //quarry
     Route::get('/quarry', [SecretaryController::class, 'quarry'])->name('quarry');
@@ -122,4 +123,6 @@ Route::middleware(["userchecker"])->group(function () {
     Route::post('/get_users', [AdminController::class, 'get_users'])->name('get_users');
     Route::post('/storeUser', [AdminController::class, 'storeUser'])->name('storeUser');
     Route::post('/deleteUser', [AdminController::class, 'deleteUser'])->name('deleteUser');
+    Route::get('/statistics/chart', [AdminController::class, 'getStatisticsChart'])
+        ->name('statistics.chart');
 });

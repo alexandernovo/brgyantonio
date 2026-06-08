@@ -105,7 +105,7 @@
                         </label>
 
                         <div class="input-group">
-
+                            <input type="hidden" value="{{ request('type') }}" name="type">
                             <input type="month" name="month" id="monthYearSelect" class="form-control form-control-sm"
                                 value="{{ request('month') }}" style="width: 250px; height: 30px; background-color: white"
                                 onchange="this.form.submit()">

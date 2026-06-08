@@ -70,6 +70,21 @@ class TreasurerController extends Controller
         return view('treasurer.report.collection_report', compact('data'));
     }
 
+    public function overallreport(Request $request)
+    {
+        $monthYear = $request->query('month');
+
+        $data = Collection::query()
+            ->when($monthYear, function ($query) use ($monthYear) {
+                $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
+                $query->whereYear('payment_date', $date->year)
+                    ->whereMonth('payment_date', $date->month);
+            })
+            ->get();
+
+        return view('treasurer.report.overallreport', compact('data'));
+    }
+
 
     public function storeCollection(Request $request)
     {
@@ -112,7 +127,7 @@ class TreasurerController extends Controller
     public function get_dashboard_treasurer_table(Request $request)
     {
         $query = Collection::query();
-        
+
         if ($request->filled('dateFrom')) {
             $query->whereDate('payment_date', '>=', $request->dateFrom);
         }

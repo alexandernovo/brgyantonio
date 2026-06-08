@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BrgyID;
 use App\Models\Certification;
 use App\Models\Collection;
 use App\Models\KagawadRecord;
+use App\Models\Quarry;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +21,7 @@ class AdminController extends Controller
         $totalCertification = Certification::count();
         $totalCollection = Collection::sum('payment_amount');
         $totalUnreturned = KagawadRecord::where('record_type', 'borrowed')->where('status', 'Unreturned')->count();
-        
+
         $blotter = KagawadRecord::where('record_type', 'blotter')
             ->selectRaw("
                 SUM(CASE WHEN status = 'Resolved' THEN 1 ELSE 0 END) as resolved,
@@ -104,5 +106,83 @@ class AdminController extends Controller
 
         User::query()->where('id', '=', $id)->delete();
         return response()->json(['status' => 'success', 'message' => 'Deleted successfully!']);
+    }
+
+    public function getStatisticsChart(Request $request)
+    {
+        $category = $request->category;
+        $year = $request->year ?? now()->year;
+
+        $months = collect(range(1, 12));
+
+        $data = [];
+
+        switch ($category) {
+
+            case 'brgy_id':
+
+                $records = BrgyID::selectRaw('MONTH(dateclaim) as month, COUNT(*) as total')
+                    ->whereYear('dateclaim', $year)
+                    ->groupBy(DB::raw('MONTH(dateclaim)'))
+                    ->pluck('total', 'month');
+
+                break;
+
+            case 'certification':
+
+                $records = Certification::selectRaw('MONTH(date_issued) as month, COUNT(*) as total')
+                    ->whereYear('date_issued', $year)
+                    ->groupBy(DB::raw('MONTH(date_issued)'))
+                    ->pluck('total', 'month');
+
+                break;
+
+            case 'collection':
+
+                $records = Collection::selectRaw('MONTH(payment_date) as month, COUNT(*) as total')
+                    ->whereYear('payment_date', $year)
+                    ->groupBy(DB::raw('MONTH(payment_date)'))
+                    ->pluck('total', 'month');
+
+                break;
+
+            case 'blotter':
+
+                $records = KagawadRecord::selectRaw('MONTH(date_of_complaints) as month, COUNT(*) as total')
+                    ->where('record_type', 'blotter')
+                    ->whereYear('date_of_complaints', $year)
+                    ->groupBy(DB::raw('MONTH(date_of_complaints)'))
+                    ->pluck('total', 'month');
+
+                break;
+
+            case 'borrowed':
+
+                $records = KagawadRecord::selectRaw('MONTH(date_of_borrowed) as month, COUNT(*) as total')
+                    ->where('record_type', 'borrowed')
+                    ->whereYear('date_of_borrowed', $year)
+                    ->groupBy(DB::raw('MONTH(date_of_borrowed)'))
+                    ->pluck('total', 'month');
+
+                break;
+
+            case 'quarry':
+
+                $records = Quarry::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+                    ->whereYear('created_at', $year)
+                    ->groupBy(DB::raw('MONTH(created_at)'))
+                    ->pluck('total', 'month');
+
+                break;
+
+            default:
+                $records = collect();
+        }
+
+        foreach ($months as $month) {
+            $data[] = $records[$month] ?? 0;
+        }
+
+        return response()->json($data);
     }
 }

@@ -79,9 +79,9 @@
         }
 
         if (category_collection_type == "Per Collection") {
-            window.location = "{{ route('collection_report') }}?type=" + collection_type_data;
+            window.location = `{{ route('collection_report') }}?type=${collection_type_data}&month=${month_collection}`;
         } else {
-
+            window.location = `{{ route('overallreport') }}?month=${month_collection}`;
         }
     });
 
