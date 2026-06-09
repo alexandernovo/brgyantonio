@@ -37,11 +37,9 @@
                         <div class="d-flex align-items-center mb-3">
                             <label class="fw-semibold" style="width: 140px; flex-shrink: 0;">Address:</label>
                             <div class="d-flex gap-2 w-100">
-                                <select name="barangay" id="barangay" class="form-select"
-                                    style="border: 2px solid #1b3f2f; border-radius: 6px; flex: 1;" required>
-                                    <option value="" selected disabled>Barangay</option>
-                                    <option value="Barbaza">Barbaza</option>
-                                </select>
+                                <input type="text" name="barangay" id="barangay" class="form-control"
+                                     readonly
+                                    style="border: 2px solid #1b3f2f; border-radius: 6px; flex: 1;">
                                 <input type="text" name="municipality" id="municipality" class="form-control"
                                     value="Barbaza" readonly
                                     style="border: 2px solid #1b3f2f; border-radius: 6px; flex: 1;">
