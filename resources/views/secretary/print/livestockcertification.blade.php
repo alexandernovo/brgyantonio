@@ -23,7 +23,7 @@
         </div>
 
         {{-- CERTIFICATE --}}
-        <div class="cert-paper px-5 pt-4 pb-4 mx-auto bg-white shadow-sm"
+        <div class="cert-paper px-5 pt-4 pb-4 mx-auto bg-white shadow-sm" id="printArea"
             style="
                 max-width: 800px;
                 border: 1px solid #cfcfcf;
@@ -154,7 +154,7 @@
 
             <div class="d-flex justify-content-end">
 
-                <button onclick="window.print()" class="btn btn-dark px-4 py-2">
+                <button id="btnPrintCertification" class="btn btn-dark px-4 py-2">
 
                     <i class="fas fa-print me-2"></i>
                     Print
@@ -166,4 +166,7 @@
         </div>
 
     </div>
+@endsection
+@section('js')
+    @include('secretary.js.printing')
 @endsection

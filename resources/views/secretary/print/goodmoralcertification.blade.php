@@ -8,8 +8,7 @@
         {{-- TOP HEADER --}}
         <div class="top-header p-1 d-flex align-items-center mb-4">
             <div class="icon-container me-3">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                     <polyline points="14 2 14 8 20 8"></polyline>
                     <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -24,7 +23,7 @@
         </div>
 
         {{-- CERTIFICATE --}}
-        <div class="cert-paper bg-white mx-auto shadow-sm"
+        <div class="cert-paper bg-white mx-auto shadow-sm" id="printArea"
             style="
                 width: 850px;
                 min-height: 1100px;
@@ -63,8 +62,7 @@
                 </div>
 
                 {{-- LINE --}}
-                <div class="mt-2 mb-2"
-                    style="
+                <div class="mt-2 mb-2" style="
                         border-top:2px solid #3a5f87;
                     ">
                 </div>
@@ -98,13 +96,7 @@
                     This is to certify that
 
                     <strong>
-                        {{ strtoupper(
-                            $certification->first_name .
-                                ' ' .
-                                $certification->middle_name .
-                                ' ' .
-                                $certification->last_name,
-                        ) }}
+                        {{ strtoupper($certification->first_name . ' ' . $certification->middle_name . ' ' . $certification->last_name) }}
                     </strong>,
 
                     of legal age,
@@ -212,13 +204,16 @@
             <hr class="my-4">
 
             <div class="d-flex justify-content-end">
-                <button onclick="window.print()" class="btn btn-dark px-4 py-2">
+                <button id="btnPrintCertification" class="btn btn-dark px-4 py-2">
                     <i class="fas fa-print me-2"></i>
-                    Save
+                    Print
                 </button>
             </div>
 
         </div>
 
     </div>
+@endsection
+@section('js')
+    @include('secretary.js.printing')
 @endsection

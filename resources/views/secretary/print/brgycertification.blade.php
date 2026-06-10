@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="cert-paper px-5 pt-5 pb-4 mx-auto bg-white shadow-sm"
+        <div class="cert-paper px-5 pt-5 pb-4 mx-auto bg-white shadow-sm" id="printArea"
             style="max-width: 800px; border: 1px solid #ddd; font-family: 'Times New Roman', Times, serif; color: #000;">
             <div style="min-height: 11in">
                 <div class="text-center mb-4 position-relative">
@@ -125,7 +125,7 @@
             </div>
             <hr class="mt-2 mb-0" style="border-top: 1px solid black">
             <div class="d-flex justify-content-end mt-4">
-                <button onclick="window.print()" class="btn btn-dark px-4">
+                <button class="btn btn-dark px-4" id="btnPrintCertification">
                     <i class="fas fa-print me-2"></i> Print Certification
                 </button>
             </div>
@@ -133,4 +133,7 @@
 
 
     </div>
+@endsection
+@section('js')
+    @include('secretary.js.printing')
 @endsection

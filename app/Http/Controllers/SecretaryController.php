@@ -581,9 +581,9 @@ class SecretaryController extends Controller
 
             $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
 
-            $query->whereYear('created_at', $date->year)
-                ->whereMonth('created_at', $date->month);
-        })
+            $query->whereYear('dateclaim', $date->year)
+                    ->whereMonth('dateclaim', $date->month);
+            })
 
             ->get();
 
