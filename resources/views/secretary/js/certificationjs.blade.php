@@ -168,7 +168,7 @@
     function populateCertificationForm(formId, data) {
 
         const form = $(`#${formId}`);
-
+        console.log(`#${formId}`);
         $.each(data, function(key, value) {
 
             let field = form.find(`[name="${key}"]`);

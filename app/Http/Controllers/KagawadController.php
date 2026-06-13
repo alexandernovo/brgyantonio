@@ -99,6 +99,11 @@ class KagawadController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Record deleted successfully!']);
     }
 
+    public function kagawadReport(Request $request)
+    {
+        return view('kagawad.views.kagawad_report');
+    }
+
     public function blotter_report(Request $request)
     {
         $type = $request->query('type');

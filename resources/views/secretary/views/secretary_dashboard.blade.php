@@ -1,6 +1,21 @@
 @extends('layout.mainlayout')
 @section('content')
     @include('secretary.css.certificationcss')
+    @include('secretary.modals.brgyidModal')
+    @include('secretary.modals.brgyModal')
+    @include('secretary.modals.clearanceModal')
+    @include('secretary.modals.goodmoralModal')
+    @include('secretary.modals.indigencyModal')
+    @include('secretary.modals.jobseekerModal')
+    @include('secretary.modals.livestockModal')
+    @include('secretary.modals.lotModal')
+    @include('secretary.modals.motorcycleModal')
+    @include('secretary.modals.piggeryModal')
+    @include('secretary.modals.quarryModal')
+    @include('secretary.modals.treesModal')
+    @include('secretary.modals.otpQuarryModal')
+    @include('secretary.modals.rbiModal')
+    @include('secretary.modals.rbi2Modal')
     @php
         $dashboardCards = [
             [
@@ -107,11 +122,13 @@
             </div>
         </div>
         <div class="card border-0 mt-3 shadow-sm mb-4 p-3" style="border-radius: 8px; overflow: hidden;">
-            <div class="d-flex justify-content-between align-items-center py-3 px-4 rounded" style="background-color: #184d35;">
+            <div class="d-flex justify-content-between align-items-center py-3 px-4 rounded"
+                style="background-color: #184d35;">
                 <h5 class="text-white fw-bold mb-0 tracking-wide" style="font-size: 1.1rem;">STATISTIC DATA CHART</h5>
 
                 <div class="d-flex gap-2">
-                    <select name="certification_type_dashboard" id="certification_type_dashboard" class="form-select text-white">
+                    <select name="certification_type_dashboard" id="certification_type_dashboard"
+                        class="form-select text-white">
                         <option class="text-dark" value="" selected disabled>Select Certification Type</option>
                         <option class="text-dark" value="all">All Certification</option>
                         <option class="text-dark" value="brgy">Certificate of Barangay</option>

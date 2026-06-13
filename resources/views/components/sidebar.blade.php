@@ -2,7 +2,7 @@
     $reportRoute = [];
     $certificationRoute = ['certification_select'];
     $collectionRoute = ['collectionfee_select'];
-    $reportKagawadRoute = ['kagawad_select', 'blotter_report', 'borrowed_report'];
+    $reportKagawadRoute = ['kagawad_select_admin', 'blotter_report', 'borrowed_report'];
     $secretaryRoute = ['secretary_select'];
     $treasurerRoute = ['treasurer_select'];
     $kagawadRoute = ['kagawad_select'];
@@ -318,7 +318,7 @@
 
                     <li class="sidebar-item ">
 
-                        <a href="{{ route('kagawad_select') }}"
+                        <a href="{{ route('kagawad_select_admin') }}"
                             class="sidebar-link {{ in_array(Route::currentRouteName(), $kagawadRoute) ? 'active' : '' }}">
                             <div class="image-officials">
                                 <img src="{{ asset('assets/images/users/kagawad.png') }}"

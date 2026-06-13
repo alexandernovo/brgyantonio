@@ -171,7 +171,7 @@
                                         <polyline points="14 2 14 8 20 8"></polyline>
                                     </svg>
                                 </div>
-                                <select class="select-field" id="report_type">
+                                <select class="select-field" id="report_type_kagawad">
                                     <option selected disabled>Please Select</option>
                                     <option data-type="blotter">Blotter Complaints</option>
                                     <option data-type="borrowed">Borrowed Equipment</option>

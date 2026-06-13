@@ -358,4 +358,58 @@
             .search('^' + letter, true, false)
             .draw();
     });
+
+    $(document).on("click", ".deleteButton", function(e) {
+        e.stopPropagation();
+
+        let collection_id = $(this).attr("data-collection_id");
+
+        Swal.fire({
+            icon: "warning",
+            title: "Delete This Record?",
+            text: "This action cannot be undone.",
+            showCancelButton: true,
+            confirmButtonColor: "#A10101",
+            cancelButtonColor: "#1A212B",
+            confirmButtonText: "Yes, delete it"
+        }).then((result) => {
+
+            if (!result.isConfirmed) return;
+
+            $.ajax({
+                url: "{{ route('deleteCollection') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    collection_id: collection_id
+                },
+                success: function(response) {
+
+                    Swal.fire({
+                        icon: "success",
+                        title: "Deleted Successfully",
+                        text: "Barangay ID Deleted Successfully!"
+                    });
+
+                    // clear selection if deleted row is selected
+                    if (selectedCollectionBarangayIDId == collection_id) {
+                        selectedCollectionBarangayIDId = null;
+                        selectedCollectionBarangayIDRow = null;
+                    }
+
+                    reloadCollectionBarangayID();
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Failed to delete record"
+                    });
+                }
+            });
+
+        });
+    });
 </script>

@@ -142,8 +142,8 @@
     });
 
     $(document).on("click", ".btn-report-kagawad", function() {
-        let report_type = $('#report_type').val();
-        let report_type_data = $('#report_type').find(':selected').data('type');
+        let report_type = $('#report_type_kagawad').val();
+        let report_type_data = $('#report_type_kagawad').find(':selected').data('type');
 
         let month_kagawad = $('#month_kagawad').val();
         let route = "";

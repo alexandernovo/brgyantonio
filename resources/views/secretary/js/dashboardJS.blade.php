@@ -5,8 +5,24 @@
     let certificationTableDashboard = null;
     let selectedCertificationRow = null;
     let selectedCertificationId = null;
-    let certificationDashboarddData = [];
+    let certificationDashboardData = [];
     let statsChart;
+
+    const modalIds = {
+        brgy: "brgyModal",
+        brgyId: "brgyIdModal",
+        clearance: "clearanceModal",
+        goodmoral: "goodmoralModal",
+        indigency: "indigencyModal",
+        jobseeker: "jobseekerModal",
+        livestock: "livestockModal",
+        lot: "lotModal",
+        motorcycle: "motorcycleModal",
+        piggery: "piggeryModal",
+        quarry: "quarryModal",
+        trees: "treesModal"
+    };
+
 
     function getCertificateName(key) {
         const certificateTypes = {
@@ -40,7 +56,7 @@
                 d.letter = selectedLetterDashboard;
             },
             dataSrc: function(json) {
-                certificationDashboarddData = json.data;
+                certificationDashboardData = json.data;
                 return json.data;
             }
         },
@@ -89,14 +105,14 @@
 
                         <button class="btn btn-warning btn-sm editButton px-2"
                             style="background-color: #B35100 !important"
-                            data-brgy_id="${row.brgy_id}">
+                            data-certification_id="${row.certification_id}">
 
                             <i style="font-size: 15px"
                                 class="bi bi-pencil-fill"></i>
 
                         </button>
 
-                        <button class="btn btn-danger btn-sm deleteButton px-2"
+                        <button class="btn btn-danger btn-sm deleteButton px-2" data-certification_id="${row.certification_id}"
                             style="background-color: #A10101 !important"
                             data-brgy_id="${row.brgy_id}">
 
@@ -172,7 +188,7 @@
         certificationTableDashboard = new DataTable('#certificationTableDashboard', certificationDashboardOptions)
     }
 
-       function reloaddashboardTable () {
+    function reloaddashboardTable() {
         if (certificationTableDashboard) {
             certificationTableDashboard.ajax.reload(null, false);
         } else {
@@ -290,7 +306,7 @@
 
     updateChartData();
 
-     $(document).on("click", ".btn-reload-table", function() {
+    $(document).on("click", ".btn-reload-table", function() {
         dateFrom = '';
         dateTo = '';
         selectedLetterDashboard = '';
@@ -337,4 +353,114 @@
             .search('^' + letter, true, false)
             .draw();
     });
+
+    $(document).on("click", ".deleteButton", function(e) {
+        e.stopPropagation();
+
+        let certification_id = $(this).attr("data-certification_id");
+
+        Swal.fire({
+            icon: "warning",
+            title: "Delete Certification?",
+            text: "This action cannot be undone.",
+            showCancelButton: true,
+            confirmButtonColor: "#A10101",
+            cancelButtonColor: "#1A212B",
+            confirmButtonText: "Yes, delete it"
+        }).then((result) => {
+
+            if (!result.isConfirmed) return;
+
+            $.ajax({
+                url: "{{ route('deleteCertification') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    certification_id: certification_id
+                },
+                success: function(response) {
+
+                    Swal.fire({
+                        icon: "success",
+                        title: "Deleted Successfully",
+                        text: response.message
+                    });
+
+                    // clear selection if deleted row is selected
+                    if (selectedCertificationId == certification_id) {
+                        selectedCertificationId = null;
+                        selectedCertificationRow = null;
+                    }
+
+                    reloaddashboardTable();
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Failed to delete record"
+                    });
+                }
+            });
+
+        });
+    });
+
+    $(document).on("click", ".editButton", function(e) {
+        e.stopPropagation();
+        let certification_id = $(this).attr("data-certification_id");
+        let find_data = certificationDashboardData.find(x => x.certification_id == certification_id);
+        if (find_data) {
+            $("#certificationForm")[0].reset();
+
+            $("#certificationForm")
+                .find('input[type="hidden"]')
+                .not('[name="_token"]')
+                .not('[name="certification_type"]')
+                .val('');
+
+            if (modalIds[find_data.certification_type]) {
+                populateCertificationForm(`${modalIds[find_data.certification_type]} #certificationForm`,
+                    find_data);
+                $(`#${modalIds[find_data.certification_type]}`).modal("show");
+
+                $(document).on('submit', `#${modalIds[find_data.certification_type]} #certificationForm`,
+                    function(e) {
+                        e.preventDefault();
+
+                        let formData = new FormData(this);
+
+                        $.ajax({
+                            url: "{{ route('storeCertification') }}",
+                            type: "POST",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function(response) {
+                                Swal.fire({
+                                    title: "Success",
+                                    text: "Certification Saved Successfully!",
+                                    icon: "success",
+                                    showCancelButton: false,
+                                })
+
+                                $(`#${modalIds[find_data.certification_type]}`).modal("hide");
+                                $(`#${modalIds[find_data.certification_type]} #certificationForm`)[
+                                    0].reset();
+                                $('#image_filename_display').val('No file chosen');
+                                reloaddashboardTable();
+                            },
+                            error: function(xhr) {
+                                let errors = xhr.responseJSON.errors;
+                                console.log(errors);
+                                alert("Something went wrong. Please check the console.");
+                            }
+                        });
+                    });
+            }
+
+        }
+    })
 </script>

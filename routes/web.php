@@ -109,6 +109,7 @@ Route::middleware(["userchecker"])->group(function () {
     Route::get('/blotter_report', [KagawadController::class, 'blotter_report'])->name('blotter_report');
     Route::get('/borrowed_report', [KagawadController::class, 'borrowed_report'])->name('borrowed_report');
     Route::get('/borrowedequipment', [KagawadController::class, 'borrowedequipment'])->name('borrowedequipment');
+    Route::get('/kagawadReport', [KagawadController::class, 'kagawadReport'])->name('kagawadReport');
     Route::post('/storeKagawadRecord', [KagawadController::class, 'storeKagawadRecord'])->name('storeKagawadRecord');
     Route::post('/get_blotter', [KagawadController::class, 'get_blotter'])->name('get_blotter');
     Route::post('/deleteRecord', [KagawadController::class, 'deleteRecord'])->name('deleteRecord');
@@ -117,7 +118,7 @@ Route::middleware(["userchecker"])->group(function () {
     Route::get('/admin_dashboard', [AdminController::class, 'admin_dashboard'])->name('admin_dashboard');
     Route::get('/secretary_select', [AdminController::class, 'secretary_select'])->name('secretary_select');
     Route::get('/treasurer_select', [AdminController::class, 'treasurer_select'])->name('treasurer_select');
-    Route::get('/kagawad_select', [AdminController::class, 'kagawad_select'])->name('kagawad_select');
+    Route::get('/kagawad_select_admin', [AdminController::class, 'kagawad_select'])->name('kagawad_select_admin');
     Route::get('/user', [AdminController::class, 'user'])->name('user');
     Route::get('/report_admin', [AdminController::class, 'report_admin'])->name('report_admin');
     Route::post('/get_users', [AdminController::class, 'get_users'])->name('get_users');

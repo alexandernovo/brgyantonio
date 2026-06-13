@@ -116,105 +116,113 @@
 
                 </form>
                 <div class="d-flex align-items-center gap-3">
-                    <button class="btn-print-report d-flex align-items-center gap-2">
+                    <button id="btnPrintReport" class="btn-print-report d-flex align-items-center gap-2">
                         <i class="bi bi-printer"></i> Print Report
                     </button>
                     <div class="d-flex align-items-center gap-2 text-white">
                         <span style="font-size: 14px;">Download</span>
-                        <a href="#" class="download-icon text-danger"><i class="bi bi-file-earmark-pdf-fill"></i></a>
-                        <a href="#" class="download-icon text-primary"><i
-                                class="bi bi-file-earmark-word-fill"></i></a>
-                        <a href="#" class="download-icon text-success"><i
-                                class="bi bi-file-earmark-excel-fill"></i></a>
+                        <a href="#" id="btnPdf" class="download-icon text-danger">
+                            <i class="bi bi-file-earmark-pdf-fill"></i>
+                        </a>
+
+                        <a href="#" id="btnWord" class="download-icon text-primary">
+                            <i class="bi bi-file-earmark-word-fill"></i>
+                        </a>
+
+                        <a href="#" id="btnExcel" class="download-icon text-success">
+                            <i class="bi bi-file-earmark-excel-fill"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-center pt-3 align-items-center mb-2 position-relative text-center">
-                <div class="px-3">
-                    <img src="{{ asset('assets/images/logo.jpg') }}" alt="Municipality Seal"
-                        style="height: 90px; width: auto;" onerror="this.style.display='none'">
+            <div id="printArea">
+                <div class="d-flex justify-content-center pt-3 align-items-center mb-2 position-relative text-center">
+                    <div class="px-3">
+                        <img src="{{ asset('assets/images/logo.jpg') }}" alt="Municipality Seal"
+                            style="height: 90px; width: auto;" onerror="this.style.display='none'">
+                    </div>
+
+                    <div>
+                        <h6 class="mb-0 text-muted" style="font-size: 15px;">Republic of the Philippines</h6>
+                        <h6 class="mb-0 text-muted" style="font-size: 15px;">Province of Antique</h6>
+                        <h5 class="fw-bold my-1 text-dark" style="font-size: 18px;">MUNICIPALITY OF BARBAZA</h5>
+                    </div>
+
+                    <div class="px-3">
+                        <img src="{{ asset('assets/images/logo.png') }}" alt="Barangay Seal"
+                            style="height: 90px; width: auto;" onerror="this.style.display='none'">
+                    </div>
                 </div>
 
-                <div>
-                    <h6 class="mb-0 text-muted" style="font-size: 15px;">Republic of the Philippines</h6>
-                    <h6 class="mb-0 text-muted" style="font-size: 15px;">Province of Antique</h6>
-                    <h5 class="fw-bold my-1 text-dark" style="font-size: 18px;">MUNICIPALITY OF BARBAZA</h5>
+                <div class="text-center mb-4">
+                    <h3 class="brgy-title mb-2">BARANGAY SAN ANTONIO</h3>
+                    <h4 class="report-subtitle text-uppercase">{{ $title }}
+                        {{ request('month') ? \Carbon\Carbon::parse(request('month'))->format('F Y') : now()->format('F Y') }}
+                    </h4>
                 </div>
 
-                <div class="px-3">
-                    <img src="{{ asset('assets/images/logo.png') }}" alt="Barangay Seal" style="height: 90px; width: auto;"
-                        onerror="this.style.display='none'">
-                </div>
-            </div>
-
-            <div class="text-center mb-4">
-                <h3 class="brgy-title mb-2">BARANGAY SAN ANTONIO</h3>
-                <h4 class="report-subtitle text-uppercase">{{ $title }}
-                    {{ request('month') ? \Carbon\Carbon::parse(request('month'))->format('F Y') : now()->format('F Y') }}
-                </h4>
-            </div>
-
-            <div class="table-responsive px-2">
-                <table id="certificationTableBrgy" class="table custom-table table-bordered w-100 mb-0">
-                    <thead>
-                        <tr>
-                            <th>NO.</th>
-                            <th>DATE</th>
-                            <th>OR NUMBER</th>
-                            <th>PAYOR</th>
-                            <th>PAYMENT STATUS</th>
-                            <th>AMOUNT</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($data as $item)
+                <div class="table-responsive px-2">
+                    <table id="certificationTableBrgy" class="table custom-table table-bordered w-100 mb-0">
+                        <thead>
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <th>NO.</th>
+                                <th>DATE</th>
+                                <th>OR NUMBER</th>
+                                <th>PAYOR</th>
+                                <th>PAYMENT STATUS</th>
+                                <th>AMOUNT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($data as $item)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
 
-                                <td>{{ $item->payment_date ? \Carbon\Carbon::parse($item->payment_date)->format('M d, Y') : '-' }}
-                                </td>
-                                <td>{{ $item->or_number }}</td>
-                                <td>{{ trim($item->first_name . ' ' . ($item->middle_name ? $item->middle_name . ' ' : '') . $item->last_name) }}
-                                </td>
-                                <td>
-                                    @php
-                                        $bgColor = '#830202';
+                                    <td>{{ $item->payment_date ? \Carbon\Carbon::parse($item->payment_date)->format('M d, Y') : '-' }}
+                                    </td>
+                                    <td>{{ $item->or_number }}</td>
+                                    <td>{{ trim($item->first_name . ' ' . ($item->middle_name ? $item->middle_name . ' ' : '') . $item->last_name) }}
+                                    </td>
+                                    <td>
+                                        @php
+                                            $bgColor = '#830202';
 
-                                        if ($item->payment_status === 'Paid') {
-                                            $bgColor = '#0B4E06';
-                                        }
-                                    @endphp
+                                            if ($item->payment_status === 'Paid') {
+                                                $bgColor = '#0B4E06';
+                                            }
+                                        @endphp
 
-                                    <span class="badge px-3 py-2"
-                                        style="
+                                        <span class="badge px-3 py-2"
+                                            style="
                                             background-color: {{ $bgColor }};
                                             color: white;
                                             border-radius: 6px;
                                             font-size: 12px;
                                         ">
-                                        {{ $item->payment_status }}
-                                    </span>
-                                </td>
-                                <td>
-                                    {{ $item->payment_amount }}
-                                </td>
-                            </tr>
-                        @endforeach
+                                            {{ $item->payment_status }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{ $item->payment_amount }}
+                                    </td>
+                                </tr>
+                            @endforeach
 
-                        @if (count($data) == 0)
-                            <tr>
-                                <td colspan="6" class="text-center">No Data</td>
-                            </tr>
-                        @endif
-                    </tbody>
-                </table>
-            </div>
+                            @if (count($data) == 0)
+                                <tr>
+                                    <td colspan="6" class="text-center">No Data</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
 
-            <div class="d-flex justify-content-end secretary-signature-block text-center mt-5 mb-3">
-                <div style="min-width: 250px;">
-                    <h5 class="mb-0 fw-bold text-dark" style="text-transform: uppercase;">GLORYBELLE V. DECENILLA</h5>
-                    <p class="text-muted mb-0" style="font-size: 15px; border-top: 1px solid #000; pt-1;">Barangay
-                        Secretary</p>
+                <div class="d-flex justify-content-end secretary-signature-block text-center mt-5 mb-3">
+                    <div style="min-width: 250px;">
+                        <h5 class="mb-0 fw-bold text-dark" style="text-transform: uppercase;">GLORYBELLE V. DECENILLA</h5>
+                        <p class="text-muted mb-0" style="font-size: 15px; border-top: 1px solid #000; pt-1;">Barangay
+                            Secretary</p>
+                    </div>
                 </div>
             </div>
 
@@ -223,5 +231,6 @@
 @endsection
 
 @section('js')
-    @include('secretary.js.certificationjs')
+    @include('treasurer.js.collectionjs')
+    @include('treasurer.js.printingReport')
 @endsection

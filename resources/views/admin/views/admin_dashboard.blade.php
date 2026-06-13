@@ -1,6 +1,22 @@
 @extends('layout.mainlayout')
 @section('content')
     @include('kagawad.css.kagawadcss')
+    @include('secretary.modals.brgyidModal')
+    @include('secretary.modals.brgyModal')
+    @include('secretary.modals.clearanceModal')
+    @include('secretary.modals.goodmoralModal')
+    @include('secretary.modals.indigencyModal')
+    @include('secretary.modals.jobseekerModal')
+    @include('secretary.modals.livestockModal')
+    @include('secretary.modals.lotModal')
+    @include('secretary.modals.motorcycleModal')
+    @include('secretary.modals.piggeryModal')
+    @include('secretary.modals.quarryModal')
+    @include('secretary.modals.treesModal')
+    @include('secretary.modals.otpQuarryModal')
+    @include('secretary.modals.rbiModal')
+    @include('secretary.modals.rbi2Modal')
+
     @php
         $dashboardCards = [
             [
