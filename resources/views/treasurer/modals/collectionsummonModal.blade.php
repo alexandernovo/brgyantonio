@@ -40,7 +40,7 @@
             {{-- BODY --}}
             <div class="p-3">
 
-                <form id="collectionFormSummon">
+                <form id="collectionForm">
 
                     @csrf
 

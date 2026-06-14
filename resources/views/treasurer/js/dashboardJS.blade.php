@@ -5,8 +5,18 @@
     let tableDashboard = null;
     let selectedCertificationRow = null;
     let selectedCertificationId = null;
-    let certificationDashboarddData = [];
+    let collectionDashboarddData = [];
     let statsChart;
+    let collectionChart;
+
+
+    const collectionModalIds = {
+        certification: "collectionCertificationModal",
+        clearance: "clearanceCollectionModal",
+        barangay_id: "collectionBarangayIDModal",
+        businessclearance: "collectionBusinessClearanceModal",
+        summon: "collectionSummonModal"
+    };
 
     function getCollectionName(key) {
         const certificateTypes = {
@@ -34,7 +44,7 @@
                 d.letter = selectedLetter;
             },
             dataSrc: function(json) {
-                certificationDashboarddData = json.data;
+                collectionDashboarddData = json.data;
                 return json.data;
             }
         },
@@ -111,7 +121,7 @@
 
                         <button class="btn btn-warning btn-sm editButton px-2"
                             style="background-color: #B35100 !important"
-                            data-brgy_id="${row.brgy_id}">
+                            data-collection_id="${row.collection_id}">
 
                             <i style="font-size: 15px"
                                 class="bi bi-pencil-fill"></i>
@@ -120,7 +130,7 @@
 
                         <button class="btn btn-danger btn-sm deleteButton px-2"
                             style="background-color: #A10101 !important"
-                            data-brgy_id="${row.brgy_id}">
+                            data-collection_id="${row.collection_id}">
 
                             <i style="font-size: 15px"
                                 class="bi bi-trash3-fill"></i>
@@ -198,111 +208,94 @@
         rendertableDashboard();
     })
 
-    const options = {
-        chart: {
-            type: 'bar',
-            height: 380,
-            toolbar: {
-                show: false
-            }
-        },
-        plotOptions: {
-            bar: {
-                borderRadius: 4,
-                columnWidth: '55%',
-                distributed: true,
-                dataLabels: {
-                    position: 'top'
-                }
-            }
-        },
-        colors: ['#184d35'],
-        dataLabels: {
-            enabled: true,
-            formatter: function(val) {
-                return val > 0 ? val : '';
-            },
-            offsetY: -20,
-            style: {
-                fontSize: '12px',
-                colors: ["#304758"]
-            }
-        },
-        legend: {
-            show: false
-        },
-        series: [{
-            name: 'Total Requests',
-            data: []
-        }],
-        xaxis: {
-            categories: [], // Receives the full names directly from the API response
-            labels: {
-                rotate: -45,
-                rotateAlways: true,
-                style: {
-                    fontSize: '11px',
-                    colors: '#6c757d'
-                }
-            }
-        },
-        yaxis: {
-            title: {
-                text: 'Count Metrics Generated',
-                style: {
-                    color: '#6c757d'
-                }
-            },
-            labels: {
-                style: {
-                    colors: '#6c757d'
-                }
-            }
-        },
-        tooltip: {
-            theme: 'light'
-        }
-    };
 
-    statsChart = new ApexCharts(document.querySelector("#statisticsApexChart"), options);
-    statsChart.render();
-
-    function updateChartData() {
-        const month = $('#filterMonth').val();
-        const year = $('#filterYear').val();
-        const type = $('#certification_type_dashboard').val();
-
+    function loadCollectionChart() {
         $.ajax({
             url: "{{ route('getChartStatisticsCollection') }}",
-            method: "GET",
+            type: "GET",
             data: {
-                month: month,
-                year: year,
-                type: type,
+                type: $('#certification_type_dashboard').val(),
+                year: $('#filterYear').val()
             },
             success: function(response) {
-                statsChart.updateOptions({
-                    xaxis: {
-                        categories: response.labels
-                    }
-                });
-
-                statsChart.updateSeries([{
-                    name: 'Total Requests',
-                    data: response.series
+                collectionChart.updateSeries([{
+                    name: 'Collections',
+                    data: response
                 }]);
-            },
-            error: function(xhr) {
-                console.error("Dashboard engine error:", xhr.responseText);
             }
         });
     }
 
-    $('#filterMonth, #filterYear, #certification_type_dashboard').on('change', function() {
-        updateChartData();
+    $(function() {
+
+        collectionChart = new ApexCharts(
+            document.querySelector("#statisticsApexChart"), {
+                chart: {
+                    type: 'bar',
+                    height: 450,
+                    toolbar: {
+                        show: false
+                    }
+                },
+
+                series: [{
+                    name: 'Collections',
+                    data: []
+                }],
+
+                colors: ['#184d35'],
+
+                plotOptions: {
+                    bar: {
+                        columnWidth: '65%',
+                        borderRadius: 4
+                    }
+                },
+
+                dataLabels: {
+                    enabled: true
+                },
+
+                xaxis: {
+                    categories: [
+                        'January',
+                        'February',
+                        'March',
+                        'April',
+                        'May',
+                        'June',
+                        'July',
+                        'August',
+                        'September',
+                        'October',
+                        'November',
+                        'December'
+                    ]
+                },
+
+                yaxis: {
+                    min: 0,
+                    title: {
+                        text: 'Collections'
+                    }
+                },
+
+                legend: {
+                    show: false
+                }
+            }
+        );
+
+        collectionChart.render();
+
+        loadCollectionChart();
+
+        $('#certification_type_dashboard, #filterYear').on('change', function() {
+            loadCollectionChart();
+        });
+
     });
 
-    updateChartData();
 
     $(document).on("click", ".btn-reload-table", function() {
         dateFrom = '';
@@ -392,12 +385,12 @@
                     });
 
                     // clear selection if deleted row is selected
-                    if (selectedCollectionBarangayIDId == collection_id) {
-                        selectedCollectionBarangayIDId = null;
-                        selectedCollectionBarangayIDRow = null;
+                    if (selectedLetter == collection_id) {
+                        selectedLetter = null;
+                        selectedCertificationRow = null;
                     }
 
-                    reloadCollectionBarangayID();
+                    reloaddashboardTable();
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
@@ -412,4 +405,61 @@
 
         });
     });
+
+    $(document).on("click", ".editButton", function(e) {
+        e.stopPropagation();
+        let collection_id = $(this).attr("data-collection_id");
+        let find_data = collectionDashboarddData.find(x => x.collection_id == collection_id);
+        if (find_data) {
+            $("#collectionForm")[0].reset();
+
+            $("#collectionForm")
+                .find('input[type="hidden"]')
+                .not('[name="_token"]')
+                .not('[name="collection_type"]')
+                .val('');
+            console.log(find_data.collection_type);
+            if (collectionModalIds[find_data.collection_type]) {
+                populateCollectionForm(`${collectionModalIds[find_data.collection_type]} #collectionForm`,
+                    find_data);
+                $(`#${collectionModalIds[find_data.collection_type]}`).modal("show");
+
+                $(document).on('submit', `#${collectionModalIds[find_data.collection_type]} #collectionForm`,
+                    function(e) {
+                        e.preventDefault();
+
+                        let formData = new FormData(this);
+
+                        $.ajax({
+                            url: "{{ route('storeCollection') }}",
+                            type: "POST",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function(response) {
+                                Swal.fire({
+                                    title: "Success",
+                                    text: "Collection Saved Successfully!",
+                                    icon: "success",
+                                    showCancelButton: false,
+                                })
+
+                                $(`#${collectionModalIds[find_data.collection_type]}`).modal(
+                                    "hide");
+                                $(`#${collectionModalIds[find_data.collection_type]} #collectionForm`)[
+                                    0].reset();
+                                $('#image_filename_display').val('No file chosen');
+                                reloaddashboardTable();
+                            },
+                            error: function(xhr) {
+                                let errors = xhr.responseJSON.errors;
+                                console.log(errors);
+                                alert("Something went wrong. Please check the console.");
+                            }
+                        });
+                    });
+            }
+
+        }
+    })
 </script>

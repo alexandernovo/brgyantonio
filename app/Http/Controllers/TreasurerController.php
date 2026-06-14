@@ -143,46 +143,29 @@ class TreasurerController extends Controller
 
     public function getChartStatisticsCollection(Request $request)
     {
-        $month = $request->input('month');
-        $type = $request->input('type');
-        $year = $request->input('year', Carbon::now()->year);
+        $type = $request->type;
+        $year = $request->year ?? now()->year;
 
-        $certificateMap = [
-            'clearance' => 'Barangay Clearance',
-            'certification' => 'Barangay Certification',
-            'summon' => 'Summon',
-            'barangay_id' => 'Barangay ID',
-            'businessclearance' => 'Barangay Business Clearance',
-        ];
+        $months = collect(range(1, 12));
 
+        $query = Collection::query()
+            ->whereYear('payment_date', $year);
 
-        $query = Collection::query()->whereYear('payment_date', $year);
-
-        if ($month && $month !== 'all') {
-            $query->whereMonth('payment_date', $month);
-        }
-        if (!empty($type) && $type != "all") {
+        if (!empty($type) && $type != 'all') {
             $query->where('collection_type', $type);
         }
 
-        // Query groups by the short code values stored in your DB
-        $results = $query->select('collection_type', DB::raw('COUNT(*) as total'))
-            ->groupBy('collection_type')
-            ->get();
+        $records = $query
+            ->selectRaw('MONTH(payment_date) as month, COUNT(*) as total')
+            ->groupBy(DB::raw('MONTH(payment_date)'))
+            ->pluck('total', 'month');
 
-        $labels = [];
-        $series = [];
+        $data = [];
 
-        // Loop through the map to ensure every single option is represented
-        foreach ($certificateMap as $dbValue => $displayLabel) {
-            $labels[] = $displayLabel; // Sends the full name straight to the chart labels
-            $match = $results->firstWhere('collection_type', $dbValue);
-            $series[] = $match ? $match->total : 0;
+        foreach ($months as $month) {
+            $data[] = $records[$month] ?? 0;
         }
 
-        return response()->json([
-            'labels' => $labels,
-            'series' => $series
-        ]);
+        return response()->json($data);
     }
 }

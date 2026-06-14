@@ -136,9 +136,9 @@
     })
 
     $(document).on("click", "#addCollectionBarangayID", function() {
-        $("#collectionFormBarangayID")[0].reset();
+        $("#collectionForm")[0].reset();
 
-        $("#collectionFormBarangayID")
+        $("#collectionForm")
             .find('input[type="hidden"]')
             .not('[name="_token"]')
             .not('[name="collection_type"]')
@@ -200,7 +200,7 @@
     });
 
 
-    $(document).on('submit', '#collectionFormBarangayID', function(e) {
+    $(document).on('submit', '#collectionForm', function(e) {
         e.preventDefault();
 
         let formData = new FormData(this);
@@ -220,7 +220,7 @@
                 })
 
                 $('#collectionBarangayIDModal').modal('hide');
-                $('#collectionFormBarangayID')[0].reset();
+                $('#collectionForm')[0].reset();
                 reloadCollectionBarangayID();
             },
             error: function(xhr) {
@@ -244,15 +244,15 @@
         let collection_id = $(this).attr("data-collection_id");
         let find_data = certificationCollectionBarangayIDData.find(x => x.collection_id == collection_id);
         if (find_data) {
-            $("#collectionFormBarangayID")[0].reset();
+            $("#collectionForm")[0].reset();
 
-            $("#collectionFormBarangayID")
+            $("#collectionForm")
                 .find('input[type="hidden"]')
                 .not('[name="_token"]')
                 .not('[name="collection_type"]')
                 .val('');
 
-            populateCollectionForm('collectionFormBarangayID', find_data);
+            populateCollectionForm('collectionForm', find_data);
 
             $("#collectionBarangayIDModal").modal("show");
         }

@@ -40,7 +40,7 @@
             {{-- BODY --}}
             <div class="p-3">
 
-                <form id="collectionCertificationForm">
+                <form id="collectionForm">
 
                     @csrf
 

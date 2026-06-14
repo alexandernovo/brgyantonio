@@ -174,7 +174,51 @@ class AdminController extends Controller
                     ->pluck('total', 'month');
 
                 break;
+            case 'all':
 
+                $records = collect();
+
+                $sources = [
+                    BrgyID::selectRaw('MONTH(dateclaim) as month, COUNT(*) as total')
+                        ->whereYear('dateclaim', $year)
+                        ->groupBy(DB::raw('MONTH(dateclaim)'))
+                        ->pluck('total', 'month'),
+
+                    Certification::selectRaw('MONTH(date_issued) as month, COUNT(*) as total')
+                        ->whereYear('date_issued', $year)
+                        ->groupBy(DB::raw('MONTH(date_issued)'))
+                        ->pluck('total', 'month'),
+
+                    Collection::selectRaw('MONTH(payment_date) as month, COUNT(*) as total')
+                        ->whereYear('payment_date', $year)
+                        ->groupBy(DB::raw('MONTH(payment_date)'))
+                        ->pluck('total', 'month'),
+
+                    KagawadRecord::selectRaw('MONTH(date_of_complaints) as month, COUNT(*) as total')
+                        ->where('record_type', 'blotter')
+                        ->whereYear('date_of_complaints', $year)
+                        ->groupBy(DB::raw('MONTH(date_of_complaints)'))
+                        ->pluck('total', 'month'),
+
+                    KagawadRecord::selectRaw('MONTH(date_of_borrowed) as month, COUNT(*) as total')
+                        ->where('record_type', 'borrowed')
+                        ->whereYear('date_of_borrowed', $year)
+                        ->groupBy(DB::raw('MONTH(date_of_borrowed)'))
+                        ->pluck('total', 'month'),
+
+                    Quarry::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+                        ->whereYear('created_at', $year)
+                        ->groupBy(DB::raw('MONTH(created_at)'))
+                        ->pluck('total', 'month'),
+                ];
+
+                foreach ($sources as $source) {
+                    foreach ($source as $month => $total) {
+                        $records[$month] = ($records[$month] ?? 0) + $total;
+                    }
+                }
+
+                break;
             default:
                 $records = collect();
         }

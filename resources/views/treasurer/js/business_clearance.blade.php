@@ -137,9 +137,9 @@
     })
 
     $(document).on("click", "#addCollectionBusinessClearance", function() {
-        $("#collectionFormBusinessClearance")[0].reset();
+        $("#collectionForm")[0].reset();
 
-        $("#collectionFormBusinessClearance")
+        $("#collectionForm")
             .find('input[type="hidden"]')
             .not('[name="_token"]')
             .not('[name="collection_type"]')
@@ -201,7 +201,7 @@
     });
 
 
-    $(document).on('submit', '#collectionFormBusinessClearance', function(e) {
+    $(document).on('submit', '#collectionForm', function(e) {
         e.preventDefault();
 
         let formData = new FormData(this);
@@ -221,7 +221,7 @@
                 })
 
                 $('#collectionBusinessClearanceModal').modal('hide');
-                $('#collectionFormBusinessClearance')[0].reset();
+                $('#collectionForm')[0].reset();
                 reloadCollectionClearance();
             },
             error: function(xhr) {
@@ -246,15 +246,15 @@
         let find_data = certificationCollectionBusinessClearanceData.find(x => x.collection_id ==
         collection_id);
         if (find_data) {
-            $("#collectionFormBusinessClearance")[0].reset();
+            $("#collectionForm")[0].reset();
 
-            $("#collectionFormBusinessClearance")
+            $("#collectionForm")
                 .find('input[type="hidden"]')
                 .not('[name="_token"]')
                 .not('[name="collection_type"]')
                 .val('');
 
-            populateCollectionForm('collectionFormBusinessClearance', find_data);
+            populateCollectionForm('collectionForm', find_data);
 
             $("#collectionBusinessClearanceModal").modal("show");
         }

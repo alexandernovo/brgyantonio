@@ -136,9 +136,9 @@
     })
 
     $(document).on("click", "#addCollectionSummon", function() {
-        $("#collectionFormSummon")[0].reset();
+        $("#collectionForm")[0].reset();
 
-        $("#collectionFormSummon")
+        $("#collectionForm")
             .find('input[type="hidden"]')
             .not('[name="_token"]')
             .not('[name="collection_type"]')
@@ -200,7 +200,7 @@
     });
 
 
-    $(document).on('submit', '#collectionFormSummon', function(e) {
+    $(document).on('submit', '#collectionForm', function(e) {
         e.preventDefault();
 
         let formData = new FormData(this);
@@ -220,7 +220,7 @@
                 })
 
                 $('#collectionSummonModal').modal('hide');
-                $('#collectionFormSummon')[0].reset();
+                $('#collectionForm')[0].reset();
                 reloadCollectionSummon();
             },
             error: function(xhr) {
@@ -244,15 +244,15 @@
         let collection_id = $(this).attr("data-collection_id");
         let find_data = certificationCollectionSummonData.find(x => x.collection_id == collection_id);
         if (find_data) {
-            $("#collectionFormSummon")[0].reset();
+            $("#collectionForm")[0].reset();
 
-            $("#collectionFormSummon")
+            $("#collectionForm")
                 .find('input[type="hidden"]')
                 .not('[name="_token"]')
                 .not('[name="collection_type"]')
                 .val('');
 
-            populateCollectionForm('collectionFormSummon', find_data);
+            populateCollectionForm('collectionForm', find_data);
 
             $("#collectionSummonModal").modal("show");
         }

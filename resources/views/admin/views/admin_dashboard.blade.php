@@ -192,6 +192,7 @@
                 <div class="filters">
 
                     <select id="category" class="text-white">
+                        <option value="all" class="text-white">All</option>
                         <option value="brgy_id" class="text-white">Barangay ID</option>
                         <option value="certification" class="text-white">Certification</option>
                         <option value="collection" class="text-white">Collection</option>

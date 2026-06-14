@@ -1,6 +1,12 @@
 @extends('layout.mainlayout')
 @section('content')
     @include('treasurer.css.treasurercss')
+    @include('treasurer.modals.collectioncertificationModal')
+    @include('treasurer.modals.collectionclearanceModal')
+    @include('treasurer.modals.collectionBarangayIDModal')
+    @include('treasurer.modals.collectionBusinessClearanceModal')
+    @include('treasurer.modals.collectionsummonModal')
+
     @php
         $dashboardCards = [
             [
@@ -138,14 +144,14 @@
                         <option class="text-dark" value="barangay_id">Barangay ID</option>
                         <option class="text-dark" value="businessclearance">Barangay Business Clearance</option>
                     </select>
-                    <select id="filterMonth" class="form-select bg-transparent text-white border-white"
+                    {{-- <select id="filterMonth" class="form-select bg-transparent text-white border-white"
                         style="width: 140px; font-size: 0.85rem; border-radius: 4px;">
                         <option value="all" class="text-dark" selected>All Months</option>
                         @for ($m = 1; $m <= 12; $m++)
                             <option value="{{ $m }}" class="text-dark">{{ date('F', mktime(0, 0, 0, $m, 1)) }}
                             </option>
                         @endfor
-                    </select>
+                    </select> --}}
 
                     <select id="filterYear" class="form-select bg-transparent text-white border-white"
                         style="width: 100px; font-size: 0.85rem; border-radius: 4px;">
