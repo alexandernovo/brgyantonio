@@ -41,6 +41,7 @@
                         <thead>
                             <tr>
                                 <th>NO.</th>
+                                <th>NAME</th>
                                 <th>USERNAME</th>
                                 <th>USER-ROLE</th>
                                 <th>DATE CREATED</th>

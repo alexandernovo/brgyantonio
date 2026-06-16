@@ -27,8 +27,27 @@
                         {{-- BODY --}}
                         <div class="login-body">
                             <form id="userForm">
-                                <div class="mb-4">
+                                <input type="hidden" name="id" id="id" value="0">
+
+                                <div class="mb-2">
                                     <input type="hidden" name="id" id="id" value="0">
+                                    <label class="form-label mb-0" style="font-size: 18px; color: #404040 !important">
+                                        Name:
+                                    </label>
+
+                                    <div class="input-group custom-input-group">
+
+                                        <span class="input-group-text">
+                                            <i class="bi bi-person-circle"></i>
+                                        </span>
+
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            placeholder="Enter name">
+
+                                    </div>
+
+                                </div>
+                                <div class="mb-2">
                                     <label class="form-label mb-0" style="font-size: 18px; color: #404040 !important">
                                         Username:
                                     </label>
@@ -47,7 +66,7 @@
                                 </div>
 
                                 {{-- PASSWORD --}}
-                                <div class="mb-4">
+                                <div class="mb-2">
 
                                     <label class="form-label mb-0" style="font-size: 18px; color: #404040 !important">
                                         Password:

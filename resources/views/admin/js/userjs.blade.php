@@ -34,6 +34,11 @@
                 render: (data, type, row, meta) =>
                     meta.row + meta.settings._iDisplayStart + 1
             },
+            {
+                title: 'NAME',
+                className: 'text-nowrap p-2 text-center align-middle',
+                data: 'name'
+            },
 
             {
                 title: 'USERNAME',
@@ -105,7 +110,10 @@
     $(document).on("click", "#addUser", function() {
         $(".updateWarning").addClass("d-none");
         $("#userForm")[0].reset();
-
+        $(".login-btn").html(`
+            <i class="bi bi-person-plus-fill me-1"></i>
+            Add User
+        `);
         $("#userForm")
             .find('input[type="hidden"]')
             .not('[name="_token"]')
@@ -218,6 +226,12 @@
 
     $(document).on("click", ".editButton", function(e) {
         e.stopPropagation();
+
+        $(".login-btn").html(`
+            <i class="bi bi-person-plus-fill me-1"></i>
+            Edit User
+        `);
+
         $(".updateWarning").removeClass("d-none");
         let id = $(this).attr("data-id");
         let find_data = userData.find(x => x.id == id);

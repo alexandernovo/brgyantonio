@@ -47,6 +47,9 @@ Route::middleware(["userchecker"])->group(function () {
     Route::get('/viewQuarryCertification', [SecretaryController::class, 'viewQuarryCertification'])->name('viewQuarryCertification');
     Route::get('/viewLotCertification', [SecretaryController::class, 'viewLotCertification'])->name('viewLotCertification');
 
+    //print_edit
+    Route::get('/editBrgyCertification', [SecretaryController::class, 'editBrgyCertification'])->name('editBrgyCertification');
+
     //brgy_id
     Route::get('/brgy_id', [SecretaryController::class, 'brgy_id'])->name('brgy_id');
     Route::post('/storeBrgyID', [SecretaryController::class, 'storeBrgyID'])->name('storeBrgyID');

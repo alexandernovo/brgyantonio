@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         $users = [
 
             [
-                'name' => 'Administrator',
+                'name' => 'HON. EVARISTO D. MALE',
                 'email' => 'admin@gmail.com',
                 'username' => 'admin',
                 'password' => Hash::make('admin'),
@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             ],
 
             [
-                'name' => 'Secretary User',
+                'name' => 'GLORYBELLE V. DECENILLA',
                 'email' => 'secretary@gmail.com',
                 'username' => 'secretary',
                 'password' => Hash::make('secretary'),
@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
             ],
 
             [
-                'name' => 'Treasurer User',
+                'name' => 'ROLDAN P. RAMOS',
                 'email' => 'treasurer@gmail.com',
                 'username' => 'treasurer',
                 'password' => Hash::make('treasurer'),
@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
             ],
 
             [
-                'name' => 'Kagawad User',
+                'name' => 'REX P. BERNESTO',
                 'email' => 'kagawad@gmail.com',
                 'username' => 'kagawad',
                 'password' => Hash::make('kagawad'),

@@ -35,3 +35,5 @@ return new class extends Migration
         Schema::dropIfExists('users');
     }
 };
+
+// php artisan migrate:refresh --path=database/migrations/0001_01_01_000000_create_users_table.php

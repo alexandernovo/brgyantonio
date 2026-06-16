@@ -4,23 +4,26 @@
             title: "Logout?",
             text: "Are you sure you want to logout?",
             icon: 'question',
-            imageWidth: 128,
-            imageHeight: 128,
             showCancelButton: true,
             confirmButtonText: "Yes, Logout",
             cancelButtonText: "No, Stay Login",
             reverseButtons: true,
             backdrop: true,
             allowOutsideClick: false,
+            buttonsStyling: false, // Turn off default SweetAlert button styling
             customClass: {
-                confirmButton: 'btn btn-logout ms-2',
+                popup: 'custom-logout-popup',
+                icon: 'custom-logout-icon',
+                title: 'custom-logout-title',
+                htmlContainer: 'custom-logout-text',
+                actions: 'custom-logout-actions',
+                confirmButton: 'btn btn-logout',
                 cancelButton: 'btn btn-cancel-logout'
-            },
-            buttonsStyling: false
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 let timerInterval;
-                return Swal.fire({
+                Swal.fire({
                     title: "Log out",
                     html: "Logging out in <b></b> seconds",
                     timer: 2000,
@@ -43,14 +46,14 @@
                             if (response.status == "success") {
                                 window.location.href = "{{ route('home') }}";
                             }
-                        })
+                        });
                     }
                 });
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 console.log("Logout canceled");
             }
         });
-    })
+    });
     $(document).ready(function() {
         $('.toast').each(function() {
             var toast = new bootstrap.Toast(this);

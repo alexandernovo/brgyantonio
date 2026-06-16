@@ -384,15 +384,38 @@ $(document).on('click', '.togglePassword', function () {
 
         passwordInput.attr('type', 'text');
 
-        icon.removeClass('fa-eye');
-        icon.addClass('fa-eye-slash');
+        icon.removeClass('bi-eye');
+        icon.addClass('bi-eye-slash-fill');
 
     } else {
 
         passwordInput.attr('type', 'password');
 
-        icon.removeClass('fa-eye-slash');
-        icon.addClass('fa-eye');
+        icon.removeClass('bi-eye-slash-fill');
+        icon.addClass('bi-eye');
+    }
+
+});
+
+
+$(document).on('click', '.togglePassword2', function () {
+
+    const passwordInput = $(this).closest('.inputToggle').find('input');
+    const icon = $(this);
+
+    if (passwordInput.attr('type') === 'password') {
+
+        passwordInput.attr('type', 'text');
+
+        icon.removeClass('bi-eye');
+        icon.addClass('bi-eye-slash-fill');
+
+    } else {
+
+        passwordInput.attr('type', 'password');
+
+        icon.removeClass('bi-eye-slash-fill');
+        icon.addClass('bi-eye');
     }
 
 });

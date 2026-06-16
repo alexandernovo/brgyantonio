@@ -1018,3 +1018,107 @@ tbody tr.selected-row td {
     border-radius: 50%;
     background-color: #0D1729;
 }
+
+/* Container Modal adjustments */
+.custom-logout-popup {
+    border-radius: 12px !important;
+    padding: 0 0 30px 0 !important;
+    /* Remove top/side paddings to let the header touch edges */
+    overflow: hidden;
+    width: 540px !important;
+}
+
+/* Creating the top dark-green background section */
+.custom-logout-popup::before {
+    content: "";
+    position: absolute;
+    border-radius: 10px;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    height: 200px;
+    background-color: #173d2a;
+    z-index: 1;
+}
+
+/* Bring elements to the foreground over the pseudo-background */
+.custom-logout-icon,
+.custom-logout-title {
+    position: relative;
+    z-index: 2;
+}
+
+/* Modifying the SweetAlert standard Question Mark Icon */
+.custom-logout-popup .custom-logout-icon.swal2-question {
+    border-color: #ffffff !important;
+    color: #ffffff !important;
+    margin-top: 25px !important;
+    margin-bottom: 10px !important;
+    width: 90px !important;
+    height: 90px !important;
+}
+
+.custom-logout-popup .custom-logout-icon.swal2-question .swal2-icon-content {
+    font-size: 65px !important;
+}
+
+/* Customizing the Title Text */
+.custom-logout-title {
+    color: #ffffff !important;
+    font-size: 32px !important;
+    font-weight: bold !important;
+    padding: 0 !important;
+    margin-bottom: 35px !important;
+    /* Pushes the body text below the green background line */
+}
+
+/* Subtitle text container below the header */
+.custom-logout-text {
+    font-size: 18px !important;
+    color: #000000 !important;
+    margin: 15px 0 25px 0 !important;
+}
+
+/* Container for the buttons */
+.custom-logout-actions {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 40px !important;
+    /* Space between buttons */
+    width: 100%;
+    margin-top: 10px !important;
+}
+
+/* General Button resets */
+.custom-logout-actions .btn {
+    padding: 12px 24px !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    border-radius: 6px !important;
+    border: none !important;
+    cursor: pointer;
+    min-width: 150px;
+    transition: background-color 0.2s ease;
+}
+
+/* 'No, Stay Login' Button Style */
+.custom-logout-actions .btn-cancel-logout {
+    background-color: #1b222c !important;
+    /* Dark slate blue/grey */
+    color: #ffffff !important;
+}
+
+.custom-logout-actions .btn-cancel-logout:hover {
+    background-color: #26303e !important;
+}
+
+/* 'Yes, Logout' Button Style */
+.custom-logout-actions .btn-logout {
+    background-color: #801010 !important;
+    /* Deep Crimson Red */
+    color: #ffffff !important;
+}
+
+.custom-logout-actions .btn-logout:hover {
+    background-color: #a01515 !important;
+}

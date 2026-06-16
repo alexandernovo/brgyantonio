@@ -185,6 +185,8 @@
 
             return;
         }
+
+        window.location = `{{ route('editBrgyCertification') }}?certification_id=${selectedCertificationId}`
     });
 
 

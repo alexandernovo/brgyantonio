@@ -252,7 +252,7 @@
                 .not('[name="collection_type"]')
                 .val('');
 
-            populatecollectionForm('collectionForm', find_data);
+            populateCollectionForm('collectionForm', find_data);
 
             $("#clearanceCollectionModal").modal("show");
         }

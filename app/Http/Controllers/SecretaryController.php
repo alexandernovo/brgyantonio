@@ -203,7 +203,7 @@ class SecretaryController extends Controller
         }
 
         $data = $query->get();
-        
+
         return response()->json(['data' => $data]);
     }
 
@@ -300,6 +300,13 @@ class SecretaryController extends Controller
         $certification_id = $request->query('certification_id');
         $certification = Certification::where('certification_id', $certification_id)->first();
         return view('secretary.print.brgycertification', ['certification' => $certification]);
+    }
+
+    public function editBrgyCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        return view('secretary.printedit.brgycertification', ['certification' => $certification]);
     }
 
     public function viewClearanceCertification(Request $request)
@@ -582,8 +589,8 @@ class SecretaryController extends Controller
             $date = \Carbon\Carbon::createFromFormat('Y-m', $monthYear);
 
             $query->whereYear('dateclaim', $date->year)
-                    ->whereMonth('dateclaim', $date->month);
-            })
+                ->whereMonth('dateclaim', $date->month);
+        })
 
             ->get();
 
