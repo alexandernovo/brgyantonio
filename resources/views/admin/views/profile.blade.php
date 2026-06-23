@@ -45,7 +45,7 @@
                 <p class="mb-0 text-center p-2 rounded fw-semibold mt-2 text-white"
                     style="font-size: 22px; background-color: #335847">{{ $typeProfile }}</p>
 
-                <form id="userForm">
+                <form id="userForm" class="pb-4">
                     <input type="hidden" value="{{ Auth::user()->id }}" name="id" id="id" value="0">
                     <div class="mb-3 mt-4">
 
