@@ -44,6 +44,9 @@
                     </h4>
                 </div>
                 <textarea id="description" name="description" required>
+                    @if (!empty($certificate->description))
+                    {!! $certificate->description !!}
+                    @else
                     <div class="mt-5 px-4">
                         <p class="fw-semibold">To Whom It May Concern:</p>
 
@@ -122,12 +125,14 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 </textarea>
             </div>
             <hr class="mt-2 mb-0" style="border-top: 1px solid black">
             <div class="d-flex justify-content-end mt-4">
-                <button class="btn btn-dark px-4" id="btnPrintCertification">
-                    <i class="fas fa-print me-2"></i> Print Certification
+                <button class="btn btn-dark px-4" id="saveCertification">
+                    <i class="fas fa-print me-2"></i>
+                    Save
                 </button>
             </div>
         </div>
@@ -138,4 +143,5 @@
 @section('js')
     @include('secretary.js.printing')
     @include('secretary.js.editcertification')
+    @include('secretary.js.saveCertification')
 @endsection

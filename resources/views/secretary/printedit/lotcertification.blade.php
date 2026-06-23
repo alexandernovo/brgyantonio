@@ -68,10 +68,11 @@
 
             </div>
 
-            @if (!empty($certificate->description))
-            {!! $certificate->description !!}
-            @else
             {{-- BODY --}}
+            <textarea id="description" name="description" required>
+            @if (!empty($certificate->description))
+                {!! $certificate->description !!}
+            @else
             <div class="mt-5 px-3"
                 style="
                     font-size:14px;
@@ -79,7 +80,7 @@
                     text-align:justify;
                 ">
 
-                <div class="fw-semibold mb-4 text-start" style="font-size:14px;">
+                <div class="fw-semibold mb-4" style="font-size:14px;">
                     TO WHOM IT MAY CONCERN:
                 </div>
 
@@ -272,17 +273,16 @@
 
             </div>
             @endif
+            </textarea>
 
             {{-- BUTTON --}}
             <hr class="mt-4 mb-3" style="border-top:1px solid #000;">
 
             <div class="d-flex justify-content-end">
 
-                <button id="btnPrintCertification" class="btn btn-dark px-4 py-2">
-
+                <button class="btn btn-dark px-4" id="saveCertification">
                     <i class="fas fa-print me-2"></i>
-                    Print
-
+                    Save
                 </button>
 
             </div>
@@ -293,4 +293,6 @@
 @endsection
 @section('js')
     @include('secretary.js.printing')
+    @include('secretary.js.editcertification')
+    @include('secretary.js.saveCertification')
 @endsection

@@ -12,12 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('certification_edit', function (Blueprint $table) {
-            $table->id("certification_id");
-            $table->bigInteger("record_id");
+            $table->id("certification_edit_id");
+            $table->bigInteger("certification_id");
             $table->text('description')->nullable();
-            $table->text('signatory')->nullable();
-            $table->text('ornodescription')->nullable();
-            $table->text('approved')->nullable();
             $table->timestamps();
         });
     }

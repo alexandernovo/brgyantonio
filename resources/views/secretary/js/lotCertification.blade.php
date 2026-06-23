@@ -138,6 +138,24 @@
         $("#lotModal").modal("show");
     })
 
+    $(document).on('click', '#editCertificationLot', function() {
+
+        if (!selectedCertificationRow) {
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'No Selected Row',
+                text: 'Please select a record first.',
+                confirmButtonColor: '#1A412F'
+            });
+
+            return;
+        }
+
+        window.location =
+            `{{ route('editLotCertification') }}?certification_id=${selectedCertificationId}`
+    });
+
     $(document).ready(function() {
         $('#image_path').on('change', function() {
             // Get the file name from the path

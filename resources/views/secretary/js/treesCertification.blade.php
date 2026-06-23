@@ -328,6 +328,24 @@
         });
     });
 
+    $(document).on('click', '#editCertificationTrees', function() {
+
+        if (!selectedCertificationRow) {
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'No Selected Row',
+                text: 'Please select a record first.',
+                confirmButtonColor: '#1A412F'
+            });
+
+            return;
+        }
+
+        window.location =
+            `{{ route('editTreesCertification') }}?certification_id=${selectedCertificationId}`
+    });
+
     $(document).on("click", ".btn-reload-table", function() {
         dateFromTrees = '';
         dateToTrees = '';

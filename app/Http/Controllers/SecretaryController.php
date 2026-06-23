@@ -299,76 +299,179 @@ class SecretaryController extends Controller
     {
         $certification_id = $request->query('certification_id');
         $certification = Certification::where('certification_id', $certification_id)->first();
-        return view('secretary.print.brgycertification', ['certification' => $certification]);
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.print.brgycertification', ['certification' => $certification, 'certificate' => $certificate]);
     }
 
     public function editBrgyCertification(Request $request)
     {
         $certification_id = $request->query('certification_id');
         $certification = Certification::where('certification_id', $certification_id)->first();
-        return view('secretary.printedit.brgycertification', ['certification' => $certification]);
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+
+        return view('secretary.printedit.brgycertification', ['certification' => $certification, 'certificate' => $certificate]);
     }
 
     public function viewClearanceCertification(Request $request)
     {
         $certification_id = $request->query('certification_id');
         $certification = Certification::where('certification_id', $certification_id)->first();
-        return view('secretary.print.clearancecertification', ['certification' => $certification]);
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.print.clearancecertification', ['certification' => $certification, 'certificate' => $certificate]);
     }
+
+    public function editClearanceCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.printedit.clearancecertification', ['certification' => $certification, 'certificate' => $certificate]);
+    }
+
     public function viewTreesCertification(Request $request)
     {
         $certification_id = $request->query('certification_id');
         $certification = Certification::where('certification_id', $certification_id)->first();
-        return view('secretary.print.treescertification', ['certification' => $certification]);
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.print.treescertification', ['certification' => $certification, 'certificate' => $certificate]);
     }
+
+    public function editTreesCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.printedit.treescertification', ['certification' => $certification, 'certificate' => $certificate]);
+    }
+
     public function viewJobSeekerCertification(Request $request)
     {
         $certification_id = $request->query('certification_id');
         $certification = Certification::where('certification_id', $certification_id)->first();
-        return view('secretary.print.jobseekercertification', ['certification' => $certification]);
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.print.jobseekercertification', ['certification' => $certification, 'certificate' => $certificate]);
     }
+
+    public function editJobSeekerCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.printedit.jobseekercertification', ['certification' => $certification, 'certificate' => $certificate]);
+    }
+
     public function viewGoodMoralCertification(Request $request)
     {
         $certification_id = $request->query('certification_id');
         $certification = Certification::where('certification_id', $certification_id)->first();
-        return view('secretary.print.goodmoralcertification', ['certification' => $certification]);
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.print.goodmoralcertification', ['certification' => $certification, 'certificate' => $certificate]);
     }
+
+    public function editGoodMoralCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.printedit.goodmoralcertification', ['certification' => $certification, 'certificate' => $certificate]);
+    }
+
     public function viewIndigencyCertification(Request $request)
     {
         $certification_id = $request->query('certification_id');
         $certification = Certification::where('certification_id', $certification_id)->first();
-        return view('secretary.print.indigencycertification', ['certification' => $certification]);
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.print.indigencycertification', ['certification' => $certification, 'certificate' => $certificate]);
     }
+
+    public function editIndigencyCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.printedit.indigencycertification', ['certification' => $certification, 'certificate' => $certificate]);
+    }
+
     public function viewLiveStockCertification(Request $request)
     {
         $certification_id = $request->query('certification_id');
         $certification = Certification::where('certification_id', $certification_id)->first();
-        return view('secretary.print.livestockcertification', ['certification' => $certification]);
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.print.livestockcertification', ['certification' => $certification, 'certificate' => $certificate]);
     }
+
+    public function editLiveStockCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.printedit.livestockcertification', ['certification' => $certification, 'certificate' => $certificate]);
+    }
+
     public function viewMotorCycleCertification(Request $request)
     {
         $certification_id = $request->query('certification_id');
         $certification = Certification::where('certification_id', $certification_id)->first();
-        return view('secretary.print.motorcyclecertification', ['certification' => $certification]);
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.print.motorcyclecertification', ['certification' => $certification, 'certificate' => $certificate]);
     }
+
+    public function editMotorCycleCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.printedit.motorcyclecertification', ['certification' => $certification, 'certificate' => $certificate]);
+    }
+
     public function viewPiggeryCertification(Request $request)
     {
         $certification_id = $request->query('certification_id');
         $certification = Certification::where('certification_id', $certification_id)->first();
-        return view('secretary.print.piggerycertification', ['certification' => $certification]);
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.print.piggerycertification', ['certification' => $certification, 'certificate' => $certificate]);
     }
+
+    public function editPiggeryCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.printedit.piggerycertification', ['certification' => $certification, 'certificate' => $certificate]);
+    }
+
     public function viewQuarryCertification(Request $request)
     {
         $certification_id = $request->query('certification_id');
         $certification = Certification::where('certification_id', $certification_id)->first();
-        return view('secretary.print.quarrycertification', ['certification' => $certification]);
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.print.quarrycertification', ['certification' => $certification, 'certificate' => $certificate]);
     }
+
+    public function editQuarryCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.printedit.quarrycertification', ['certification' => $certification, 'certificate' => $certificate]);
+    }
+
     public function viewLotCertification(Request $request)
     {
         $certification_id = $request->query('certification_id');
         $certification = Certification::where('certification_id', $certification_id)->first();
-        return view('secretary.print.lotcertification', ['certification' => $certification]);
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.print.lotcertification', ['certification' => $certification, 'certificate' => $certificate]);
     }
+
+    public function editLotCertification(Request $request)
+    {
+        $certification_id = $request->query('certification_id');
+        $certification = Certification::where('certification_id', $certification_id)->first();
+        $certificate = DB::table('certification_edit')->where('certification_id', $certification_id)->first();
+        return view('secretary.printedit.lotcertification', ['certification' => $certification, 'certificate' => $certificate]);
+    }
+
     public function report_brgy(Request $request)
     {
         $monthYear = $request->query('month');
@@ -647,5 +750,19 @@ class SecretaryController extends Controller
             'labels' => $labels,
             'series' => $series
         ]);
+    }
+
+    public function saveCertification(Request $request)
+    {
+        $description = $request->post('description');
+        $certification_id = $request->post('certification_id');
+
+        DB::table('certification_edit')->updateOrInsert([
+            "certification_id" => $certification_id
+        ], [
+            "description" => $description
+        ]);
+
+        return response()->json(['status' => 'success']);
     }
 }

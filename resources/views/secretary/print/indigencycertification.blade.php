@@ -59,11 +59,13 @@
                 </div>
 
             </div>
-
+            @if (!empty($certificate->description))
+            {!! $certificate->description !!}
+            @else
             {{-- BODY (UPDATED ONLY CONTENT) --}}
             <div class="mt-5 px-3" style="font-size:18px;line-height:2;text-align:justify;">
 
-                <div class="fsemiw-bold mb-4">
+                <div class="fsemiw-bold mb-4 text-start">
                     TO WHOM IT MAY CONCERN:
                 </div>
 
@@ -138,6 +140,7 @@
                 </div>
 
             </div>
+            @endif
 
             {{-- BUTTON --}}
             <hr class="mt-4 mb-3" style="border-top:1px solid #000;">

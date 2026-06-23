@@ -86,7 +86,9 @@
 
                 </div>
 
-
+                @if (!empty($certificate->description))
+                    {!! $certificate->description !!}
+                @else
                 {{-- BODY --}}
                 <div class="mt-4 px-4" style="font-size:16px; line-height:1.9;">
 
@@ -165,6 +167,7 @@
 
                     </div>
                 </div>
+                @endif
             </div>
 
 

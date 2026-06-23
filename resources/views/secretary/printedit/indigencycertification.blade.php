@@ -43,71 +43,65 @@
                     <div>Province of Antique</div>
                     <div>Municipality of Barbaza</div>
                     <div class="semifw-bold">Barangay SAN ANTONIO</div>
-                    <div>-o0o-</div>
                 </div>
 
                 {{-- OFFICE --}}
-                <div class="mt-2 fw-semibold" style="color:#2d628d;font-size:14px;">
+                <div class="mt-3 fw-semibold" style="color:#2d628d;font-size:14px;">
                     OFFICE OF THE PUNONG BARANGAY
                 </div>
 
                 {{-- LINE --}}
-                <div class="mt-2 mb-2" style="border-top:2px solid #3a5f87;">
-                </div>
+                <div class="mt-2 mb-2" style="border-top:2px solid #3a5f87;"></div>
 
-                {{-- TITLE --}}
-                <div class="fw-semibold text-uppercase" style="font-size:20px;color:#1e3d92;letter-spacing:5px;">
-                    CERTIFICATION
+                {{-- TITLE (CHANGED ONLY THIS) --}}
+                <div class="fw-semibold text-uppercase" style="font-size:20px;color:#1e3d92;letter-spacing:.5px;">
+                    CERTIFICATE OF INDIGENCY
                 </div>
 
             </div>
-
+            <textarea id="description" name="description" required>
             @if (!empty($certificate->description))
             {!! $certificate->description !!}
             @else
-            {{-- BODY --}}
+            {{-- BODY (UPDATED ONLY CONTENT) --}}
             <div class="mt-5 px-3" style="font-size:18px;line-height:2;text-align:justify;">
 
-                <div class="fw-semibold mb-4">
+                <div class="fsemiw-bold mb-4 text-start">
                     TO WHOM IT MAY CONCERN:
                 </div>
 
                 <p style="text-indent:60px;">
 
-                    This is to certify that
+                    This is to CERTIFY that
 
                     <strong>
                         {{ strtoupper($certification->first_name . ' ' . $certification->middle_name . ' ' . $certification->last_name) }}
-                    </strong>
+                    </strong>,
 
-                    , of legal age,
-
-                    {{ strtolower($certification->sex) }},
-
+                    of legal age,
                     {{ strtolower($certification->civil_status) }},
+                    {{ strtolower($certification->sex) }},
+                    {{ $certification->nationality }},
 
-                    {{ $certification->nationality }}
-
-                    and is a bonafide resident of Barangay San Antonio, Barbaza, Antique.
-
-                </p>
-
-                <p style="text-indent:60px;">
-
-                    This is to certify further that he/she has a Monthly Salary of
-
-                    <strong>
-                        ₱{{ number_format($certification->monthlysalary ?? 10000, 2) }}
-                    </strong>
-
-                    to his/her present Job.
+                    and a bonafide resident of Purok
+                    {{ $certification->purok }},
+                    Barangay San Antonio, Barbaza, Antique.
 
                 </p>
 
-                <p style="text-indent:60px;">
+                <p class="mt-3" style="text-indent:60px;">
 
-                    This certification is issued upon the request of the interested party
-                    for whatever legal purpose it may serve.
+                    This is to CERTIFY FURTHER that his/her family has an estimated monthly income below
+                    <strong>Php {{ number_format($certification->family_income ?? 20000, 2) }}</strong>.
+                    His/Her family is not engaged in any business and is classified as an indigent family
+                    of this Barangay.
+
+                </p>
+
+                <p class="mt-3" style="text-indent:60px;">
+
+                    This certification is being issued upon the request of the interested party for whatever
+                    legal purpose it may serve.
 
                 </p>
 
@@ -119,9 +113,13 @@
 
                     day of
 
-                    {{ \Carbon\Carbon::parse($certification->date_issued)->format('F, Y') }}
+                    {{ \Carbon\Carbon::parse($certification->date_issued)->format('F Y') }}
 
-                    at Barangay San Antonio, Barbaza, Antique.
+                    at Barangay
+                    {{ $certification->barangay }},
+                    {{ $certification->municipality }},
+                    {{ $certification->province }},
+                    Philippines.
 
                 </p>
 
@@ -133,7 +131,7 @@
                 <div class="text-center" style="width:260px;padding:20px 10px 12px;">
 
                     <div class="fw-semibold text-uppercase" style="font-size:16px;">
-                        EVARISTO D. MALE
+                        HON. EVARISTO D. MALE
                     </div>
 
                     <div style="font-size:15px;">
@@ -144,17 +142,16 @@
 
             </div>
             @endif
+            </textarea>
 
             {{-- BUTTON --}}
             <hr class="mt-4 mb-3" style="border-top:1px solid #000;">
 
             <div class="d-flex justify-content-end">
 
-                <button id="btnPrintCertification" class="btn btn-dark px-4 py-2">
-
+                <button class="btn btn-dark px-4" id="saveCertification">
                     <i class="fas fa-print me-2"></i>
-                    Print
-
+                    Save
                 </button>
 
             </div>
@@ -163,7 +160,8 @@
 
     </div>
 @endsection
-
 @section('js')
     @include('secretary.js.printing')
+    @include('secretary.js.editcertification')
+    @include('secretary.js.saveCertification')
 @endsection

@@ -43,7 +43,9 @@
                         BARANGAY CERTIFICATION
                     </h4>
                 </div>
-
+                @if (!empty($certificate->description))
+                {!! $certificate->description !!}
+                @else
                 <div class="mt-5 px-4">
                     <p class="fw-semibold">To Whom It May Concern:</p>
 
@@ -122,6 +124,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
             <hr class="mt-2 mb-0" style="border-top: 1px solid black">
             <div class="d-flex justify-content-end mt-4">

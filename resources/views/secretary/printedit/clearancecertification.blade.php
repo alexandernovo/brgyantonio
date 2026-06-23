@@ -33,6 +33,7 @@
                         BARANGAY CERTIFICATION
                     </h4>
                 </div>
+                <textarea id="description" name="description" required>
                 @if (!empty($certificate->description))
                 {!! $certificate->description !!}
                 @else
@@ -72,11 +73,13 @@
                     </div>
                 </div>
                 @endif
+                </textarea>
             </div>
             <hr class="mt-2 mb-0" style="border-top: 1px solid black">
             <div class="d-flex justify-content-end mt-4">
-                <button id="btnPrintCertification" class="btn btn-dark px-4">
-                    <i class="fas fa-print me-2"></i> Print Certification
+                <button class="btn btn-dark px-4" id="saveCertification">
+                    <i class="fas fa-print me-2"></i>
+                    Save
                 </button>
             </div>
         </div>
@@ -86,4 +89,6 @@
 @endsection
 @section('js')
     @include('secretary.js.printing')
+    @include('secretary.js.editcertification')
+    @include('secretary.js.saveCertification')
 @endsection

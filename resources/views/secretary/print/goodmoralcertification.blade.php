@@ -80,6 +80,9 @@
             </div>
 
             {{-- BODY --}}
+            @if (!empty($certificate->description))
+            {!! $certificate->description !!}
+            @else
             <div class="mt-5 px-3"
                 style="
                     font-size:18px;
@@ -199,6 +202,7 @@
                 </div>
 
             </div>
+            @endif
 
             {{-- BUTTON --}}
             <hr class="my-4">

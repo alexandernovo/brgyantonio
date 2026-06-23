@@ -50,6 +50,7 @@
                 </div>
 
             </div>
+            <textarea id="description" name="description" required>
             @if (!empty($certificate->description))
                 {!! $certificate->description !!}
             @else
@@ -97,11 +98,10 @@
                 </div>
 
             </div>
-
             {{-- BODY --}}
             <div style="font-size:18px; line-height:1.8; text-align:justify;">
 
-                <div class="fw-semibold mb-2">
+                <div class="fw-semibold mb-2 text-start">
                     TO WHOM IT MAY CONCERN:
                 </div>
 
@@ -169,7 +169,6 @@
                 </div>
 
             </div>
-            @endif
 
             {{-- FOOTER --}}
             <div class="mt-5" style="font-size:15px; line-height:1.5;">
@@ -189,17 +188,16 @@
                 </div>
 
             </div>
-
+            @endif
+            </textarea>
             {{-- BUTTON --}}
             <hr class="mt-4 mb-3" style="border-top:1px solid #000;">
 
             <div class="d-flex justify-content-end">
 
-                <button id="btnPrintCertification" class="btn btn-dark px-4 py-2">
-
+                <button class="btn btn-dark px-4" id="saveCertification">
                     <i class="fas fa-print me-2"></i>
-                    Print
-
+                    Save
                 </button>
 
             </div>
@@ -211,4 +209,6 @@
 
 @section('js')
     @include('secretary.js.printing')
+    @include('secretary.js.editcertification')
+    @include('secretary.js.saveCertification')
 @endsection

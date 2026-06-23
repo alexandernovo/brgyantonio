@@ -46,10 +46,20 @@ Route::middleware(["userchecker"])->group(function () {
     Route::get('/viewPiggeryCertification', [SecretaryController::class, 'viewPiggeryCertification'])->name('viewPiggeryCertification');
     Route::get('/viewQuarryCertification', [SecretaryController::class, 'viewQuarryCertification'])->name('viewQuarryCertification');
     Route::get('/viewLotCertification', [SecretaryController::class, 'viewLotCertification'])->name('viewLotCertification');
+    Route::post('/secretary/saveCertification', [SecretaryController::class, 'saveCertification'])->name('secretary.saveCertification');
 
     //print_edit
     Route::get('/editBrgyCertification', [SecretaryController::class, 'editBrgyCertification'])->name('editBrgyCertification');
-
+    Route::get('/editClearanceCertification', [SecretaryController::class, 'editClearanceCertification'])->name('editClearanceCertification');
+    Route::get('/editTreesCertification', [SecretaryController::class, 'editTreesCertification'])->name('editTreesCertification');
+    Route::get('/editJobSeekerCertification', [SecretaryController::class, 'editJobSeekerCertification'])->name('editJobSeekerCertification');
+    Route::get('/editGoodMoralCertification', [SecretaryController::class, 'editGoodMoralCertification'])->name('editGoodMoralCertification');
+    Route::get('/editIndigencyCertification', [SecretaryController::class, 'editIndigencyCertification'])->name('editIndigencyCertification');
+    Route::get('/editLiveStockCertification', [SecretaryController::class, 'editLiveStockCertification'])->name('editLiveStockCertification');
+    Route::get('/editMotorCycleCertification', [SecretaryController::class, 'editMotorCycleCertification'])->name('editMotorCycleCertification');
+    Route::get('/editPiggeryCertification', [SecretaryController::class, 'editPiggeryCertification'])->name('editPiggeryCertification');
+    Route::get('/editQuarryCertification', [SecretaryController::class, 'editQuarryCertification'])->name('editQuarryCertification');
+    Route::get('/editLotCertification', [SecretaryController::class, 'editLotCertification'])->name('editLotCertification');
     //brgy_id
     Route::get('/brgy_id', [SecretaryController::class, 'brgy_id'])->name('brgy_id');
     Route::post('/storeBrgyID', [SecretaryController::class, 'storeBrgyID'])->name('storeBrgyID');
