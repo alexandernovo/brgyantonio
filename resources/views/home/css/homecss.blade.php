@@ -47,8 +47,8 @@
         left: 50%;
         transform: translateX(-50%);
 
-        width: 220px;
-        height: 220px;
+        width: 190px;
+        height: 190px;
         border-radius: 50%;
 
         display: flex;
@@ -58,7 +58,7 @@
         background: white;
         border: 8px solid #d9d9d9;
 
-        overflow: hidden;
+        /* overflow: hidden; */
 
         box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.15);
     }

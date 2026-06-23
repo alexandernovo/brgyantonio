@@ -9,8 +9,12 @@
         {{-- LEFT SIDE --}}
         <div class="ms-3 d-flex justify-content-center align-items-center flex-column gap-3">
 
-            <img src="{{ asset('assets/images/logo.png') }}" alt="" class="rounded-circle"
-                style="width: 290px; height: 290px">
+            <div class="position-relative rounded-circle" style="width: 290px; height: 290px">
+                <img src="{{ asset('assets/images/logo.png') }}" class="w-100 h-100 object-fit-contain position-relative"
+                    alt="" style="z-index: 2">
+                <img src="{{ asset('assets/images/new/TECH CIRCLE.png') }}" class="position-absolute layover-icon"
+                    alt="" style="width: 340px; height: 340px;">
+            </div>
 
             <p class="mb-0 text-white fw-semibold text-center" style="font-size: 47px">
                 Barangay Record Management System
@@ -34,9 +38,11 @@
                 {{-- HEADER --}}
                 <div class="login-header text-center">
 
-                    <div class="profile-circle mx-auto">
+                    <div class="profile-circle position-relative mx-auto mb-5">
                         <img src="{{ asset('assets/images/users/captain.png') }}" alt="Captain"
-                            class="w-100 h-100 object-fit-contain">
+                            class="w-100 h-100 object-fit-contain position-relative" style="z-index: 2">
+                        <img src="{{ asset('assets/images/new/TECH CIRCLE.png') }}" class="position-absolute layover-icon"
+                            alt="" style="width: 210px; height: 210px;">
                     </div>
 
                     <h2 class="fw-semibold text-white mb-2" style="font-size: 25px">

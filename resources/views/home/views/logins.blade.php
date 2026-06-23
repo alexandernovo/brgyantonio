@@ -22,7 +22,7 @@
         </div>
 
         {{-- LOGIN CARDS --}}
-        <div class="row w-100 justify-content-center g-5 px-lg-5 mt-4">
+        <div class="row w-100 justify-content-center g-5 px-lg-5 mt-5">
 
             {{-- SECRETARY --}}
             <div class="col-xl-3 col-lg-4 col-md-6">
@@ -30,7 +30,12 @@
                 <div class="user-card mx-auto">
 
                     <div class="user-image-wrapper">
-                        <img src="{{ asset('assets/images/users/secretary.png') }}" alt="Secretary" class="user-image">
+                        <div class="position-relative">
+                            <img src="{{ asset('assets/images/users/secretary.png') }}" alt="Secretary"
+                                class="user-image position-relative" style="z-index: 2">
+                            <img src="{{ asset('assets/images/new/TECH CIRCLE.png') }}"
+                                class="position-absolute layover-icon" alt="" style="width: 285px; height: 285px;">
+                        </div>
                     </div>
 
                     <div class="user-role-box" data-bs-toggle="modal" data-bs-target="#secretaryLoginModal">
@@ -47,7 +52,13 @@
                 <div class="user-card mx-auto">
 
                     <div class="user-image-wrapper">
-                        <img src="{{ asset('assets/images/users/treasurer.png') }}" alt="Treasurer" class="user-image">
+                        <div class="position-relative">
+                            <img src="{{ asset('assets/images/users/treasurer.png') }}" alt="Treasurer"
+                                class="user-image position-relative" style="z-index: 2">
+
+                            <img src="{{ asset('assets/images/new/TECH CIRCLE.png') }}"
+                                class="position-absolute layover-icon" alt="" style="width: 285px; height: 285px;">
+                        </div>
                     </div>
 
                     <div class="user-role-box" data-bs-toggle="modal" data-bs-target="#treasurerLoginModal">
@@ -64,7 +75,13 @@
                 <div class="user-card mx-auto">
 
                     <div class="user-image-wrapper">
-                        <img src="{{ asset('assets/images/users/kagawad.png') }}" alt="Kagawad" class="user-image">
+                        <div class="position-relative">
+                            <img src="{{ asset('assets/images/users/kagawad.png') }}" alt="Kagawad"
+                                class="user-image position-relative" style="z-index: 2">
+
+                            <img src="{{ asset('assets/images/new/TECH CIRCLE.png') }}"
+                                class="position-absolute layover-icon" alt="" style="width: 285px; height: 285px;">
+                        </div>
                     </div>
 
                     <div class="user-role-box" data-bs-toggle="modal" data-bs-target="#kagawadLoginModal">
