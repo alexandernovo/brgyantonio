@@ -9,14 +9,58 @@ use Carbon\Carbon;
 
 class TreasurerController extends Controller
 {
-    public function treasurer_dashboard()
+    public function treasurer_dashboard(Request $request)
     {
         $paid = Collection::where('payment_status', 'Paid')->count();
         $unpaid = Collection::where('payment_status', 'Unpaid')->count();
         $total_collection = Collection::count();
         $total_amount = Collection::sum('payment_amount');
 
-        return view('treasurer.views.treasurer_dashboard', compact('paid', 'unpaid', 'total_collection', 'total_amount'));
+        $monthYear = $request->query('month');
+
+        $query = Collection::query();
+
+        if ($monthYear) {
+            $date = Carbon::createFromFormat('Y-m', $monthYear);
+
+            $query->whereYear('payment_date', $date->year)
+                ->whereMonth('payment_date', $date->month);
+        }
+
+        $brgy_certification = (clone $query)
+            ->where('collection_type', 'Barangay Certification')
+            ->sum('payment_amount');
+
+        $brgy_clearance = (clone $query)
+            ->where('collection_type', 'Barangay Clearance')
+            ->sum('payment_amount');
+
+        $summon = (clone $query)
+            ->where('collection_type', 'Summon')
+            ->sum('payment_amount');
+
+        $brgy_id = (clone $query)
+            ->where('collection_type', 'Barangay ID')
+            ->sum('payment_amount');
+
+        $business_clearance = (clone $query)
+            ->where('collection_type', 'Business Clearance')
+            ->sum('payment_amount');
+
+        return view(
+            'treasurer.views.treasurer_dashboard',
+            compact(
+                'paid',
+                'unpaid',
+                'total_collection',
+                'total_amount',
+                'brgy_certification',
+                'brgy_clearance',
+                'summon',
+                'brgy_id',
+                'business_clearance'
+            )
+        );
     }
 
     public function collectionfee_select()

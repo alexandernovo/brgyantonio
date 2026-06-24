@@ -6,6 +6,7 @@
     @include('treasurer.modals.collectionBarangayIDModal')
     @include('treasurer.modals.collectionBusinessClearanceModal')
     @include('treasurer.modals.collectionsummonModal')
+    @include('treasurer.modals.totalCollected')
 
     @php
         $dashboardCards = [
@@ -16,6 +17,7 @@
                 'iconColor' => '#212529',
                 'total' => $total_amount,
                 'type' => 'img',
+                'modal' => 'totalCollectedModal',
             ],
             [
                 'title' => 'Total of Requests',
@@ -57,9 +59,13 @@
                 <div class="col-lg-3 col-md-6">
 
                     <div class="shadow-sm h-100 px-3 py-2"
+                        @if (!empty($card['modal'])) data-bs-toggle="modal"
+                        data-bs-target="#{{ $card['modal'] }}" @endif
                         style="
                         background:#ffff;
                         border-radius:8px;
+                        {{!empty($card['modal']) ? "cursor:pointer" : ''}}
+
                     ">
 
                         <div class="fw-semibold text-center"

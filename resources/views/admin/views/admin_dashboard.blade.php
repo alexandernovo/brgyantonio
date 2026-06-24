@@ -16,6 +16,8 @@
     @include('secretary.modals.otpQuarryModal')
     @include('secretary.modals.rbiModal')
     @include('secretary.modals.rbi2Modal')
+    @include('treasurer.modals.totalCollected')
+    @include('secretary.modals.totalRequest')
 
     @php
         $dashboardCards = [
@@ -29,6 +31,7 @@
                 'iconColor' => '#212529',
                 'total' => $totalCertification,
                 'type' => 'img',
+                'modal' => 'totalRequestModal',
             ],
             [
                 'title' => 'Collected and Deposits',
@@ -40,6 +43,7 @@
                 'style2' => 'width:40px; height:40px;',
                 'total' => $totalCollection,
                 'type' => 'img',
+                'modal' => 'totalCollectedModal',
             ],
             [
                 'title' => 'Unreturned Equipment',
@@ -109,9 +113,12 @@
                 <div class="col-lg-4 col-md-6">
 
                     <div class="shadow-sm h-100 p-2"
+                        @if (!empty($card['modal'])) data-bs-toggle="modal"
+                        data-bs-target="#{{ $card['modal'] }}" @endif
                         style="
                         background:#ffff;
                         border-radius:8px;
+                        {{!empty($card['modal']) ? "cursor:pointer" : ''}}
                     ">
                         <div class="d-flex justify-content-start align-items-center gap-2">
                             <div class="rounded p-3 d-flex align-items-center justify-content-center"

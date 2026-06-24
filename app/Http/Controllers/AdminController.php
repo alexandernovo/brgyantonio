@@ -34,10 +34,65 @@ class AdminController extends Controller
             ->selectRaw("
             SUM(CASE WHEN date_of_return IS NOT NULL THEN 1 ELSE 0 END) as returned,
             SUM(CASE WHEN date_of_return IS NULL THEN 1 ELSE 0 END) as unreturned
-        ")
-            ->first();
+        ")->first();
 
-        return view('admin.views.admin_dashboard', compact('totalCertification', 'totalCollection', 'totalUnreturned', 'blotter', 'borrowed'));
+        $querySecretary = Certification::query();
+        $queryTreasurer = Collection::query();
+
+        $brgy = (clone $querySecretary)->where('certification_type', 'brgy')->count();
+        $clearance = (clone $querySecretary)->where('certification_type', 'clearance')->count();
+        $trees = (clone $querySecretary)->where('certification_type', 'trees')->count();
+        $jobseeker = (clone $querySecretary)->where('certification_type', 'jobseeker')->count();
+        $goodmoral = (clone $querySecretary)->where('certification_type', 'goodmoral')->count();
+        $indigency = (clone $querySecretary)->where('certification_type', 'indigency')->count();
+        $livestock = (clone $querySecretary)->where('certification_type', 'livestock')->count();
+        $lot = (clone $querySecretary)->where('certification_type', 'lot')->count();
+        $motorcycle = (clone $querySecretary)->where('certification_type', 'motorcycle')->count();
+        $piggery = (clone $querySecretary)->where('certification_type', 'piggery')->count();
+        $quarry = (clone $querySecretary)->where('certification_type', 'quarry')->count();
+        $brgy_certification = (clone $queryTreasurer)
+            ->where('collection_type', 'Barangay Certification')
+            ->sum('payment_amount');
+
+        $brgy_clearance = (clone $queryTreasurer)
+            ->where('collection_type', 'Barangay Clearance')
+            ->sum('payment_amount');
+
+        $summon = (clone $queryTreasurer)
+            ->where('collection_type', 'Summon')
+            ->sum('payment_amount');
+
+        $brgy_id = (clone $queryTreasurer)
+            ->where('collection_type', 'Barangay ID')
+            ->sum('payment_amount');
+
+        $business_clearance = (clone $queryTreasurer)
+            ->where('collection_type', 'Business Clearance')
+            ->sum('payment_amount');
+
+        return view('admin.views.admin_dashboard', compact(
+            'totalCertification',
+            'totalCollection',
+            'totalUnreturned',
+            'blotter',
+            'borrowed',
+            'brgy',
+            'clearance',
+            'trees',
+            'jobseeker',
+            'goodmoral',
+            'indigency',
+            'livestock',
+            'lot',
+            'motorcycle',
+            'piggery',
+            'quarry',
+            'brgy_certification',
+            'brgy_clearance',
+            'summon',
+            'brgy_id',
+            'business_clearance'
+        ));
     }
 
     public function secretary_select()

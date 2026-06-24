@@ -15,6 +15,7 @@ use Carbon\Carbon;
 
 class SecretaryController extends Controller
 {
+
     public function secretary_dashboard(Request $request)
     {
         $resident_count = Resident::count();
@@ -22,11 +23,45 @@ class SecretaryController extends Controller
         $certification_count = Certification::count();
         $otp_quaryy_count = Quarry::count();
 
+        $monthYear = $request->query('month');
+
+        $query = Certification::query();
+
+        if ($monthYear) {
+            $date = Carbon::createFromFormat('Y-m', $monthYear);
+
+            $query->whereYear('created_at', $date->year)
+                ->whereMonth('created_at', $date->month);
+        }
+
+        $brgy = (clone $query)->where('certification_type', 'brgy')->count();
+        $clearance = (clone $query)->where('certification_type', 'clearance')->count();
+        $trees = (clone $query)->where('certification_type', 'trees')->count();
+        $jobseeker = (clone $query)->where('certification_type', 'jobseeker')->count();
+        $goodmoral = (clone $query)->where('certification_type', 'goodmoral')->count();
+        $indigency = (clone $query)->where('certification_type', 'indigency')->count();
+        $livestock = (clone $query)->where('certification_type', 'livestock')->count();
+        $lot = (clone $query)->where('certification_type', 'lot')->count();
+        $motorcycle = (clone $query)->where('certification_type', 'motorcycle')->count();
+        $piggery = (clone $query)->where('certification_type', 'piggery')->count();
+        $quarry = (clone $query)->where('certification_type', 'quarry')->count();
+
         return view('secretary.views.secretary_dashboard', compact(
             'resident_count',
             'brgy_id_count',
             'certification_count',
-            'otp_quaryy_count'
+            'otp_quaryy_count',
+            'brgy',
+            'clearance',
+            'trees',
+            'jobseeker',
+            'goodmoral',
+            'indigency',
+            'livestock',
+            'lot',
+            'motorcycle',
+            'piggery',
+            'quarry'
         ));
     }
 

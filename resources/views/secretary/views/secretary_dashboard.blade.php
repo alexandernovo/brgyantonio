@@ -16,6 +16,8 @@
     @include('secretary.modals.otpQuarryModal')
     @include('secretary.modals.rbiModal')
     @include('secretary.modals.rbi2Modal')
+    @include('secretary.modals.totalRequest')
+
     @php
         $dashboardCards = [
             [
@@ -31,6 +33,7 @@
                 'icon' => asset('assets/images/new/CERTIFICATION.png'),
                 'iconColor' => '#1f2937',
                 'total' => $certification_count,
+                'modal' => 'totalRequestModal',
             ],
             [
                 'title' => 'Total of Requests',
@@ -62,25 +65,29 @@
 
             @foreach ($dashboardCards as $card)
                 <div class="flex-fill text-center shadow-sm px-3 py-2"
+                    @if (!empty($card['modal'])) data-bs-toggle="modal"
+                        data-bs-target="#{{ $card['modal'] }}" @endif
                     style="
-                background:#f3f3f3;
-                border-radius:10px;
-                min-width:260px;
-            ">
+                        background:#f3f3f3;
+                        border-radius:10px;
+                        min-width:260px;
+                        {{!empty($card['modal']) ? "cursor:pointer" : ''}}
+                    ">
 
                     <div class="fw-semibold"
                         style="
-                    font-size:18px;
-                    color:#212529;
-                    line-height:1.1;
-                ">
+                            font-size:18px;
+                            color:#212529;
+                            line-height:1.1;
+                        ">
                         {{ $card['title'] }}
                     </div>
 
-                    <div style="
-                font-size:13px;
-                color:#4b5563;
-            ">
+                    <div
+                        style="
+                            font-size:13px;
+                            color:#4b5563;
+                        ">
                         {{ $card['subtitle'] }}
                     </div>
 
@@ -91,10 +98,10 @@
                         </div>
                         <div class="fw-semibold"
                             style="
-                        font-size:52px;
-                        color:#111827;
-                        line-height:1;
-                    ">
+                                font-size:52px;
+                                color:#111827;
+                                line-height:1;
+                            ">
                             {{ $card['total'] }}
                         </div>
 
